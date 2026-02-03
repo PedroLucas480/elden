@@ -1,0 +1,101 @@
+/* ================= GRID / BASE ================= */
+body {
+    margin: 0 auto;
+    height: 100vh;
+    padding: 0;
+    background: url('../imagens/Fundo.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* ================= MENU SUPERIOR ================= */
+.top-menu {
+    position: absolute;
+    top: 28px;
+    left: 72%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.top-menu nav {
+    display: flex;
+    gap: 36px;
+}
+
+.top-menu nav a {
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    letter-spacing: 1.25px;
+    text-decoration: none;
+    color: #d6b36a;
+    opacity: 0.7;
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+
+.top-menu nav a:hover {
+    opacity: 1;
+}
+
+/* ================= CONTAINER DAS BUILDS (EM COLUNAS SEM SCROLL) ================= */
+.container-builds {
+    margin-top: 120px; /* Espaço para não bater no menu */
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: row; /* Coloca uma do lado da outra */
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Estilo de cada cartão */
+.build-card {
+    background: rgba(214, 179, 106, 0.05);
+    border: 1px solid rgba(214, 179, 106, 0.3);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column; /* Conteúdo em pé dentro do card */
+    padding: 20px;
+    align-items: center;
+    text-align: center;
+    width: 280px; /* Largura fixa para caberem 3 sem scroll */
+    transition: 0.3s;
+}
+
+.build-card:hover {
+    background: rgba(214, 179, 106, 0.15);
+    border-color: #d6b36a;
+    transform: translateY(-5px);
+}
+
+/* IMAGEM MAIS ILUMINADA */
+.build-img img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    filter: brightness(1.4) drop-shadow(0 0 10px rgba(214, 179, 106, 0.4));
+}
+
+/* TEXTOS TODOS DOURADOS */
+.build-txt h3 {
+    color: #d6b36a; /* Dourado */
+    margin: 0 0 10px 0;
+    font-family: Georgia, serif;
+    text-transform: uppercase;
+}
+
+.build-txt p {
+    color: #d6b36a; /* Letras douradas no parágrafo também */
+    font-size: 0.9rem;
+    margin: 0 0 15px 0;
+    opacity: 0.9;
+}
+
+.status {
+    color: #d6b36a; /* Dourado no status */
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #d6b36a;
+    padding: 4px 10px;
+    border-radius: 4px;
+}

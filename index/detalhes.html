@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Elden Builds - Detalhes da Build</title>
+    <link rel="stylesheet" href="/css/detalhes.css">
+    
+</head>
+<body>
+    <main>
+        <div class="infromaçaoadireita">
+            <header class="top-menu">
+                <nav>
+                    <a href="index.html">Home</a>
+                    <a href="Builds.html">Builds</a>
+                    <a href="#">About us</a>
+                    <a href="#">Help</a>
+                </nav>
+            </header>
+
+            <div id="build-info" class="conteudo-detalhes">
+                <h2>Buscando estatutos no banco de dados...</h2>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function carregarDetalhes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            if(!id) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/builds/${id}`);
+                const build = await response.json();
+
+                document.getElementById('build-info').innerHTML = `
+                    <h1>${build.nome}</h1>
+                    <p style="color: #ccc; font-style: italic;">${build.descricao}</p>
+                    
+                    <h3 style="margin-top:30px;">ESTATUTOS (STATS)</h3>
+                    <div class="grid-stats">
+                        <div class="stat-item">VIGOR: ${build.vigor}</div>
+                        <div class="stat-item">MENTE: ${build.mente}</div>
+                        <div class="stat-item">RESISTÊNCIA: ${build.resistencia}</div>
+                        <div class="stat-item">FORÇA: ${build.forca}</div>
+                        <div class="stat-item">DESTREZA: ${build.destreza}</div>
+                        <div class="stat-item">INTELIGÊNCIA: ${build.inteligencia}</div>
+                        <div class="stat-item">FÉ: ${build.fe}</div>
+                        <div class="stat-item">ARCANO: ${build.arcano}</div>
+                    </div>
+
+                    <div class="equipamentos">
+                        <h3>EQUIPAMENTOS E LOCALIZAÇÃO</h3>
+                        <p><strong>Arma Principal:</strong> ${build.arma_principal}</p>
+                        <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial}</p>
+                        <p><strong>Onde encontrar:</strong> ${build.localizacao_nome}</p>
+                        <a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Ver no Mapa Interativo]</a>
+                    </div>
+                    
+                    <br><br>
+                    <a href="Builds.html" style="color: #fff; text-decoration: none; border: 1px solid #fff; padding: 5px 15px;">← Voltar para lista</a>
+                `;
+            } catch (error) {
+                console.error("Erro ao carregar detalhes:", error);
+                document.getElementById('build-info').innerHTML = "<h2>Erro ao carregar. Verifique o servidor.</h2>";
+            }
+        }
+        carregarDetalhes();
+    </script>
+</body>
+</html>

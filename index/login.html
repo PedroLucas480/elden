@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Elden Builds - Login</title>
+</head>
+<body style="background: #111; color: white; display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div class="login-box" style="text-align: center;">
+        <h2>Entrar</h2>
+        <input type="email" id="email" placeholder="Email" style="display:block; margin: 10px auto; padding: 10px;">
+        <input type="password" id="senha" placeholder="Senha" style="display:block; margin: 10px auto; padding: 10px;">
+        <button id="btnLogar" style="padding: 10px 20px; cursor: pointer; background: #c1a35f; border: none; font-weight: bold;">Entrar</button>
+        
+        <p style="margin-top: 15px;">
+            <a href="cadastro.html" style="color: #aaa; font-size: 14px; text-decoration: none;">Não tem conta? Cadastre-se</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('btnLogar').onclick = async () => {
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                alert("Acesso autorizado!");
+                window.location.href = 'Builds.html'; 
+            } else {
+                alert(data.erro);
+            }
+        };
+    </script>
+</body>
+</html>
