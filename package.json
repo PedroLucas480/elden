@@ -3,8 +3,9 @@
     "start": "node js/serve.js"
   },
   "dependencies": {
+    "axios": "^1.13.4",
     "bcrypt": "^6.0.0",
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.16.2"
