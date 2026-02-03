@@ -1,11 +1,12 @@
 const mysql = require('mysql2');
 
-// Configuração da conexão baseada na sua imagem do banco 'elden-ring'
+// Configuração original adaptada para Railway e Local
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '', 
-    database: 'elden-ring' 
+    host: process.env.MYSQLHOST || 'localhost',
+    user: process.env.MYSQLUSER || 'root',
+    password: process.env.MYSQLPASSWORD || '', 
+    database: process.env.MYSQLDATABASE || 'elden-ring',
+    port: process.env.MYSQLPORT || 3306
 });
 
 connection.connect((err) => {

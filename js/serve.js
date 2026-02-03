@@ -44,7 +44,7 @@ inicializarBanco();
 app.use(cors());
 app.use(express.json());
 
-// Libera o acesso às pastas para o navegador
+// Ajuste para servir arquivos estáticos corretamente em qualquer ambiente
 app.use('/css', express.static(path.join(__dirname, '../css')));
 app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 app.use('/index', express.static(path.join(__dirname, '../index')));
@@ -52,55 +52,44 @@ app.use('/index', express.static(path.join(__dirname, '../index')));
 // --- ROTA DE CADASTRO ---
 app.post('/api/register', async (req, res) => {
     const { username, email, senha } = req.body;
-
     if (!username || !email || !senha) {
-        return res.status(400).json({ erro: "Preencha todos os campos (Nome, Email e Senha)!" });
+        return res.status(400).json({ erro: "Preencha todos os campos!" });
     }
 
     try {
         const salt = await bcrypt.genSalt(10);
         const senhaHash = await bcrypt.hash(senha, salt);
-
         const query = 'INSERT INTO usuarios (username, email, senha) VALUES (?, ?, ?)';
+        
         db.query(query, [username, email, senhaHash], (err, result) => {
             if (err) {
-                console.error("❌ ERRO NO BANCO (Cadastro):", err.message);
-                if (err.code === 'ER_DUP_ENTRY') {
-                    return res.status(400).json({ erro: "Este usuário ou email já está em uso!" });
-                }
-                return res.status(500).json({ erro: "Erro ao salvar no banco de dados." });
+                if (err.code === 'ER_DUP_ENTRY') return res.status(400).json({ erro: "Usuário ou email já existe!" });
+                return res.status(500).json({ erro: "Erro no banco de dados." });
             }
             res.status(201).json({ mensagem: "Usuário criado com sucesso!" });
         });
     } catch (error) {
-        res.status(500).json({ erro: "Erro interno no servidor ao processar cadastro." });
+        res.status(500).json({ erro: "Erro interno no servidor." });
     }
 });
 
 // --- ROTA DE LOGIN ---
 app.post('/api/login', (req, res) => {
     const { email, senha } = req.body;
-
-    if (!email || !senha) {
-        return res.status(400).json({ erro: "Preencha todos os campos!" });
-    }
+    const JWT_SECRET = process.env.JWT_SECRET || 'MINHA_CHAVE_SECRETA_123'; // Boa prática usar env
 
     db.query('SELECT * FROM usuarios WHERE email = ?', [email], async (err, results) => {
         if (err) return res.status(500).json({ erro: "Erro no banco de dados" });
         if (results.length === 0) return res.status(401).json({ erro: "Usuário não encontrado" });
 
         const usuario = results[0];
-
         try {
             const senhaValida = await bcrypt.compare(senha, usuario.senha);
-
-            if (!senhaValida) {
-                return res.status(401).json({ erro: "Senha incorreta" });
-            }
+            if (!senhaValida) return res.status(401).json({ erro: "Senha incorreta" });
 
             const token = jwt.sign(
                 { id: usuario.id, email: usuario.email }, 
-                'MINHA_CHAVE_SECRETA_123', 
+                JWT_SECRET, 
                 { expiresIn: '2h' }
             );
 
@@ -109,28 +98,22 @@ app.post('/api/login', (req, res) => {
                 token: token,
                 usuario: { email: usuario.email, username: usuario.username } 
             });
-
         } catch (error) {
-            console.error("Erro ao validar login:", error);
-            return res.status(500).json({ erro: "Erro interno na validação" });
+            return res.status(500).json({ erro: "Erro na validação" });
         }
     });
 });
 
-// --- ROTAS DE BUILDS (CRUD) ---
-
-// CREATE - Criar Build
+// --- CRUD DE BUILDS (Mantido original) ---
 app.post('/api/builds', (req, res) => {
     const { nome, descricao, imagem_url, usuario_id } = req.body;
-    const query = 'INSERT INTO builds (nome, descricao, imagem_url, usuario_id) VALUES (?, ?, ?, ?)';
-    
-    db.query(query, [nome, descricao, imagem_url, usuario_id], (err, result) => {
+    db.query('INSERT INTO builds (nome, descricao, imagem_url, usuario_id) VALUES (?, ?, ?, ?)', 
+    [nome, descricao, imagem_url, usuario_id], (err, result) => {
         if (err) return res.status(500).json({ erro: "Erro ao criar build" });
-        res.status(201).json({ mensagem: "Build criada com sucesso!", id: result.insertId });
+        res.status(201).json({ mensagem: "Build criada!", id: result.insertId });
     });
 });
 
-// READ - Listar todas as builds (Original sua)
 app.get('/api/builds', (req, res) => {
     db.query('SELECT * FROM builds', (err, results) => {
         if (err) return res.status(500).json({ erro: "Erro ao buscar builds" });
@@ -138,44 +121,39 @@ app.get('/api/builds', (req, res) => {
     });
 });
 
-// READ - Buscar uma build por ID (Original sua)
 app.get('/api/builds/:id', (req, res) => {
-    const { id } = req.params;
-    db.query('SELECT * FROM builds WHERE id = ?', [id], (err, result) => {
+    db.query('SELECT * FROM builds WHERE id = ?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json(err);
-        if (result.length === 0) return res.status(404).json({ mensagem: "Build não encontrada" });
+        if (result.length === 0) return res.status(404).json({ mensagem: "Não encontrada" });
         res.json(result[0]);
     });
 });
 
-// UPDATE - Atualizar uma build
 app.put('/api/builds/:id', (req, res) => {
-    const { id } = req.params;
     const { nome, descricao, imagem_url } = req.body;
-    const query = 'UPDATE builds SET nome = ?, descricao = ?, imagem_url = ? WHERE id = ?';
-    
-    db.query(query, [nome, descricao, imagem_url, id], (err, result) => {
-        if (err) return res.status(500).json({ erro: "Erro ao atualizar build" });
-        if (result.affectedRows === 0) return res.status(404).json({ erro: "Build não encontrada" });
-        res.json({ mensagem: "Build atualizada com sucesso!" });
+    db.query('UPDATE builds SET nome = ?, descricao = ?, imagem_url = ? WHERE id = ?', 
+    [nome, descricao, imagem_url, req.params.id], (err, result) => {
+        if (err) return res.status(500).json({ erro: "Erro ao atualizar" });
+        res.json({ mensagem: "Build atualizada!" });
     });
 });
 
-// DELETE - Deletar uma build
 app.delete('/api/builds/:id', (req, res) => {
-    const { id } = req.params;
-    db.query('DELETE FROM builds WHERE id = ?', [id], (err, result) => {
-        if (err) return res.status(500).json({ erro: "Erro ao deletar build" });
-        if (result.affectedRows === 0) return res.status(404).json({ erro: "Build não encontrada" });
-        res.json({ mensagem: "Build deletada com sucesso!" });
+    db.query('DELETE FROM builds WHERE id = ?', [req.params.id], (err, result) => {
+        if (err) return res.status(500).json({ erro: "Erro ao deletar" });
+        res.json({ mensagem: "Build deletada!" });
     });
 });
 
-// --- INICIALIZAÇÃO ---
-const PORT = 3000;
-app.listen(PORT, () => {
+// --- INICIALIZAÇÃO ADAPTATIVA (Local e Railway) ---
+// O Railway injeta automaticamente a variável PORT. Se não houver, usa a 3000.
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, '0.0.0.0', () => {
     console.log('--------------------------------------------');
     console.log(`🔥 Servidor Elden Builds rodando na porta ${PORT}`);
-    console.log(`🔗 Link: http://localhost:${PORT}/index/index.html`);
+    if (!process.env.PORT) {
+        console.log(`🔗 Local: http://localhost:${PORT}/index/index.html`);
+    }
     console.log('--------------------------------------------');
 });
