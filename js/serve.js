@@ -44,10 +44,15 @@ inicializarBanco();
 app.use(cors());
 app.use(express.json());
 
-// Ajuste para servir arquivos estáticos corretamente em qualquer ambiente
+// Servindo arquivos estáticos
 app.use('/css', express.static(path.join(__dirname, '../css')));
 app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 app.use('/index', express.static(path.join(__dirname, '../index')));
+
+// --- ROTA RAIZ (O seu index "do lado de fora") ---
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index/index.html'));
+});
 
 // --- ROTA DE CADASTRO ---
 app.post('/api/register', async (req, res) => {
@@ -76,7 +81,7 @@ app.post('/api/register', async (req, res) => {
 // --- ROTA DE LOGIN ---
 app.post('/api/login', (req, res) => {
     const { email, senha } = req.body;
-    const JWT_SECRET = process.env.JWT_SECRET || 'MINHA_CHAVE_SECRETA_123'; // Boa prática usar env
+    const JWT_SECRET = process.env.JWT_SECRET || 'MINHA_CHAVE_SECRETA_123';
 
     db.query('SELECT * FROM usuarios WHERE email = ?', [email], async (err, results) => {
         if (err) return res.status(500).json({ erro: "Erro no banco de dados" });
@@ -104,7 +109,7 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-// --- CRUD DE BUILDS (Mantido original) ---
+// --- CRUD DE BUILDS ---
 app.post('/api/builds', (req, res) => {
     const { nome, descricao, imagem_url, usuario_id } = req.body;
     db.query('INSERT INTO builds (nome, descricao, imagem_url, usuario_id) VALUES (?, ?, ?, ?)', 
@@ -145,15 +150,11 @@ app.delete('/api/builds/:id', (req, res) => {
     });
 });
 
-// --- INICIALIZAÇÃO ADAPTATIVA (Local e Railway) ---
-// O Railway injeta automaticamente a variável PORT. Se não houver, usa a 3000.
+// --- INICIALIZAÇÃO ---
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log('--------------------------------------------');
     console.log(`🔥 Servidor Elden Builds rodando na porta ${PORT}`);
-    if (!process.env.PORT) {
-        console.log(`🔗 Local: http://localhost:${PORT}/index/index.html`);
-    }
     console.log('--------------------------------------------');
 });
