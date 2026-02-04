@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 
-// Usamos createPool para evitar que a conexão caia no Railway
-const connection = mysql.createPool({
+// Criamos um POOL em vez de Connection para evitar o erro 500 no Railway
+const pool = mysql.createPool({
     host: process.env.MYSQLHOST,
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD, 
@@ -12,15 +12,15 @@ const connection = mysql.createPool({
     queueLimit: 0
 });
 
-// Testando a conexão inicial
-connection.getConnection((err, conn) => {
+// Teste de conexão para o log do Railway
+pool.getConnection((err, conn) => {
     if (err) {
-        console.error('❌ Erro ao conectar ao MySQL no Railway:', err.message);
-        return;
+        console.error('❌ ERRO CRÍTICO NO BANCO:', err.message);
+    } else {
+        console.log('✅ Conectado ao MySQL do Railway com sucesso!');
+        conn.release();
     }
-    console.log('✅ Conectado ao banco do Railway com sucesso!');
-    conn.release(); // Libera a conexão de volta para o pool
 });
 
-// Exporta o pool para ser usado no serve.js
-module.exports = connection;
+// Exportamos o pool (o seu serve.js vai funcionar igual)
+module.exports = pool;
