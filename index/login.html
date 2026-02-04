@@ -2,15 +2,15 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/style.css">
-    <title>Elden Builds - Login</title>
+    <link rel="stylesheet" href="../css/style.css"> <title>Elden Builds - Login</title>
 </head>
 <body style="background: #111; color: white; display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div class="login-box" style="text-align: center;">
+    <div class="login-box" style="text-align: center; background: #1a1a1a; padding: 30px; border: 1px solid #c1a35f;">
         <h2>Entrar</h2>
-        <input type="email" id="email" placeholder="Email" style="display:block; margin: 10px auto; padding: 10px;">
-        <input type="password" id="senha" placeholder="Senha" style="display:block; margin: 10px auto; padding: 10px;">
-        <button id="btnLogar" style="padding: 10px 20px; cursor: pointer; background: #c1a35f; border: none; font-weight: bold;">Entrar</button>
+        <input type="email" id="email" placeholder="Email" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
+        <input type="password" id="senha" placeholder="Senha" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
+        
+        <button id="btnLogar" style="padding: 10px 20px; cursor: pointer; background: #c1a35f; border: none; font-weight: bold; width: 245px;">Entrar</button>
         
         <p style="margin-top: 15px;">
             <a href="cadastro.html" style="color: #aaa; font-size: 14px; text-decoration: none;">Não tem conta? Cadastre-se</a>
@@ -22,20 +22,34 @@
             const email = document.getElementById('email').value;
             const senha = document.getElementById('senha').value;
 
-            const response = await fetch('http://localhost:3000/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, senha })
-            });
+            if (!email || !senha) {
+                alert("Preencha todos os campos, Maculado!");
+                return;
+            }
 
-            const data = await response.json();
+            try {
+                // ALTERADO: Agora aponta para o seu servidor oficial no Railway
+                const response = await fetch('https://elden-production.up.railway.app/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha })
+                });
 
-            if (response.ok) {
-                localStorage.setItem('token', data.token);
-                alert("Acesso autorizado!");
-                window.location.href = 'Builds.html'; 
-            } else {
-                alert(data.erro);
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Guarda o token e os dados do usuário para usar nas outras páginas
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('usuario', JSON.stringify(data.usuario));
+                    
+                    alert("Acesso autorizado!");
+                    window.location.href = 'Builds.html'; 
+                } else {
+                    alert("❌ Erro: " + (data.erro || "Falha ao entrar"));
+                }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                alert("Erro de conexão. O servidor no Railway está ligado?");
             }
         };
     </script>
