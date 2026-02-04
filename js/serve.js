@@ -41,7 +41,13 @@ const inicializarBanco = () => {
 inicializarBanco();
 
 // --- CONFIGURAÇÕES ESSENCIAIS ---
-app.use(cors());
+// CORREÇÃO CORS: Liberando para o seu GitHub Pages não ser bloqueado
+app.use(cors({
+    origin: 'https://pedrolucas480.github.io',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Servindo arquivos estáticos
@@ -109,7 +115,7 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-// --- CRUD DE BUILDS ---
+// --- CRUD DE BUILDS (Mantido original) ---
 app.post('/api/builds', (req, res) => {
     const { nome, descricao, imagem_url, usuario_id } = req.body;
     db.query('INSERT INTO builds (nome, descricao, imagem_url, usuario_id) VALUES (?, ?, ?, ?)', 
@@ -153,6 +159,7 @@ app.delete('/api/builds/:id', (req, res) => {
 // --- INICIALIZAÇÃO ---
 const PORT = process.env.PORT || 3000;
 
+// O IP '0.0.0.0' é essencial para o Railway aceitar conexões externas
 app.listen(PORT, '0.0.0.0', () => {
     console.log('--------------------------------------------');
     console.log(`🔥 Servidor Elden Builds rodando na porta ${PORT}`);
