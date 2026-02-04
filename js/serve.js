@@ -41,9 +41,9 @@ const inicializarBanco = () => {
 inicializarBanco();
 
 // --- CONFIGURAÇÕES ESSENCIAIS ---
-// CORREÇÃO CORS: Liberando para o seu GitHub Pages não ser bloqueado
+// CORREÇÃO CORS: Unificada para permitir o seu domínio do GitHub Pages
 app.use(cors({
-    origin: 'https://pedrolucas480.github.io',
+    origin: 'https://pedrolucas480.github.io', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -55,7 +55,7 @@ app.use('/css', express.static(path.join(__dirname, '../css')));
 app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 app.use('/index', express.static(path.join(__dirname, '../index')));
 
-// --- ROTA RAIZ (O seu index "do lado de fora") ---
+// --- ROTA RAIZ ---
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../index/index.html'));
 });
@@ -115,7 +115,7 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-// --- CRUD DE BUILDS (Mantido original) ---
+// --- CRUD DE BUILDS (Original) ---
 app.post('/api/builds', (req, res) => {
     const { nome, descricao, imagem_url, usuario_id } = req.body;
     db.query('INSERT INTO builds (nome, descricao, imagem_url, usuario_id) VALUES (?, ?, ?, ?)', 
@@ -157,9 +157,9 @@ app.delete('/api/builds/:id', (req, res) => {
 });
 
 // --- INICIALIZAÇÃO ---
-const PORT = process.env.PORT || 3000;
+// PORTA: Definida dinamicamente para o Railway na 8080 ou via variável de ambiente
+const PORT = process.env.PORT || 8080;
 
-// O IP '0.0.0.0' é essencial para o Railway aceitar conexões externas
 app.listen(PORT, '0.0.0.0', () => {
     console.log('--------------------------------------------');
     console.log(`🔥 Servidor Elden Builds rodando na porta ${PORT}`);
