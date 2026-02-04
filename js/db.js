@@ -1,10 +1,9 @@
 const mysql = require('mysql2');
 
-// Usamos createPool para o Railway gerenciar as conexões automaticamente
 const pool = mysql.createPool({
     host: process.env.MYSQLHOST,
     user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD, 
+    password: process.env.MYSQLPASSWORD,
     database: process.env.MYSQLDATABASE,
     port: process.env.MYSQLPORT || 3306,
     waitForConnections: true,
@@ -12,12 +11,12 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-// Verifica se o banco está respondendo
+// Isso ajuda a ver o erro real no Log se a conexão falhar
 pool.getConnection((err, connection) => {
     if (err) {
-        console.error('❌ ERRO CRÍTICO NO BANCO:', err.message);
+        console.error("❌ ERRO DE CONEXÃO NO RAILWAY:", err.code);
     } else {
-        console.log('✅ Banco de dados conectado com sucesso no Railway!');
+        console.log("✅ Conectado ao MySQL do Railway!");
         connection.release();
     }
 });
