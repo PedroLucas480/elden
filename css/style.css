@@ -2,10 +2,11 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    /* AJUSTE: ../ sai da pasta css para poder entrar na pasta imagens */
+    min-height: 100vh;
+    /* Caminho relativo: sai da pasta 'css' e entra na 'imagens' */
     background: url('../imagens/Fundo.png') no-repeat center center fixed; 
     background-size: cover;
+    background-color: #111; /* Cor de fundo caso a imagem falhe */
 }
 
 /* ================= MAIN (O CONTAINER PAI) ================= */
@@ -19,6 +20,7 @@ main {
 }
 
 /* ================= CARD / FUNDO DIREITO ================= */
+/* DICA: Evite acentos em nomes de classes (informacaoadireita) */
 .infromaçaoadireita {
     position: relative;
     grid-column: 2 / 14;
@@ -36,6 +38,7 @@ main {
     grid-column: 2 / 8;
     grid-row: 2 / 12;
     margin-left: 50px;
+    pointer-events: none; /* Garante que a imagem não bloqueie cliques no menu */
 }
 
 .imagemaesquerda img {
@@ -60,7 +63,8 @@ main {
 }
 
 .logo-area img {
-    width: 500px;
+    width: 100%;
+    max-width: 500px; /* Melhora a responsividade */
     margin-bottom: 15px;
     filter: drop-shadow(0 0 12px rgba(214,179,106,0.35));
 }
@@ -71,10 +75,9 @@ main {
     top: 28px;
     left: 72%;
     transform: translateX(-50%);
-    z-index: 10;
+    z-index: 100; /* Aumentado para garantir que fique acima de tudo */
 }
 
-/* ... Restante do código mantido exatamente igual ... */
 .top-menu nav {
     display: flex;
     gap: 36px;
@@ -88,11 +91,12 @@ main {
     color: #d6b36a;
     opacity: 0.7;
     position: relative;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .top-menu nav a:hover {
     opacity: 1;
+    transform: translateY(-2px);
 }
 
 .top-menu nav a.active::after {
@@ -117,6 +121,7 @@ main {
     overflow: hidden;
     border: 1px solid #d6b36a;
     border-radius: 8px;
+    background: transparent;
 }
 
 .button-container-1 .mas {
@@ -139,6 +144,7 @@ main {
     color: #000;
     border: none;
     font-weight: bold;
+    /* Máscaras para o efeito de revelação */
     -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
     mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
     -webkit-mask-size: 2300% 100%;
@@ -146,15 +152,14 @@ main {
     -webkit-mask-position: 100% 0;
     mask-position: 100% 0;
     transition: background 0.3s;
-    -webkit-animation: ani2 0.7s steps(22) forwards;
     animation: ani2 0.7s steps(22) forwards;
 }
 
 .button-container-1 button:hover {
-    -webkit-animation: ani 0.7s steps(22) forwards;
     animation: ani 0.7s steps(22) forwards;
 }
 
+/* ================= KEYFRAMES ================= */
 @keyframes ani {
     from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
     to { -webkit-mask-position: 0 0; mask-position: 0 0; }
