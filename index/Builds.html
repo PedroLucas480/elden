@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elden Builds - Builds</title>
-
+    
     <script>
         if (!localStorage.getItem('token')) {
             window.location.href = "login.html";
         }
     </script>
 
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/Builds.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -35,23 +35,17 @@
         <script>
             async function carregarBuilds() {
                 try {
-                    // Aponta para o seu servidor oficial no Railway
+                    // CORREÇÃO: URL oficial do Railway em vez de localhost
                     const response = await fetch('https://elden-production.up.railway.app/api/builds');
-                    
-                    if (!response.ok) {
-                        console.error('Servidor respondeu com erro');
-                        return;
-                    }
-
                     const builds = await response.json();
                     const container = document.querySelector('.container-builds');
                     container.innerHTML = '';
 
                     builds.forEach(build => {
-                        let corDificuldade = "#fff";
-                        if (build.dificuldade === 'Fácil') corDificuldade = "#2ecc71";
-                        if (build.dificuldade === 'Média') corDificuldade = "#f1c40f";
-                        if (build.dificuldade === 'Alta') corDificuldade = "#e74c3c";
+                        let corDificuldade = "#fff"; 
+                        if (build.dificuldade === 'Fácil') corDificuldade = "#2ecc71"; 
+                        if (build.dificuldade === 'Média') corDificuldade = "#f1c40f"; 
+                        if (build.dificuldade === 'Alta') corDificuldade = "#e74c3c";  
 
                         container.innerHTML += `
                             <a href="detalhes.html?id=${build.id}" style="text-decoration: none; color: inherit;">
@@ -74,12 +68,11 @@
                     console.error('Erro ao carregar builds:', error);
                 }
             }
-
+            
             if (localStorage.getItem('token')) {
                 carregarBuilds();
             }
         </script>
     </main>
 </body>
-
 </html>
