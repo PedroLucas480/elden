@@ -1,21 +1,26 @@
 const mysql = require('mysql2');
 
-// Configuração original adaptada para Railway e Local
-const connection = mysql.createConnection({
-    host: process.env.MYSQLHOST || 'localhost',
-    user: process.env.MYSQLUSER || 'root',
-    password: process.env.MYSQLPASSWORD || '', 
-    database: process.env.MYSQLDATABASE || 'elden-ring',
-    port: process.env.MYSQLPORT || 3306
+// Usamos createPool para evitar que a conexão caia no Railway
+const connection = mysql.createPool({
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD, 
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT || 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-connection.connect((err) => {
+// Testando a conexão inicial
+connection.getConnection((err, conn) => {
     if (err) {
-        console.error('❌ Erro ao conectar ao MySQL:', err.message);
+        console.error('❌ Erro ao conectar ao MySQL no Railway:', err.message);
         return;
     }
-    console.log('✅ Conectado ao banco elden-ring com sucesso!');
+    console.log('✅ Conectado ao banco do Railway com sucesso!');
+    conn.release(); // Libera a conexão de volta para o pool
 });
 
-// Exporta a conexão para ser usada no server.js
+// Exporta o pool para ser usado no serve.js
 module.exports = connection;
