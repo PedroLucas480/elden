@@ -12,8 +12,8 @@
         }
     </script>
 
-    <<link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/Builds.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Builds.css">
 </head>
 
 <body>
@@ -29,14 +29,20 @@
             </header>
 
             <section class="container-builds">
-            </section>
+                </section>
         </div>
 
         <script>
             async function carregarBuilds() {
                 try {
-                    // CORREÇÃO: Trocado localhost pela sua URL do Railway
+                    // Aponta para o seu servidor oficial no Railway
                     const response = await fetch('https://elden-production.up.railway.app/api/builds');
+                    
+                    if (!response.ok) {
+                        console.error('Servidor respondeu com erro');
+                        return;
+                    }
+
                     const builds = await response.json();
                     const container = document.querySelector('.container-builds');
                     container.innerHTML = '';
