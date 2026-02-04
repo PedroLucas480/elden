@@ -12,8 +12,8 @@
         }
     </script>
 
-    <link rel="stylesheet" href="../css/Builds.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://pedrolucas480.github.io/Elden-Ring-Builds/css/style.css">
+    <link rel="stylesheet" href="https://pedrolucas480.github.io/Elden-Ring-Builds/css/Builds.css">
 </head>
 
 <body>
@@ -21,7 +21,8 @@
         <div class="infromaçaoadireita">
             <header class="top-menu">
                 <nav>
-                    <a href="../index.html">Home</a> <a href="Builds.html" class="active">Builds</a>
+                    <a href="../index.html">Home</a>
+                    <a href="Builds.html" class="active">Builds</a>
                     <a href="#">About us</a>
                     <a href="#">Help</a>
                 </nav>
@@ -34,11 +35,8 @@
         <script>
             async function carregarBuilds() {
                 try {
-                    // CORREÇÃO: Usando a URL oficial do seu Railway em vez de localhost
+                    // CORREÇÃO: Trocado localhost pela sua URL do Railway
                     const response = await fetch('https://elden-production.up.railway.app/api/builds');
-                    
-                    if (!response.ok) throw new Error('Falha ao buscar builds');
-
                     const builds = await response.json();
                     const container = document.querySelector('.container-builds');
                     container.innerHTML = '';
@@ -68,7 +66,6 @@
                     });
                 } catch (error) {
                     console.error('Erro ao carregar builds:', error);
-                    document.querySelector('.container-builds').innerHTML = `<p style="color: white; text-align: center;">Erro ao carregar as builds. Verifique se o servidor está online.</p>`;
                 }
             }
             
