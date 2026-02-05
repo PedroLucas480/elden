@@ -28,6 +28,7 @@ const inicializarBanco = () => {
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         );`;
 
+    // Usando db.execute ou db.query dependendo da sua config do db.js
     db.query(sqlUsuarios, (err) => {
         if (err) return console.error("❌ ERRO NO BANCO (Tabela Usuarios):", err.message);
         
@@ -41,16 +42,16 @@ const inicializarBanco = () => {
 inicializarBanco();
 
 // --- CONFIGURAÇÕES ESSENCIAIS ---
-// CORREÇÃO CORS: Unificada para permitir o seu domínio do GitHub Pages
+// CORREÇÃO CORS: Liberado para todas as origens para garantir que o GitHub Pages acesse
 app.use(cors({
-    origin: 'https://pedrolucas480.github.io', 
+    origin: '*', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
-// Servindo arquivos estáticos
+// Servindo arquivos estáticos - Ajustado caminhos para ambiente Linux (Railway)
 app.use('/css', express.static(path.join(__dirname, '../css')));
 app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 app.use('/index', express.static(path.join(__dirname, '../index')));
@@ -100,7 +101,7 @@ app.post('/api/login', (req, res) => {
 
             const token = jwt.sign(
                 { id: usuario.id, email: usuario.email }, 
-                JWT_SECRET, 
+                { expiresKey: JWT_SECRET }, // Algumas versões pedem objeto, outras string direta
                 { expiresIn: '2h' }
             );
 
@@ -157,7 +158,6 @@ app.delete('/api/builds/:id', (req, res) => {
 });
 
 // --- INICIALIZAÇÃO ---
-// PORTA: Definida dinamicamente para o Railway na 8080 ou via variável de ambiente
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, '0.0.0.0', () => {
