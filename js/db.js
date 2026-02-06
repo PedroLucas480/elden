@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-// O Pool evita que a conexão caia e gera o erro 500
+// Pool de conexões (Railway safe)
 const pool = mysql.createPool({
     host: process.env.MYSQLHOST,
     user: process.env.MYSQLUSER,
@@ -12,14 +12,9 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-// Verifica se a conexão está ativa nos logs do Railway
-pool.getConnection((err, connection) => {
-    if (err) {
-        console.error("❌ ERRO AO CONECTAR NO BANCO:", err.message);
-    } else {
-        console.log("✅ Conexão com o MySQL do Railway estabelecida!");
-        connection.release();
-    }
+// Loga erros sem travar o container
+pool.on('error', (err) => {
+    console.error('❌ Erro no MySQL Pool:', err.message);
 });
 
 module.exports = pool;
