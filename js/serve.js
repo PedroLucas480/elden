@@ -18,7 +18,6 @@ const inicializarBanco = () => {
             criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
 
-    // MANTIDA ORIGINALIDADE: Expandido apenas para aceitar as colunas que você já usa no phpMyAdmin
     const sqlBuilds = `
         CREATE TABLE IF NOT EXISTS builds (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,27 +41,33 @@ const inicializarBanco = () => {
         );`;
 
     db.query(sqlUsuarios, (err) => {
-        if (err) return console.error("❌ ERRO NO BANCO (Tabela Usuarios):", err.message);
-        
+        if (err) {
+            console.error("❌ ERRO NO BANCO (Usuarios):", err.message);
+            return;
+        }
+
         db.query(sqlBuilds, (err) => {
-            if (err) return console.error("❌ ERRO NO BANCO (Tabela Builds):", err.message);
-            console.log("✅ Banco de dados pronto e tabelas verificadas!");
+            if (err) {
+                console.error("❌ ERRO NO BANCO (Builds):", err.message);
+                return;
+            }
+            console.log("✅ Banco inicializado com sucesso!");
         });
     });
 };
 
 inicializarBanco();
 
-// --- CONFIGURAÇÕES ESSENCIAIS ---
+// --- CONFIGURAÇÕES ---
 app.use(cors({
-    origin: '*', 
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
-// Servindo arquivos estáticos - Verifique se os caminhos batem com o GitHub
+// --- ARQUIVOS ESTÁTICOS ---
 app.use('/css', express.static(path.join(__dirname, '../css')));
 app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 app.use('/index', express.static(path.join(__dirname, '../index')));
@@ -72,31 +77,36 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../index/index.html'));
 });
 
-// --- ROTA DE CADASTRO ---
+// --- CADASTRO ---
 app.post('/api/register', async (req, res) => {
     const { username, email, senha } = req.body;
+
     if (!username || !email || !senha) {
         return res.status(400).json({ erro: "Preencha todos os campos!" });
     }
 
     try {
-        const salt = await bcrypt.genSalt(10);
-        const senhaHash = await bcrypt.hash(senha, salt);
-        const query = 'INSERT INTO usuarios (username, email, senha) VALUES (?, ?, ?)';
-        
-        db.query(query, [username, email, senhaHash], (err, result) => {
-            if (err) {
-                if (err.code === 'ER_DUP_ENTRY') return res.status(400).json({ erro: "Usuário ou email já existe!" });
-                return res.status(500).json({ erro: "Erro no banco de dados." });
+        const senhaHash = await bcrypt.hash(senha, 10);
+
+        db.query(
+            'INSERT INTO usuarios (username, email, senha) VALUES (?, ?, ?)',
+            [username, email, senhaHash],
+            (err) => {
+                if (err) {
+                    if (err.code === 'ER_DUP_ENTRY') {
+                        return res.status(400).json({ erro: "Usuário ou email já existe!" });
+                    }
+                    return res.status(500).json({ erro: "Erro no banco de dados." });
+                }
+                res.status(201).json({ mensagem: "Usuário criado com sucesso!" });
             }
-            res.status(201).json({ mensagem: "Usuário criado com sucesso!" });
-        });
-    } catch (error) {
+        );
+    } catch {
         res.status(500).json({ erro: "Erro interno no servidor." });
     }
 });
 
-// --- ROTA DE LOGIN ---
+// --- LOGIN ---
 app.post('/api/login', (req, res) => {
     const { email, senha } = req.body;
     const JWT_SECRET = process.env.JWT_SECRET || 'MINHA_CHAVE_SECRETA_123';
@@ -106,38 +116,33 @@ app.post('/api/login', (req, res) => {
         if (results.length === 0) return res.status(401).json({ erro: "Usuário não encontrado" });
 
         const usuario = results[0];
-        try {
-            const senhaValida = await bcrypt.compare(senha, usuario.senha);
-            if (!senhaValida) return res.status(401).json({ erro: "Senha incorreta" });
+        const senhaValida = await bcrypt.compare(senha, usuario.senha);
 
-            const token = jwt.sign(
-                { id: usuario.id, email: usuario.email }, 
-                JWT_SECRET, 
-                { expiresIn: '2h' }
-            );
+        if (!senhaValida) return res.status(401).json({ erro: "Senha incorreta" });
 
-            return res.json({ 
-                logado: true, 
-                token: token,
-                usuario: { email: usuario.email, username: usuario.username } 
-            });
-        } catch (error) {
-            return res.status(500).json({ erro: "Erro na validação" });
-        }
+        const token = jwt.sign(
+            { id: usuario.id, email: usuario.email },
+            JWT_SECRET,
+            { expiresIn: '2h' }
+        );
+
+        res.json({
+            logado: true,
+            token,
+            usuario: { email: usuario.email, username: usuario.username }
+        });
     });
 });
 
-// --- CRUD DE BUILDS ---
+// --- BUILDS ---
 app.get('/api/builds', (req, res) => {
-    // Busca tudo para garantir que o front-end receba todos os atributos (vigor, mente, etc)
     db.query('SELECT * FROM builds', (err, results) => {
         if (err) return res.status(500).json({ erro: "Erro ao buscar builds" });
         res.json(results);
     });
 });
 
-// --- INICIALIZAÇÃO ---
-// Railway usa a variável PORT automaticamente
+// --- START ---
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🔥 Servidor rodando na porta ${PORT}`);
