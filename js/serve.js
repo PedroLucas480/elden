@@ -18,12 +18,25 @@ const inicializarBanco = () => {
             criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
 
+    // MANTIDA ORIGINALIDADE: Expandido apenas para aceitar as colunas que você já usa no phpMyAdmin
     const sqlBuilds = `
         CREATE TABLE IF NOT EXISTS builds (
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(100) NOT NULL,
-            descricao TEXT,
+            classe_inicial VARCHAR(50),
+            arma_principal VARCHAR(100),
+            localizacao_nome VARCHAR(100),
+            localizacao_url VARCHAR(255),
             imagem_url VARCHAR(255),
+            descricao TEXT,
+            vigor INT DEFAULT 0,
+            mente INT DEFAULT 0,
+            resistencia INT DEFAULT 0,
+            forca INT DEFAULT 0,
+            destreza INT DEFAULT 0,
+            inteligencia INT DEFAULT 0,
+            fe INT DEFAULT 0,
+            arcano INT DEFAULT 0,
             usuario_id INT,
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         );`;
@@ -49,7 +62,7 @@ app.use(cors({
 
 app.use(express.json());
 
-// Servindo arquivos estáticos
+// Servindo arquivos estáticos - Verifique se os caminhos batem com o GitHub
 app.use('/css', express.static(path.join(__dirname, '../css')));
 app.use('/imagens', express.static(path.join(__dirname, '../imagens')));
 app.use('/index', express.static(path.join(__dirname, '../index')));
@@ -97,7 +110,6 @@ app.post('/api/login', (req, res) => {
             const senhaValida = await bcrypt.compare(senha, usuario.senha);
             if (!senhaValida) return res.status(401).json({ erro: "Senha incorreta" });
 
-            // CORREÇÃO: Removido o objeto extra que causava o erro 500
             const token = jwt.sign(
                 { id: usuario.id, email: usuario.email }, 
                 JWT_SECRET, 
@@ -117,15 +129,15 @@ app.post('/api/login', (req, res) => {
 
 // --- CRUD DE BUILDS ---
 app.get('/api/builds', (req, res) => {
+    // Busca tudo para garantir que o front-end receba todos os atributos (vigor, mente, etc)
     db.query('SELECT * FROM builds', (err, results) => {
         if (err) return res.status(500).json({ erro: "Erro ao buscar builds" });
         res.json(results);
     });
 });
 
-// ... (Restante das rotas GET por ID, PUT e DELETE mantidas)
-
 // --- INICIALIZAÇÃO ---
+// Railway usa a variável PORT automaticamente
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🔥 Servidor rodando na porta ${PORT}`);
