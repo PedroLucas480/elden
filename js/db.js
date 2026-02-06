@@ -1,10 +1,16 @@
-const pool = require('./js/db'); // Importa o arquivo que você postou
+const mysql = require('mysql2');
 
-app.get('/api/builds', (req, res) => {
-    pool.query('SELECT * FROM builds', (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(results); // Aqui os dados saem do banco para o site
-    });
+// O Pool evita que a conexão caia
+const pool = mysql.createPool({
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT || 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
+
+// Apenas exporta o pool para os outros arquivos usarem
+module.exports = pool;
