@@ -2,8 +2,8 @@
 body {
     margin: 0;
     padding: 0;
-    min-height: 100vh; /* Alterado de height para min-height para evitar corte no fundo */
-    /* CORREÇÃO: ../ sai da pasta css para achar a pasta imagens e removeu-se a / inicial */
+    min-height: 100vh; /* Alterado para min-height para o fundo não cortar no scroll */
+    /* CORREÇÃO: Removida a barra inicial e adicionado ../ para sair da pasta css */
     background: url('../imagens/Fundo.png') no-repeat center center fixed; 
     background-size: cover;
 }
@@ -11,13 +11,15 @@ body {
 /* Estilos específicos para a exibição dos dados do MySQL */
 .conteudo-detalhes {
     padding: 100px 50px;
-    color: #e29b00; /* Cor dourada original */
+    color: #e29b00;
+    /* Cor dourada original */
     font-family: Georgia, serif;
 }
 
 .grid-stats {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Corrigido para frações padrão */
+    /* CORREÇÃO: repeat(2, 1fr) mantém suas 2 colunas originais de forma estável */
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     max-width: 500px;
     margin: 25px 0;
@@ -28,18 +30,58 @@ body {
     padding: 8px;
     font-size: 1.1rem;
     text-transform: uppercase;
-    color: #d6b36a; /* Garante que o texto do item siga o tema */
 }
 
 .equipamentos {
     margin-top: 40px;
-    background: rgba(0, 0, 0, 0.6); /* Levemente mais escuro para melhor leitura */
+    background: rgba(0, 0, 0, 0.4);
     padding: 20px;
     border: 1px solid rgba(214, 179, 106, 0.2);
     border-radius: 8px;
 }
 
-/* ... (Restante do seu código original permanece igual) ... */
+.equipamentos h3 {
+    margin-bottom: 15px;
+}
+
+.equipamentos p {
+    color: #fff;
+    margin: 10px 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* ================= MENU SUPERIOR ================= */
+.top-menu {
+    position: absolute;
+    top: 28px;
+    left: 72%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.top-menu nav {
+    display: flex;
+    gap: 36px;
+}
+
+.top-menu nav a {
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    letter-spacing: 1.25px;
+    text-decoration: none;
+    color: #d6b36a;
+    opacity: 0.7;
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+
+.top-menu nav a:hover {
+    opacity: 1;
+}
 
 .top-menu nav a.active::after {
     content: "";
@@ -50,4 +92,121 @@ body {
     width: 22px;
     height: 1px;
     background-color: #d6b36a;
+}
+/* ================= CONTAINER DE CARDS ================= */
+.builds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    margin-top: 80px; /* Espaço para o menu superior */
+}
+
+/* ================= CARD ELDEN STYLE ================= */
+.card-build {
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
+    border: 1px solid #5c4b37;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-build::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 1px solid transparent;
+    transition: border 0.4s;
+    pointer-events: none;
+}
+
+.card-build:hover {
+    transform: scale(1.03);
+    border-color: #c5a35d;
+    box-shadow: 0 0 25px rgba(197, 163, 93, 0.3);
+}
+
+/* Foto da Arma/Build */
+.card-header {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    border-bottom: 2px solid #5c4b37;
+    position: relative;
+}
+
+.card-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+    filter: sepia(0.3) brightness(0.8);
+}
+
+.card-build:hover .card-header img {
+    transform: scale(1.1);
+    filter: sepia(0) brightness(1);
+}
+
+/* Conteúdo Interno */
+.card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-body h2 {
+    font-family: 'Georgia', serif;
+    color: #c5a35d;
+    font-size: 1.5rem;
+    margin: 0 0 10px 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 2px;
+}
+
+/* Stats Compactos Estilizados */
+.mini-stats {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.stat-pill {
+    background: rgba(197, 163, 93, 0.1);
+    border: 1px solid rgba(197, 163, 93, 0.3);
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.stat-pill span {
+    color: #c5a35d;
+    font-weight: bold;
+}
+
+/* Botão Estilo "Menu do Jogo" */
+.btn-view {
+    background: transparent;
+    color: #d6b36a;
+    border: 1px solid #d6b36a;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.btn-view:hover {
+    background: #d6b36a;
+    color: #000;
+    box-shadow: 0 0 10px #d6b36a;
 }
