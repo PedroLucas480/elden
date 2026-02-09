@@ -2,8 +2,7 @@
 body {
     margin: 0;
     padding: 0;
-    min-height: 100vh; /* Alterado para min-height para o fundo não cortar no scroll */
-    /* CORREÇÃO: Removida a barra inicial e adicionado ../ para sair da pasta css */
+    min-height: 100vh; 
     background: url('../imagens/Fundo.png') no-repeat center center fixed; 
     background-size: cover;
 }
@@ -12,13 +11,11 @@ body {
 .conteudo-detalhes {
     padding: 100px 50px;
     color: #e29b00;
-    /* Cor dourada original */
     font-family: Georgia, serif;
 }
 
 .grid-stats {
     display: grid;
-    /* CORREÇÃO: repeat(2, 1fr) mantém suas 2 colunas originais de forma estável */
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     max-width: 500px;
@@ -32,21 +29,31 @@ body {
     text-transform: uppercase;
 }
 
+/* CORREÇÃO AQUI: Aumentada a largura e garantida a cor do texto */
 .equipamentos {
     margin-top: 40px;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Fundo um pouco mais escuro para contraste */
+    padding: 25px;
     border: 1px solid rgba(214, 179, 106, 0.2);
     border-radius: 8px;
+    max-width: 900px; /* Cobrindo mais espaço da página conforme solicitado */
 }
 
 .equipamentos h3 {
     margin-bottom: 15px;
+    color: #e29b00; /* Título em dourado para destacar */
 }
 
+/* CORREÇÃO AQUI: Texto forçado para branco/claro para leitura na caixa preta */
 .equipamentos p {
-    color: #fff;
-    margin: 10px 0;
+    color: #ffffff !important; 
+    margin: 12px 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.equipamentos strong {
+    color: #d6b36a; /* Destaque para os rótulos (Arma, Local, etc) */
 }
 
 h1 {
@@ -93,13 +100,14 @@ h1 {
     height: 1px;
     background-color: #d6b36a;
 }
+
 /* ================= CONTAINER DE CARDS ================= */
 .builds-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     padding: 40px;
-    margin-top: 80px; /* Espaço para o menu superior */
+    margin-top: 80px;
 }
 
 /* ================= CARD ELDEN STYLE ================= */
@@ -114,22 +122,12 @@ h1 {
     flex-direction: column;
 }
 
-.card-build::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    border: 1px solid transparent;
-    transition: border 0.4s;
-    pointer-events: none;
-}
-
 .card-build:hover {
     transform: scale(1.03);
     border-color: #c5a35d;
     box-shadow: 0 0 25px rgba(197, 163, 93, 0.3);
 }
 
-/* Foto da Arma/Build */
 .card-header {
     width: 100%;
     height: 220px;
@@ -146,12 +144,6 @@ h1 {
     filter: sepia(0.3) brightness(0.8);
 }
 
-.card-build:hover .card-header img {
-    transform: scale(1.1);
-    filter: sepia(0) brightness(1);
-}
-
-/* Conteúdo Interno */
 .card-body {
     padding: 20px;
     text-align: center;
@@ -166,15 +158,6 @@ h1 {
     letter-spacing: 2px;
 }
 
-/* Stats Compactos Estilizados */
-.mini-stats {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 15px 0;
-    flex-wrap: wrap;
-}
-
 .stat-pill {
     background: rgba(197, 163, 93, 0.1);
     border: 1px solid rgba(197, 163, 93, 0.3);
@@ -185,12 +168,6 @@ h1 {
     text-transform: uppercase;
 }
 
-.stat-pill span {
-    color: #c5a35d;
-    font-weight: bold;
-}
-
-/* Botão Estilo "Menu do Jogo" */
 .btn-view {
     background: transparent;
     color: #d6b36a;
