@@ -2,82 +2,37 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elden Builds - Criar Conta</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/detalhes.css">
-    <style>
-        /* Ajustes específicos para a caixa de login sem perder sua originalidade */
-        .login-box {
-            text-align: center; 
-            background: rgba(0, 0, 0, 0.85); 
-            padding: 40px; 
-            border: 1px solid #c1a35f;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-        }
-        .login-box input {
-            display: block; 
-            margin: 15px auto; 
-            padding: 12px; 
-            width: 250px;
-            background: #111;
-            border: 1px solid #c1a35f;
-            color: white;
-            font-family: Georgia, serif;
-        }
-        .login-box button {
-            padding: 12px 20px; 
-            cursor: pointer; 
-            background: #c1a35f; 
-            border: none; 
-            font-weight: bold; 
-            width: 275px;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .login-box button:hover {
-            background: #e29b00;
-            color: #000;
-        }
-    </style>
+    <title>Elden Builds - Criar Conta</title>
 </head>
-<body style="background: url('../imagens/Fundo.png') no-repeat center center fixed; background-size: cover; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh;">
-
-    <div class="login-box">
-        <h2 style="color: #e29b00; font-family: Georgia, serif; margin-bottom: 20px;">Criar Nova Conta</h2>
+<body style="background: #111; color: white; display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div class="login-box" style="text-align: center; background: #1a1a1a; padding: 30px; border: 1px solid #c1a35f;">
+        <h2>Criar Nova Conta</h2>
         
-        <input type="text" id="regUsername" placeholder="Nome de Usuário">
-        <input type="email" id="regEmail" placeholder="Seu melhor email">
-        <input type="password" id="regSenha" placeholder="Crie uma senha">
+        <input type="text" id="regUsername" placeholder="Nome de Usuário" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
+        <input type="email" id="regEmail" placeholder="Seu melhor email" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
+        <input type="password" id="regSenha" placeholder="Crie uma senha" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
         
-        <button id="btnCadastrar">Cadastrar Maculado</button>
+        <button id="btnCadastrar" style="padding: 10px 20px; cursor: pointer; background: #c1a35f; border: none; font-weight: bold; width: 245px;">Cadastrar Maculado</button>
         
-        <p style="margin-top: 20px;">
-            <a href="login.html" style="color: #d6b36a; font-size: 14px; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s;" onmouseover="this.style.borderBottom='1px solid #d6b36a'" onmouseout="this.style.borderBottom='transparent'">
-                Já tenho conta, quero entrar
-            </a>
+        <p style="margin-top: 15px;">
+            <a href="login.html" style="color: #aaa; font-size: 14px; text-decoration: none;">Já tenho conta, quero entrar</a>
         </p>
     </div>
 
     <script>
         document.getElementById('btnCadastrar').onclick = async () => {
-            const username = document.getElementById('regUsername').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
             const senha = document.getElementById('regSenha').value;
 
             if (!username || !email || !senha) {
-                alert("⚠️ Atenção: Preencha todos os campos para prosseguir!");
+                alert("Preencha todos os campos!");
                 return;
             }
 
-            // Feedback visual de carregamento
-            const btn = document.getElementById('btnCadastrar');
-            const originalText = btn.innerText;
-            btn.innerText = "Processando...";
-            btn.disabled = true;
-
             try {
+                // CORREÇÃO APLICADA: Agora apontando para o seu Railway oficial
                 const response = await fetch('https://elden-production.up.railway.app/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -87,17 +42,14 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert("✅ Graça alcançada! Conta criada com sucesso.");
+                    alert("✅ Conta criada com sucesso!");
                     window.location.href = 'login.html'; 
                 } else {
-                    alert("❌ Falha no Cadastro: " + (data.erro || data.message || "Erro desconhecido"));
+                    alert("❌ Erro: " + (data.erro || "Falha ao cadastrar"));
                 }
             } catch (error) {
-                console.error("Erro na requisição:", error);
-                alert("🛰️ Erro de conexão. Verifique se o servidor Railway está online.");
-            } finally {
-                btn.innerText = originalText;
-                btn.disabled = false;
+                console.error("Erro:", error);
+                alert("Erro ao tentar cadastrar. Verifique se o servidor no Railway está Online.");
             }
         };
     </script>

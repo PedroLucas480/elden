@@ -16,10 +16,12 @@ body {
 /* ================= ESTRUTURA LADO A LADO (GRID) ================= */
 .build-flex-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Força duas colunas idênticas */
+    grid-template-columns: 1.2fr 1fr; /* O lado do texto é levemente maior que o do vídeo */
     gap: 50px;
     align-items: start;
     width: 100%;
+    max-width: 1400px; /* Evita que o conteúdo se espalhe demais em telas gigantes */
+    margin: 0 auto;
 }
 
 .build-texto {
@@ -29,24 +31,26 @@ body {
 
 .build-video {
     width: 100%;
-    max-width: 650px;
+    max-width: 650px;    /* Largura máxima do vídeo */
+    min-width: 320px;    /* Impede que ele seja esmagado */
     border: 2px solid rgba(214, 179, 106, 0.4);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     overflow: hidden;
-    margin-top: 100px; /* Alinha o vídeo com o conteúdo */
-    background: rgba(0,0,0,0.5); /* Fundo caso o vídeo falhe */
+    margin-top: 80px;    /* Ajustado para alinhar com o meio da build */
+    background: #000;    /* Fundo preto para o player */
 }
 
 .build-video iframe {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 9; /* Mantém a proporção de cinema */
     display: block;
+    border: none;
 }
 
 /* ================= COMPONENTES INTERNOS ================= */
 h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 10px;
     color: #e29b00;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
@@ -70,7 +74,7 @@ h1 {
 
 .equipamentos {
     margin-top: 40px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.75);
     padding: 30px;
     border: 1px solid rgba(214, 179, 106, 0.4);
     border-radius: 8px;
@@ -84,6 +88,10 @@ h1 {
     font-size: 1.15rem;
 }
 
+.equipamentos strong {
+    color: #d6b36a;
+}
+
 .btn-view {
     background: transparent;
     color: #d6b36a;
@@ -93,22 +101,10 @@ h1 {
     text-transform: uppercase;
     display: inline-block;
     margin-top: 30px;
+    transition: 0.3s ease;
 }
 
-.build-video {
-    width: 100%;
-    max-width: 650px; /* Tamanho ideal para não sumir */
-    min-width: 300px; /* Garante que não fique minúsculo */
-    border: 2px solid rgba(214, 179, 106, 0.4);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 50px; /* Alinha melhor com o título da build */
-    background: #000;
-}
-
-.build-video iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9; /* Mantém o formato widescreen */
-    display: block;
+.btn-view:hover {
+    background: #d6b36a;
+    color: #000;
 }
