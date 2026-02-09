@@ -1,13 +1,24 @@
 <script>
     async function carregarDetalhes() {
+        // 1. Pega os parâmetros da URL
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
+        
+        // Busca o elemento na tela
+        const container = document.getElementById('build-info');
 
-        if(!id) return;
+        // Se o elemento build-info não existir no seu HTML, o código para aqui e te avisa
+        if (!container) {
+            console.error("ERRO: O elemento <div id='build-info'> não foi encontrado no seu HTML.");
+            return;
+        }
+
+        if (!id) {
+            container.innerHTML = "<h2>ID da build não fornecido.</h2>";
+            return;
+        }
 
         try {
-            // COLOQUE ABAIXO A URL DO SEU SERVIÇO "ELDEN" NO RAILWAY
-            // Exemplo: https://elden-production.up.railway.app
             const URL_RAILWAY = "https://elden-production.up.railway.app"; 
 
             const apiBaseUrl = window.location.hostname === 'localhost' 
@@ -16,11 +27,12 @@
 
             const response = await fetch(`${apiBaseUrl}/api/builds/${id}`);
             
-            if (!response.ok) throw new Error('Build não encontrada');
+            if (!response.ok) throw new Error('Build não encontrada no servidor');
             
             const build = await response.json();
 
-            document.getElementById('build-info').innerHTML = `
+            // Preenche o conteúdo
+            container.innerHTML = `
                 <h1>${build.nome}</h1>
                 <p style="color: #ccc; font-style: italic;">${build.descricao || 'Sem descrição'}</p>
                 
@@ -49,8 +61,10 @@
             `;
         } catch (error) {
             console.error("Erro ao carregar detalhes:", error);
-            document.getElementById('build-info').innerHTML = "<h2>Erro ao conectar com o servidor do Railway.</h2>";
+            container.innerHTML = `<h2>Erro: ${error.message}</h2>`;
         }
     }
-    carregarDetalhes();
+
+    // ISSO GARANTE QUE O CÓDIGO SÓ RODA DEPOIS QUE A PÁGINA CARREGAR
+    window.addEventListener('DOMContentLoaded', carregarDetalhes);
 </script>
