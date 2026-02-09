@@ -6,10 +6,13 @@
         if(!id) return;
 
         try {
-            // "window.location.origin" detecta automaticamente se o site está no Railway ou no PC
+            // COLOQUE ABAIXO A URL DO SEU SERVIÇO "ELDEN" NO RAILWAY
+            // Exemplo: https://elden-production.up.railway.app
+            const URL_RAILWAY = "https://elden-production.up.railway.app"; 
+
             const apiBaseUrl = window.location.hostname === 'localhost' 
                 ? 'http://localhost:3000' 
-                : window.location.origin;
+                : URL_RAILWAY;
 
             const response = await fetch(`${apiBaseUrl}/api/builds/${id}`);
             
@@ -46,7 +49,7 @@
             `;
         } catch (error) {
             console.error("Erro ao carregar detalhes:", error);
-            document.getElementById('build-info').innerHTML = "<h2>Erro ao carregar dados. Verifique se as builds foram inseridas no banco.</h2>";
+            document.getElementById('build-info').innerHTML = "<h2>Erro ao conectar com o servidor do Railway.</h2>";
         }
     }
     carregarDetalhes();
