@@ -17,39 +17,40 @@ body {
 .build-flex-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start; /* Alinha o texto na esquerda */
+    justify-content: space-between; /* Empurra os blocos para as extremidades opostas */
     align-items: flex-start;
     gap: 50px; 
     width: 100%;
-    max-width: 1400px;
+    max-width: 1500px; /* Aumentado para dar mais folga lateral */
     margin: 0 auto;
 }
 
 .build-texto {
     flex: 1; 
     min-width: 350px;
+    max-width: 700px; /* Limita a largura do texto para não apertar a mídia */
 }
 
 /* COLUNA DA DIREITA (VÍDEO + MAPA) */
 .coluna-midia-mapa {
-    flex: 0 0 650px; 
+    flex: 0 0 650px; /* Largura fixa para o vídeo ser grande */
     width: 650px;
     display: flex;
     flex-direction: column;
     gap: 30px; 
     margin-top: 50px;
-    margin-left: auto; /* --- FORÇA TUDO PARA A DIREITA --- */
+    margin-left: auto; /* FORÇA o alinhamento total à direita */
 }
 
 .build-video {
     width: 100%;
-    height: 750px; 
-    background: rgba(0, 0, 0, 0.6); /* --- FUNDO ADAPTÁVEL: Remove o contraste do branco --- */
+    height: 800px; /* Aumentado para destacar vídeos verticais */
+    background: rgba(0, 0, 0, 0.7); /* Fundo escuro para remover o contraste branco do TikTok */
     border: 2px solid rgba(214, 179, 106, 0.4);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     overflow: hidden;
-    display: flex; /* Centraliza vídeos verticais */
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -59,7 +60,7 @@ body {
     height: 100%;
     border: none;
     display: block;
-    background: transparent; /* Remove fundos indesejados do iframe */
+    background: transparent; /* Garante que o fundo branco do iframe suma */
 }
 
 .build-mapa {
@@ -98,6 +99,7 @@ h1 {
     padding: 8px;
     font-size: 1.1rem;
     text-transform: uppercase;
+    color: #e29b00;
 }
 
 .equipamentos {
