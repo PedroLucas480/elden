@@ -9,9 +9,9 @@
 </head>
 <body>
 
-    <main>
+    <main class="conteudo-detalhes">
         <div id="build-info">
-            <h2 style="color: rgb(255, 255, 255); text-align: center;">Carregando detalhes da build...</h2>
+            <h2 style="color: white; text-align: center;">Carregando detalhes da build...</h2>
         </div>
     </main>
 
@@ -38,13 +38,13 @@
                 
                 const build = await response.json();
 
-                // Monta o visual original que você definiu
+                // CORREÇÃO: Removidos estilos manuais e aplicadas as SUAS classes do CSS
                 container.innerHTML = `
                     <h1>${build.nome}</h1>
-                    <p style="color: #ccc; font-style: italic;">${build.descricao || 'Sem descrição'}</p>
+                    <p style="color: #ffffff; font-style: italic; opacity: 0.9;">${build.descricao || 'Sem descrição'}</p>
                     
                     <h3 style="margin-top:30px;">ESTATUTOS (STATS)</h3>
-                    <div class="grid-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="grid-stats">
                         <div class="stat-item">VIGOR: ${build.vigor || 0}</div>
                         <div class="stat-item">MENTE: ${build.mente || 0}</div>
                         <div class="stat-item">RESISTÊNCIA: ${build.resistencia || 0}</div>
@@ -55,7 +55,7 @@
                         <div class="stat-item">ARCANO: ${build.arcano || 0}</div>
                     </div>
 
-                    <div class="equipamentos" style="margin-top: 20px; border-top: 1px solid #444; padding-top: 20px;">
+                    <div class="equipamentos">
                         <h3>EQUIPAMENTOS E LOCALIZAÇÃO</h3>
                         <p><strong>Arma Principal:</strong> ${build.arma_principal || 'Não informada'}</p>
                         <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial || 'Qualquer uma'}</p>
@@ -64,11 +64,11 @@
                     </div>
                     
                     <br><br>
-                    <a href="Builds.html" style="color: #fff; text-decoration: none; border: 1px solid #fff; padding: 5px 15px;">← Voltar para lista</a>
+                    <a href="Builds.html" class="btn-view">← Voltar para lista</a>
                 `;
             } catch (error) {
-                container.innerHTML = `<h2 style="color: #e74c3c;">Erro: ${error.message}</h2>
-                <a href="Builds.html" style="color: #fff;">Voltar</a>`;
+                container.innerHTML = `<h2 style="color: #d6b36a;">Erro: ${error.message}</h2>
+                <a href="Builds.html" class="btn-view">Voltar</a>`;
             }
         }
 
