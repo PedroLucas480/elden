@@ -37,37 +37,24 @@
             
             const build = await response.json();
 
-            // --- LÓGICA DE VÍDEO (YOUTUBE + TIKTOK) ---
-            let videoHtml = "";
+            // Lógica CORRIGIDA para extrair o ID do vídeo em qualquer formato
+            let embedUrl = null;
             if (build.video_url) {
-                if (build.video_url.includes('tiktok.com')) {
-                    const tiktokId = build.video_url.split('/video/')[1]?.split('?')[0];
-                    if (tiktokId) {
-                        videoHtml = `<iframe src="https://www.tiktok.com/embed/v2/${tiktokId}" frameborder="0" allowfullscreen></iframe>`;
-                    }
-                } else {
-                    let videoId = "";
-                    if (build.video_url.includes('shorts/')) {
-                        videoId = build.video_url.split('shorts/')[1].split(/[?&]/)[0];
-                    } else if (build.video_url.includes('v=')) {
-                        videoId = build.video_url.split('v=')[1].split('&')[0];
-                    } else if (build.video_url.includes('youtu.be/')) {
-                        videoId = build.video_url.split('youtu.be/')[1].split(/[?&]/)[0];
-                    }
-                    if (videoId) {
-                        videoHtml = `<iframe src="https://www.youtube.com/embed/${videoId.trim()}" frameborder="0" allowfullscreen></iframe>`;
-                    }
+                let videoId = "";
+                
+                // Tenta pegar o ID após "v=" (link padrão) ou após a "/" (link curto youtu.be)
+                if (build.video_url.includes('v=')) {
+                    videoId = build.video_url.split('v=')[1].split('&')[0];
+                } else if (build.video_url.includes('youtu.be/')) {
+                    videoId = build.video_url.split('youtu.be/')[1].split('?')[0];
+                }
+
+                if (videoId) {
+                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
                 }
             }
 
-            if (!videoHtml) {
-                videoHtml = `<div style="padding: 40px; color: #d6b36a; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
-                                <p>Vídeo de demonstração em breve...</p>
-                                <small style="color: gray; margin-top: 10px;">Link: ${build.video_url || 'vazio'}</small>
-                             </div>`;
-            }
-
-            // --- INJEÇÃO DO HTML (Ajustado para o CSS Externo) ---
+            // Injeção do HTML respeitando o CSS de Grid que limpamos
             container.innerHTML = `
                 <div class="build-flex-container">
                     
@@ -92,23 +79,18 @@
                             <p><strong>Arma Principal:</strong> ${build.arma_principal || 'Não informada'}</p>
                             <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial || 'Qualquer uma'}</p>
                             <p><strong>Onde encontrar:</strong> ${build.localizacao_nome || 'Explorando o mapa'}</p>
-                            ${build.localizacao_url ? `<a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Abrir Mapa em Nova Aba]</a>` : ''}
+                            ${build.localizacao_url ? `<a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Ver no Mapa Interativo]</a>` : ''}
                         </div>
                     </div>
 
-                    <div class="coluna-midia-mapa">
-                        <div class="build-video">
-                            ${videoHtml}
-                        </div>
-
-                        <div class="build-mapa">
-                             ${build.localizacao_url ? 
-                                `<iframe src="${build.localizacao_url}" frameborder="0" allowfullscreen></iframe>` :
-                                `<div style="padding: 20px; color: #d6b36a; text-align: center; display: flex; align-items: center; height: 100%; justify-content: center;">
-                                    <p>Mapa de localização disponível em breve...</p>
-                                 </div>`
-                             }
-                        </div>
+                    <div class="build-video">
+                        ${embedUrl ? 
+                            `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>` : 
+                            `<div style="padding: 40px; color: #d6b36a; text-align: center;">
+                                <p>Vídeo de demonstração em breve...</p>
+                                <small style="color: gray; display: block; margin-top: 10px;">Link no banco: ${build.video_url || 'vazio'}</small>
+                             </div>`
+                        }
                     </div>
 
                 </div>
