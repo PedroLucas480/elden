@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../css/detalhes.css">
 </head>
 <body>
-    
 
     <main class="conteudo-detalhes">
         <div id="build-info">
@@ -38,28 +37,24 @@
             
             const build = await response.json();
 
-            // --- LÓGICA DE VÍDEO (REVISADA) ---
+            // --- LÓGICA DE VÍDEO (REVISADA PARA NÃO FICAR PEQUENO) ---
             let videoHtml = "";
             if (build.video_url) {
                 const url = build.video_url.toLowerCase().trim();
                 let urlFinal = build.video_url.trim();
 
-                // 1. Vídeo Local (MP4)
+                // 1. Vídeo Local (MP4 tipo o guts.mp4)
                 if (url.endsWith('.mp4')) {
-                    // Ajusta o caminho para subir uma pasta (já que o html está em /index)
                     if (!url.startsWith('http') && !url.startsWith('../')) {
                         urlFinal = '../' + urlFinal;
                     }
-                    videoHtml = `<video src="${urlFinal}" autoplay muted loop controls playsinline 
-                                 style="width:100%; height:auto; max-height:800px; object-fit: contain; background: #000; display: block;">
-                                 </video>`;
+                    // Removido estilos fixos daqui para o CSS controlar
+                    videoHtml = `<video src="${urlFinal}" autoplay muted loop controls playsinline></video>`;
                 } 
                 // 2. TikTok
                 else if (url.includes('tiktok.com')) {
                     const tiktokId = urlFinal.split('/video/')[1]?.split('?')[0];
-                    videoHtml = `<iframe src="https://www.tiktok.com/embed/v2/${tiktokId}" 
-                                 style="width:100%; aspect-ratio: 9/16; background: transparent;" 
-                                 frameborder="0" allowfullscreen></iframe>`;
+                    videoHtml = `<iframe src="https://www.tiktok.com/embed/v2/${tiktokId}" frameborder="0" allowfullscreen></iframe>`;
                 } 
                 // 3. YouTube
                 else {
@@ -73,9 +68,7 @@
                     }
                     
                     if (videoId) {
-                        videoHtml = `<iframe src="https://www.youtube.com/embed/${videoId.trim()}" 
-                                     style="width:100%; aspect-ratio: 16/9; border:none;" 
-                                     frameborder="0" allowfullscreen></iframe>`;
+                        videoHtml = `<iframe src="https://www.youtube.com/embed/${videoId.trim()}" frameborder="0" allowfullscreen></iframe>`;
                     }
                 }
             }
@@ -84,7 +77,7 @@
                 videoHtml = `<div style="padding: 40px; color: #d6b36a; text-align: center;">Vídeo em breve...</div>`;
             }
 
-            // --- INJEÇÃO DO HTML ---
+            // --- INJEÇÃO DO HTML (Mantendo sua estrutura original) ---
             container.innerHTML = `
                 <div class="build-flex-container">
                     
@@ -99,7 +92,7 @@
                             <div class="stat-item">RESISTÊNCIA: ${build.resistencia || 0}</div>
                             <div class="stat-item">FORÇA: ${build.forca || 0}</div>
                             <div class="stat-item">DESTREZA: ${build.destreza || 0}</div>
-                            <div class="stat-item">INTELIGÊNCIA: ${build.inteligencia || 0}</div>
+                            <div class="stat-item)INTELIGÊNCIA: ${build.inteligencia || 0}</div>
                             <div class="stat-item">FÉ: ${build.fe || 0}</div>
                             <div class="stat-item">ARCANO: ${build.arcano || 0}</div>
                         </div>
@@ -135,13 +128,13 @@
                     </div>
 
                     <div class="coluna-midia-mapa">
-                        <div class="build-video" style="height: auto; min-height: unset;">
+                        <div class="build-video">
                             ${videoHtml}
                         </div>
 
                         <div class="build-mapa">
                              ${build.localizacao_url ? 
-                                `<iframe src="${build.localizacao_url}" frameborder="0" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>` :
+                                `<iframe src="${build.localizacao_url}" frameborder="0" allowfullscreen></iframe>` :
                                 `<div style="padding: 20px; color: #d6b36a; text-align: center;">Mapa em breve...</div>`
                              }
                         </div>

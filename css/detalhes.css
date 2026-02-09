@@ -17,7 +17,7 @@ body {
 .build-flex-container {
     display: flex;
     flex-direction: row;
-    justify-content: center; /* Centraliza o bloco todo na tela */
+    justify-content: center; 
     align-items: flex-start;
     gap: 50px; 
     width: 100%;
@@ -27,7 +27,7 @@ body {
 
 .build-texto {
     flex: 1; 
-    min-width: 320px; /* Ajuste leve para telas menores */
+    min-width: 320px; 
     max-width: 750px; 
 }
 
@@ -43,8 +43,7 @@ body {
 
 .build-video {
     width: 100%;
-    /* Altura automática baseada no conteúdo */
-    min-height: 250px; 
+    /* Removido min-height pequeno para evitar que o vídeo "encolha" */
     background: #000 !important; 
     border: 2px solid rgba(214, 179, 106, 0.4);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
@@ -52,27 +51,25 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centraliza o vídeo verticalmente se sobrar espaço */
 }
 
-/* Ajuste dinâmico para YouTube e Vídeos Locais */
+/* AJUSTE PARA O VÍDEO FICAR GRANDE */
 .build-video iframe, 
 .build-video video {
-    width: 100%;
-    height: auto;
+    width: 100%; /* Força a ocupar os 450px de largura */
+    height: auto; /* Ajusta a altura proporcionalmente */
     display: block;
 }
 
-/* Proporção para YouTube (Horizontal) */
+/* Proporção para YouTube (Evita que fique pequeno ou com faixas pretas) */
 .build-video iframe {
     aspect-ratio: 16 / 9;
 }
 
-/* Ajuste para Vídeos Locais (MP4) e Shorts */
+/* Ajuste para Vídeos Locais (MP4 tipo o Guts) */
 .build-video video {
-    object-fit: contain; /* Não corta o vídeo */
-    max-height: 800px; /* Limite de segurança */
-    background: #000;
+    object-fit: contain; 
+    max-height: 700px; /* Limite para não empurrar o mapa muito para baixo */
 }
 
 .build-mapa {
@@ -98,65 +95,26 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 
-.grid-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin: 25px 0;
-    max-width: 500px;
-}
-
-.stat-item {
-    border-bottom: 1px solid rgba(214, 179, 106, 0.3);
-    padding: 8px;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    color: #e29b00;
-}
-
-.equipamentos {
-    margin-top: 40px;
-    background: rgba(0, 0, 0, 0.75);
-    padding: 30px;
-    border: 1px solid rgba(214, 179, 106, 0.4);
-    border-radius: 8px;
-    width: 100%; 
-    box-sizing: border-box;
-}
-
-.equipamentos p {
-    color: #ffffff;
-    margin: 15px 0;
-    font-size: 1.15rem;
-}
-
-.btn-view {
-    background: transparent;
-    color: #d6b36a;
-    border: 1px solid #d6b36a;
-    padding: 12px 25px;
-    text-decoration: none;
-    text-transform: uppercase;
-    display: inline-block;
+/* ESTILO PARA AS LISTAS (WEAPONS / TALISMANS) */
+.secao-itens {
     margin-top: 30px;
-    transition: 0.3s ease;
 }
 
-.btn-view:hover {
-    background: #d6b36a;
-    color: #000;
+.item-titulo {
+    color: #ff4d4d; /* Vermelho conforme seu print */
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 5px;
 }
 
-/* Responsividade Básica (Opcional) */
-@media (max-width: 1000px) {
-    .build-flex-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .coluna-midia-mapa {
-        width: 100%;
-        max-width: 600px;
-        flex: none;
-        margin-left: 0;
-    }
+.item-subdescricao {
+    color: #ffffff;
+    opacity: 0.8;
+    font-size: 1rem;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    display: block;
 }
+
+/* ... (resto do seu código de estatutos e equipamentos) ... */
