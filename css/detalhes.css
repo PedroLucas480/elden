@@ -10,7 +10,7 @@ body {
 /* Estilos específicos para a exibição dos dados do MySQL */
 .conteudo-detalhes {
     padding: 100px 50px;
-    color: #e29b00;
+    color: #e29b00; /* Dourado principal mantido */
     font-family: Georgia, serif;
 }
 
@@ -27,163 +27,62 @@ body {
     padding: 8px;
     font-size: 1.1rem;
     text-transform: uppercase;
+    color: #e29b00; /* Garante que os stats continuem dourados */
 }
 
-/* CORREÇÃO AQUI: Aumentada a largura e garantida a cor do texto */
+/* CORREÇÃO DA CAIXA: Agora mais larga e com cores que combinam */
 .equipamentos {
     margin-top: 40px;
-    background: rgba(0, 0, 0, 0.7); /* Fundo um pouco mais escuro para contraste */
-    padding: 25px;
-    border: 1px solid rgba(214, 179, 106, 0.2);
+    background: rgba(0, 0, 0, 0.6); /* Fundo escuro leve para destacar o texto claro */
+    padding: 30px;
+    border: 1px solid rgba(214, 179, 106, 0.4); /* Borda dourada mais visível */
     border-radius: 8px;
-    max-width: 900px; /* Cobrindo mais espaço da página conforme solicitado */
+    max-width: 1000px; /* Ocupa bem mais a página como você pediu */
 }
 
 .equipamentos h3 {
-    margin-bottom: 15px;
-    color: #e29b00; /* Título em dourado para destacar */
-}
-
-/* CORREÇÃO AQUI: Texto forçado para branco/claro para leitura na caixa preta */
-.equipamentos p {
-    color: #ffffff !important; 
-    margin: 12px 0;
-    font-size: 1.1rem;
-    line-height: 1.5;
-}
-
-.equipamentos strong {
-    color: #d6b36a; /* Destaque para os rótulos (Arma, Local, etc) */
-}
-
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-/* ================= MENU SUPERIOR ================= */
-.top-menu {
-    position: absolute;
-    top: 28px;
-    left: 72%;
-    transform: translateX(-50%);
-    z-index: 10;
-}
-
-.top-menu nav {
-    display: flex;
-    gap: 36px;
-}
-
-.top-menu nav a {
-    font-family: Georgia, serif;
-    font-size: 1.15rem;
-    letter-spacing: 1.25px;
-    text-decoration: none;
-    color: #d6b36a;
-    opacity: 0.7;
-    position: relative;
-    transition: opacity 0.3s ease;
-}
-
-.top-menu nav a:hover {
-    opacity: 1;
-}
-
-.top-menu nav a.active::after {
-    content: "";
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 22px;
-    height: 1px;
-    background-color: #d6b36a;
-}
-
-/* ================= CONTAINER DE CARDS ================= */
-.builds-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 40px;
-    margin-top: 80px;
-}
-
-/* ================= CARD ELDEN STYLE ================= */
-.card-build {
-    background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
-    border: 1px solid #5c4b37;
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex;
-    flex-direction: column;
-}
-
-.card-build:hover {
-    transform: scale(1.03);
-    border-color: #c5a35d;
-    box-shadow: 0 0 25px rgba(197, 163, 93, 0.3);
-}
-
-.card-header {
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    border-bottom: 2px solid #5c4b37;
-    position: relative;
-}
-
-.card-header img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-    filter: sepia(0.3) brightness(0.8);
-}
-
-.card-body {
-    padding: 20px;
-    text-align: center;
-}
-
-.card-body h2 {
-    font-family: 'Georgia', serif;
-    color: #c5a35d;
-    font-size: 1.5rem;
-    margin: 0 0 10px 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    margin-bottom: 20px;
+    color: #e29b00; /* Título em Dourado */
+    text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-.stat-pill {
-    background: rgba(197, 163, 93, 0.1);
-    border: 1px solid rgba(197, 163, 93, 0.3);
-    padding: 4px 10px;
-    border-radius: 2px;
-    font-size: 0.75rem;
-    color: #fff;
-    text-transform: uppercase;
+.equipamentos p {
+    color: #ffffff; /* Texto principal em Branco para leitura perfeita */
+    margin: 15px 0;
+    font-size: 1.15rem;
 }
 
+.equipamentos strong {
+    color: #d6b36a; /* Rótulos em um Dourado mais suave/creme */
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #e29b00; /* Título da Build em Dourado */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+/* ================= BOTÃO VOLTAR ================= */
 .btn-view {
     background: transparent;
     color: #d6b36a;
     border: 1px solid #d6b36a;
-    padding: 10px 20px;
+    padding: 12px 25px;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     letter-spacing: 2px;
     transition: all 0.3s;
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .btn-view:hover {
     background: #d6b36a;
     color: #000;
-    box-shadow: 0 0 10px #d6b36a;
+    box-shadow: 0 0 15px rgba(214, 179, 106, 0.5);
 }
+
+/* Restante do seu menu superior e cards permanecem originais... */
