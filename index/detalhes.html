@@ -38,7 +38,15 @@
                 
                 const build = await response.json();
 
-                // NOVO INNERHTML: Agora com a estrutura de Texto + Vídeo
+                // MELHORIA: Lógica para extrair o ID do vídeo com segurança
+                let embedUrl = null;
+                if (build.video_url) {
+                    const videoId = build.video_url.includes('v=') 
+                        ? build.video_url.split('v=')[1].split('&')[0] 
+                        : build.video_url.split('/').pop();
+                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                }
+
                 container.innerHTML = `
                     <div class="build-flex-container">
                         
@@ -68,9 +76,8 @@
                         </div>
 
                         <div class="build-video">
-                            ${build.video_url ? 
-                                `<iframe src="${build.video_url.replace('watch?v=', 'embed/')}" 
-                                    frameborder="0" allowfullscreen></iframe>` : 
+                            ${embedUrl ? 
+                                `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>` : 
                                 `<p style="padding: 20px; color: #d6b36a; text-align: center;">Vídeo de demonstração em breve...</p>`
                             }
                         </div>
