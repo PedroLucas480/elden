@@ -94,3 +94,21 @@ h1 {
     display: inline-block;
     margin-top: 30px;
 }
+
+.build-video {
+    width: 100%;
+    max-width: 650px; /* Tamanho ideal para não sumir */
+    min-width: 300px; /* Garante que não fique minúsculo */
+    border: 2px solid rgba(214, 179, 106, 0.4);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 50px; /* Alinha melhor com o título da build */
+    background: #000;
+}
+
+.build-video iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Mantém o formato widescreen */
+    display: block;
+}
