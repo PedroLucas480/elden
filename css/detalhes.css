@@ -17,7 +17,7 @@ body {
 .build-flex-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between; 
+    justify-content: center; /* Centraliza o bloco todo na tela */
     align-items: flex-start;
     gap: 50px; 
     width: 100%;
@@ -27,7 +27,7 @@ body {
 
 .build-texto {
     flex: 1; 
-    min-width: 350px;
+    min-width: 320px; /* Ajuste leve para telas menores */
     max-width: 750px; 
 }
 
@@ -39,36 +39,40 @@ body {
     flex-direction: column;
     gap: 30px; 
     margin-top: 50px;
-    margin-left: auto; 
 }
 
 .build-video {
     width: 100%;
-    height: 800px; 
-    background: transparent !important; 
+    /* Altura automática baseada no conteúdo */
+    min-height: 250px; 
+    background: #000 !important; 
     border: 2px solid rgba(214, 179, 106, 0.4);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     overflow: hidden;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center; /* Centraliza o vídeo verticalmente se sobrar espaço */
 }
 
-/* NOVIDADE: Suporte para vídeo local/baixado */
+/* Ajuste dinâmico para YouTube e Vídeos Locais */
+.build-video iframe, 
 .build-video video {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* Faz o vídeo preencher a caixa sem bordas */
-    background: #000;
+    height: auto;
+    display: block;
 }
 
+/* Proporção para YouTube (Horizontal) */
 .build-video iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-    background: transparent !important; 
+    aspect-ratio: 16 / 9;
+}
+
+/* Ajuste para Vídeos Locais (MP4) e Shorts */
+.build-video video {
+    object-fit: contain; /* Não corta o vídeo */
+    max-height: 800px; /* Limite de segurança */
+    background: #000;
 }
 
 .build-mapa {
@@ -141,4 +145,18 @@ h1 {
 .btn-view:hover {
     background: #d6b36a;
     color: #000;
+}
+
+/* Responsividade Básica (Opcional) */
+@media (max-width: 1000px) {
+    .build-flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .coluna-midia-mapa {
+        width: 100%;
+        max-width: 600px;
+        flex: none;
+        margin-left: 0;
+    }
 }
