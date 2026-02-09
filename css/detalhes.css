@@ -33,7 +33,6 @@ body {
 
 /* COLUNA DA DIREITA (VÍDEO + MAPA) */
 .coluna-midia-mapa {
-    /* AJUSTE AQUI: Diminuímos para 450px para o vídeo preencher a caixa sem sobrar branco nas laterais */
     flex: 0 0 450px; 
     width: 450px;
     display: flex;
@@ -46,7 +45,6 @@ body {
 .build-video {
     width: 100%;
     height: 800px; 
-    /* AJUSTE AQUI: background transparente para não gerar bloco branco */
     background: transparent !important; 
     border: 2px solid rgba(214, 179, 106, 0.4);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
@@ -57,12 +55,19 @@ body {
     align-items: center;
 }
 
+/* NOVIDADE: Suporte para vídeo local/baixado */
+.build-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz o vídeo preencher a caixa sem bordas */
+    background: #000;
+}
+
 .build-video iframe {
     width: 100%;
     height: 100%;
     border: none;
     display: block;
-    /* AJUSTE AQUI: Força o fundo transparente dentro do player */
     background: transparent !important; 
 }
 
