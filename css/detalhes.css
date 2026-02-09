@@ -11,33 +11,37 @@ body {
     padding: 60px 50px; 
     color: #e29b00;
     font-family: Georgia, serif;
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo na tela */
+}
+
+#build-info {
+    width: 100%;
+    max-width: 1300px; /* Limita a largura total para não espalhar demais */
 }
 
 /* ================= ESTRUTURA LADO A LADO (GRID) ================= */
-/* Usei o Grid para garantir que o vídeo não "fuja" para baixo */
 .build-flex-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Divide a tela em duas colunas iguais */
-    gap: 50px;
+    grid-template-columns: 1.2fr 1fr; /* O lado do texto é um pouco maior que o do vídeo */
+    gap: 60px;
     align-items: start;
     width: 100%;
-    max-width: 1400px; /* Evita que o conteúdo se espalhe demais em monitores ultra-wide */
 }
 
 .build-texto {
     width: 100%;
-    min-width: 0; /* Evita que o texto quebre o grid */
 }
 
 .build-video {
     width: 100%;
     max-width: 650px;
     border: 2px solid rgba(214, 179, 106, 0.4);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     overflow: hidden;
-    margin-top: 100px; /* Alinha o vídeo com os equipamentos */
-    background: rgba(0,0,0,0.3);
+    margin-top: 100px; /* Alinha o vídeo com a parte dos equipamentos */
+    background: #000; /* Fundo preto caso o vídeo demore a carregar */
 }
 
 .build-video iframe {
@@ -48,10 +52,10 @@ body {
 
 /* ================= COMPONENTES INTERNOS ================= */
 h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 10px;
     color: #e29b00;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
 }
 
 .grid-stats {
@@ -59,12 +63,12 @@ h1 {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     margin: 25px 0;
-    max-width: 500px;
+    max-width: 450px;
 }
 
 .stat-item {
     border-bottom: 1px solid rgba(214, 179, 106, 0.3);
-    padding: 8px;
+    padding: 10px;
     font-size: 1.1rem;
     text-transform: uppercase;
     color: #e29b00;
@@ -72,18 +76,23 @@ h1 {
 
 .equipamentos {
     margin-top: 40px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     padding: 30px;
     border: 1px solid rgba(214, 179, 106, 0.4);
-    border-radius: 8px;
+    border-radius: 10px;
     width: 100%; 
     box-sizing: border-box;
+}
+
+.equipamentos h3 {
+    margin-top: 0;
+    color: #e29b00;
 }
 
 .equipamentos p {
     color: #ffffff;
     margin: 15px 0;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
 }
 
 .equipamentos strong {
@@ -94,15 +103,16 @@ h1 {
     background: transparent;
     color: #d6b36a;
     border: 1px solid #d6b36a;
-    padding: 12px 25px;
+    padding: 12px 30px;
     text-decoration: none;
     text-transform: uppercase;
     display: inline-block;
-    margin-top: 30px;
-    transition: 0.3s;
+    margin-top: 40px;
+    transition: 0.3s ease;
 }
 
 .btn-view:hover {
     background: #d6b36a;
     color: #000;
+    box-shadow: 0 0 15px rgba(214, 179, 106, 0.5);
 }
