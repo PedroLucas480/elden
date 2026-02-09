@@ -81,3 +81,32 @@ h1 {
     background: #d6b36a;
     color: #000;
 }
+
+/* Container principal para dividir Texto e Vídeo */
+.build-flex-container {
+    display: flex;
+    flex-wrap: wrap; /* Para o vídeo descer em telas de celular */
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.build-texto {
+    flex: 1; /* Ocupa o espaço da esquerda */
+    min-width: 300px;
+}
+
+.build-video {
+    flex: 1; /* Ocupa o espaço da direita */
+    min-width: 300px;
+    max-width: 600px;
+    border: 2px solid rgba(214, 179, 106, 0.4);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.build-video iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Mantém o formato de cinema */
+    display: block;
+}

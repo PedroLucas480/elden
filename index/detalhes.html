@@ -38,34 +38,49 @@
                 
                 const build = await response.json();
 
-                // CORREÇÃO: Removidos estilos manuais e aplicadas as SUAS classes do CSS
+                // NOVO INNERHTML: Agora com a estrutura de Texto + Vídeo
                 container.innerHTML = `
-                    <h1>${build.nome}</h1>
-                    <p style="color: #ffffff; font-style: italic; opacity: 0.9;">${build.descricao || 'Sem descrição'}</p>
-                    
-                    <h3 style="margin-top:30px;">ESTATUTOS (STATS)</h3>
-                    <div class="grid-stats">
-                        <div class="stat-item">VIGOR: ${build.vigor || 0}</div>
-                        <div class="stat-item">MENTE: ${build.mente || 0}</div>
-                        <div class="stat-item">RESISTÊNCIA: ${build.resistencia || 0}</div>
-                        <div class="stat-item">FORÇA: ${build.forca || 0}</div>
-                        <div class="stat-item">DESTREZA: ${build.destreza || 0}</div>
-                        <div class="stat-item">INTELIGÊNCIA: ${build.inteligencia || 0}</div>
-                        <div class="stat-item">FÉ: ${build.fe || 0}</div>
-                        <div class="stat-item">ARCANO: ${build.arcano || 0}</div>
-                    </div>
+                    <div class="build-flex-container">
+                        
+                        <div class="build-texto">
+                            <h1>${build.nome}</h1>
+                            <p style="color: #ffffff; font-style: italic; opacity: 0.9;">${build.descricao || 'Sem descrição'}</p>
+                            
+                            <h3 style="margin-top:30px;">ESTATUTOS (STATS)</h3>
+                            <div class="grid-stats">
+                                <div class="stat-item">VIGOR: ${build.vigor || 0}</div>
+                                <div class="stat-item">MENTE: ${build.mente || 0}</div>
+                                <div class="stat-item">RESISTÊNCIA: ${build.resistencia || 0}</div>
+                                <div class="stat-item">FORÇA: ${build.forca || 0}</div>
+                                <div class="stat-item">DESTREZA: ${build.destreza || 0}</div>
+                                <div class="stat-item">INTELIGÊNCIA: ${build.inteligencia || 0}</div>
+                                <div class="stat-item">FÉ: ${build.fe || 0}</div>
+                                <div class="stat-item">ARCANO: ${build.arcano || 0}</div>
+                            </div>
 
-                    <div class="equipamentos">
-                        <h3>EQUIPAMENTOS E LOCALIZAÇÃO</h3>
-                        <p><strong>Arma Principal:</strong> ${build.arma_principal || 'Não informada'}</p>
-                        <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial || 'Qualquer uma'}</p>
-                        <p><strong>Onde encontrar:</strong> ${build.localizacao_nome || 'Explorando o mapa'}</p>
-                        ${build.localizacao_url ? `<a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Ver no Mapa Interativo]</a>` : ''}
+                            <div class="equipamentos">
+                                <h3>EQUIPAMENTOS E LOCALIZAÇÃO</h3>
+                                <p><strong>Arma Principal:</strong> ${build.arma_principal || 'Não informada'}</p>
+                                <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial || 'Qualquer uma'}</p>
+                                <p><strong>Onde encontrar:</strong> ${build.localizacao_nome || 'Explorando o mapa'}</p>
+                                ${build.localizacao_url ? `<a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Ver no Mapa Interativo]</a>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="build-video">
+                            ${build.video_url ? 
+                                `<iframe src="${build.video_url.replace('watch?v=', 'embed/')}" 
+                                    frameborder="0" allowfullscreen></iframe>` : 
+                                `<p style="padding: 20px; color: #d6b36a; text-align: center;">Vídeo de demonstração em breve...</p>`
+                            }
+                        </div>
+
                     </div>
                     
                     <br><br>
                     <a href="Builds.html" class="btn-view">← Voltar para lista</a>
                 `;
+
             } catch (error) {
                 container.innerHTML = `<h2 style="color: #d6b36a;">Erro: ${error.message}</h2>
                 <a href="Builds.html" class="btn-view">Voltar</a>`;
