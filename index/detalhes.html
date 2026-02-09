@@ -43,7 +43,7 @@
                 if (build.video_url.includes('tiktok.com')) {
                     const tiktokId = build.video_url.split('/video/')[1]?.split('?')[0];
                     if (tiktokId) {
-                        // ADICIONADO: Estilo inline para remover fundo branco do TikTok e centralizar
+                        // Estilo inline para garantir fundo transparente e preenchimento total
                         videoHtml = `<iframe src="https://www.tiktok.com/embed/v2/${tiktokId}" 
                                      style="width:100%; height:100%; background: transparent; display: block;" 
                                      frameborder="0" allowfullscreen></iframe>`;
@@ -58,7 +58,9 @@
                         videoId = build.video_url.split('youtu.be/')[1].split(/[?&]/)[0];
                     }
                     if (videoId) {
-                        videoHtml = `<iframe src="https://www.youtube.com/embed/${videoId.trim()}" frameborder="0" allowfullscreen></iframe>`;
+                        videoHtml = `<iframe src="https://www.youtube.com/embed/${videoId.trim()}" 
+                                     style="width:100%; height:100%; border:none;" 
+                                     frameborder="0" allowfullscreen></iframe>`;
                     }
                 }
             }
@@ -97,6 +99,10 @@
                             <p><strong>Onde encontrar:</strong> ${build.localizacao_nome || 'Explorando o mapa'}</p>
                             ${build.localizacao_url ? `<a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Abrir Mapa em Nova Aba]</a>` : ''}
                         </div>
+                        
+                        <div style="margin-top: 40px;">
+                            <a href="Builds.html" class="btn-view">← Voltar para lista</a>
+                        </div>
                     </div>
 
                     <div class="coluna-midia-mapa">
@@ -114,10 +120,6 @@
                         </div>
                     </div>
 
-                </div>
-                
-                <div style="margin-top: 40px;">
-                    <a href="Builds.html" class="btn-view">← Voltar para lista</a>
                 </div>
             `;
 
