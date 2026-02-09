@@ -16,85 +16,90 @@
     </main>
 
     <script>
-        async function carregarDetalhes() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-            const container = document.getElementById('build-info');
+    async function carregarDetalhes() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        const container = document.getElementById('build-info');
 
-            if (!container) return;
-            if (!id) {
-                container.innerHTML = "<h2>Build não identificada.</h2>";
-                return;
-            }
-
-            try {
-                const URL_RAILWAY = "https://elden-production.up.railway.app"; 
-                const apiBaseUrl = window.location.hostname === 'localhost' 
-                    ? 'http://localhost:3000' 
-                    : URL_RAILWAY;
-
-                const response = await fetch(`${apiBaseUrl}/api/builds/${id}`);
-                if (!response.ok) throw new Error('Build não encontrada');
-                
-                const build = await response.json();
-
-                // MELHORIA: Lógica para extrair o ID do vídeo com segurança
-                let embedUrl = null;
-                if (build.video_url) {
-                    const videoId = build.video_url.includes('v=') 
-                        ? build.video_url.split('v=')[1].split('&')[0] 
-                        : build.video_url.split('/').pop();
-                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                }
-
-                container.innerHTML = `
-                    <div class="build-flex-container">
-                        
-                        <div class="build-texto">
-                            <h1>${build.nome}</h1>
-                            <p style="color: #ffffff; font-style: italic; opacity: 0.9;">${build.descricao || 'Sem descrição'}</p>
-                            
-                            <h3 style="margin-top:30px;">ESTATUTOS (STATS)</h3>
-                            <div class="grid-stats">
-                                <div class="stat-item">VIGOR: ${build.vigor || 0}</div>
-                                <div class="stat-item">MENTE: ${build.mente || 0}</div>
-                                <div class="stat-item">RESISTÊNCIA: ${build.resistencia || 0}</div>
-                                <div class="stat-item">FORÇA: ${build.forca || 0}</div>
-                                <div class="stat-item">DESTREZA: ${build.destreza || 0}</div>
-                                <div class="stat-item">INTELIGÊNCIA: ${build.inteligencia || 0}</div>
-                                <div class="stat-item">FÉ: ${build.fe || 0}</div>
-                                <div class="stat-item">ARCANO: ${build.arcano || 0}</div>
-                            </div>
-
-                            <div class="equipamentos">
-                                <h3>EQUIPAMENTOS E LOCALIZAÇÃO</h3>
-                                <p><strong>Arma Principal:</strong> ${build.arma_principal || 'Não informada'}</p>
-                                <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial || 'Qualquer uma'}</p>
-                                <p><strong>Onde encontrar:</strong> ${build.localizacao_nome || 'Explorando o mapa'}</p>
-                                ${build.localizacao_url ? `<a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Ver no Mapa Interativo]</a>` : ''}
-                            </div>
-                        </div>
-
-                        <div class="build-video">
-                            ${embedUrl ? 
-                                `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>` : 
-                                `<p style="padding: 20px; color: #d6b36a; text-align: center;">Vídeo de demonstração em breve...</p>`
-                            }
-                        </div>
-
-                    </div>
-                    
-                    <br><br>
-                    <a href="Builds.html" class="btn-view">← Voltar para lista</a>
-                `;
-
-            } catch (error) {
-                container.innerHTML = `<h2 style="color: #d6b36a;">Erro: ${error.message}</h2>
-                <a href="Builds.html" class="btn-view">Voltar</a>`;
-            }
+        if (!container || !id) {
+            if (container) container.innerHTML = "<h2>Build não identificada.</h2>";
+            return;
         }
 
-        window.addEventListener('DOMContentLoaded', carregarDetalhes);
-    </script>
+        try {
+            const URL_RAILWAY = "https://elden-production.up.railway.app"; 
+            const apiBaseUrl = window.location.hostname === 'localhost' 
+                ? 'http://localhost:3000' 
+                : URL_RAILWAY;
+
+            const response = await fetch(`${apiBaseUrl}/api/builds/${id}`);
+            if (!response.ok) throw new Error('Build não encontrada');
+            
+            const build = await response.json();
+
+            // Lógica robusta para extrair o ID do vídeo
+            let embedUrl = null;
+            if (build.video_url && build.video_url.includes('youtube.com')) {
+                const urlObj = new URL(build.video_url);
+                const videoId = urlObj.searchParams.get('v');
+                if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            } else if (build.video_url && build.video_url.includes('youtu.be')) {
+                const videoId = build.video_url.split('/').pop();
+                embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            }
+
+            container.innerHTML = `
+                <div class="build-flex-container">
+                    
+                    <div class="build-texto">
+                        <h1>${build.nome || 'Nome da Build'}</h1>
+                        <p style="color: #ffffff; font-style: italic; opacity: 0.9;">${build.descricao || 'Sem descrição'}</p>
+                        
+                        <h3 style="margin-top:30px;">ESTATUTOS (STATS)</h3>
+                        <div class="grid-stats">
+                            <div class="stat-item">VIGOR: ${build.vigor || 0}</div>
+                            <div class="stat-item">MENTE: ${build.mente || 0}</div>
+                            <div class="stat-item">RESISTÊNCIA: ${build.resistencia || 0}</div>
+                            <div class="stat-item">FORÇA: ${build.forca || 0}</div>
+                            <div class="stat-item">DESTREZA: ${build.destreza || 0}</div>
+                            <div class="stat-item">INTELIGÊNCIA: ${build.inteligencia || 0}</div>
+                            <div class="stat-item">FÉ: ${build.fe || 0}</div>
+                            <div class="stat-item">ARCANO: ${build.arcano || 0}</div>
+                        </div>
+
+                        <div class="equipamentos">
+                            <h3>EQUIPAMENTOS E LOCALIZAÇÃO</h3>
+                            <p><strong>Arma Principal:</strong> ${build.arma_principal || 'Não informada'}</p>
+                            <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial || 'Qualquer uma'}</p>
+                            <p><strong>Onde encontrar:</strong> ${build.localizacao_nome || 'Explorando o mapa'}</p>
+                            ${build.localizacao_url ? `<a href="${build.localizacao_url}" target="_blank" style="color: #d6b36a; font-weight: bold;">[Ver no Mapa Interativo]</a>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="build-video">
+                        ${embedUrl ? 
+                            `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>` : 
+                            `<div style="padding: 20px; color: #d6b36a; text-align: center;">
+                                <p>Vídeo de demonstração em breve...</p>
+                                <small style="color: gray;">Link atual: ${build.video_url || 'vazio'}</small>
+                             </div>`
+                        }
+                    </div>
+
+                </div>
+                
+                <br><br>
+                <a href="Builds.html" class="btn-view">← Voltar para lista</a>
+            `;
+
+        } catch (error) {
+            console.error("Erro:", error);
+            container.innerHTML = `<h2 style="color: #d6b36a;">Erro: ${error.message}</h2>
+            <a href="Builds.html" class="btn-view">Voltar</a>`;
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', carregarDetalhes);
+</script>
 </body>
 </html>
