@@ -13,37 +13,37 @@ body {
     font-family: Georgia, serif;
 }
 
-/* ================= ESTRUTURA LADO A LADO (GRID) ================= */
+/* ================= ESTRUTURA LADO A LADO (FLEX) ================= */
 .build-flex-container {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* O lado do texto é levemente maior que o do vídeo */
-    gap: 50px;
-    align-items: start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
     width: 100%;
-    max-width: 1400px; /* Evita que o conteúdo se espalhe demais em telas gigantes */
+    max-width: 1400px;
     margin: 0 auto;
 }
 
 .build-texto {
-    width: 100%;
-    min-width: 0; 
+    flex: 1; /* Ocupa o espaço da esquerda */
+    min-width: 300px; 
 }
 
 .build-video {
-    width: 100%;
-    max-width: 650px;    /* Largura máxima do vídeo */
-    min-width: 320px;    /* Impede que ele seja esmagado */
+    flex: 0 0 550px; /* TRAVA a largura em 550px para não esmagar */
+    width: 550px;
+    background: #000;
     border: 2px solid rgba(214, 179, 106, 0.4);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     overflow: hidden;
-    margin-top: 80px;    /* Ajustado para alinhar com o meio da build */
-    background: #000;    /* Fundo preto para o player */
+    margin-top: 100px; /* Alinha com o conteúdo */
 }
 
 .build-video iframe {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Mantém a proporção de cinema */
+    aspect-ratio: 16 / 9; /* Mantém proporção de vídeo */
     display: block;
     border: none;
 }
@@ -86,10 +86,6 @@ h1 {
     color: #ffffff;
     margin: 15px 0;
     font-size: 1.15rem;
-}
-
-.equipamentos strong {
-    color: #d6b36a;
 }
 
 .btn-view {

@@ -37,24 +37,28 @@
             
             const build = await response.json();
 
-            // Lógica CORRIGIDA para extrair o ID do vídeo em qualquer formato
+            // LÓGICA COMPLETA: Resolve links normais, Shorts e links curtos (youtu.be)
             let embedUrl = null;
             if (build.video_url) {
                 let videoId = "";
                 
-                // Tenta pegar o ID após "v=" (link padrão) ou após a "/" (link curto youtu.be)
-                if (build.video_url.includes('v=')) {
+                if (build.video_url.includes('shorts/')) {
+                    // Caso seja um YouTube Shorts
+                    videoId = build.video_url.split('shorts/')[1].split(/[?&]/)[0];
+                } else if (build.video_url.includes('v=')) {
+                    // Caso seja link padrão (watch?v=)
                     videoId = build.video_url.split('v=')[1].split('&')[0];
                 } else if (build.video_url.includes('youtu.be/')) {
-                    videoId = build.video_url.split('youtu.be/')[1].split('?')[0];
+                    // Caso seja link encurtado
+                    videoId = build.video_url.split('youtu.be/')[1].split(/[?&]/)[0];
                 }
 
                 if (videoId) {
-                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                    // O formato /embed/ é obrigatório para funcionar no seu site
+                    embedUrl = `https://www.youtube.com/embed/${videoId.trim()}`;
                 }
             }
 
-            // Injeção do HTML respeitando o CSS de Grid que limpamos
             container.innerHTML = `
                 <div class="build-flex-container">
                     
