@@ -170,76 +170,94 @@ main {
     to { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
 }
 
-/* ================= RESPONSIVIDADE ================= */
+/* ================= RESPONSIVIDADE CORRIGIDA ================= */
 
-/* Tablets e Notebooks Pequenos */
-@media (max-width: 1024px) {
+/* Tablets e Telas Médias (Ajusta o Grid) */
+@media (max-width: 1100px) {
     main {
-        grid-template-columns: repeat(8, 1fr); /* Reduz colunas */
-    }
-    .top-menu {
-        left: 50%; /* Centraliza o menu */
-        width: 100%;
-        text-align: center;
-    }
-    .top-menu nav {
-        justify-content: center;
-        gap: 20px;
-    }
-}
-
-/* Celulares (Smartphones) */
-@media (max-width: 768px) {
-    body {
-        background-attachment: scroll; /* Melhora performance no mobile */
-    }
-
-    main {
-        display: flex; /* Muda de Grid para Flexbox no celular */
-        flex-direction: column;
-        height: auto;
-        padding: 20px 10px;
+        grid-template-columns: repeat(8, 1fr); /* Reduz para 8 colunas */
     }
 
     .infromaçaoadireita {
-        grid-column: 1 / -1; /* Ocupa tudo */
-        margin: 10px;
-        padding: 20px;
-        height: auto;
-        min-height: 500px;
+        grid-column: 1 / 9; /* Ocupa a largura total do novo grid */
+        margin: 20px;
     }
 
     .imagemaesquerda {
-        display: none; /* Esconde a imagem lateral no celular para focar no conteúdo */
+        grid-column: 1 / 5; /* Malenia ocupa metade */
     }
 
     .logo-area {
-        margin-top: 60px; /* Dá espaço para o menu */
-    }
-
-    .logo-area img {
-        max-width: 80%; /* Logo menor no celular */
+        grid-column: 4 / 9; /* Conteúdo ocupa a outra metade */
     }
 
     .top-menu {
-        top: 10px;
-        left: 50%;
+        left: 50% !important;
         width: 100%;
+        text-align: center;
+        top: 15px;
+    }
+}
+
+/* Celulares (Transformação Total para Vertical) */
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        background-attachment: scroll;
+    }
+
+    main {
+        display: flex; /* Mata o Grid e vira Flexbox */
+        flex-direction: column;
+        height: auto;
+        padding: 60px 15px 20px 15px;
+        gap: 0;
+    }
+
+    .infromaçaoadireita {
+        position: static;
+        width: 100%;
+        margin: 0;
+        padding: 40px 10px;
+        border-radius: 20px;
+        grid-column: auto; /* Remove dependência de grid */
+    }
+
+    /* Esconde a Malenia no celular para o texto não ficar minúsculo */
+    .imagemaesquerda {
+        display: none; 
+    }
+
+    /* Centraliza os elementos que antes eram jogados para a direita */
+    .logo-area {
+        position: static;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .logo-area img {
+        max-width: 250px; /* Logo menor no celular */
+    }
+
+    .top-menu {
+        position: fixed;
+        background: rgba(0,0,0,0.8); /* Fundo para ler o menu no celular */
+        padding: 10px 0;
+        top: 0;
     }
 
     .top-menu nav {
-        gap: 15px;
-        flex-wrap: wrap; /* Se os links não couberem, eles quebram linha */
-        justify-content: center;
+        gap: 12px;
     }
 
     .top-menu nav a {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .button-container-1 {
-        margin-top: 30px;
-        width: 100%; /* Botão largo no celular fica mais fácil de clicar */
-        max-width: 250px;
+        margin: 30px auto 0 auto;
+        position: static;
+        display: block;
     }
 }
