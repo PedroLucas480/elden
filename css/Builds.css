@@ -99,3 +99,102 @@ body {
     padding: 4px 10px;
     border-radius: 4px;
 }
+
+/* ============================================================
+   GUIA DE RESPONSIVIDADE CONSOLIDADO (MANTENDO ORIGINALIDADE)
+   ============================================================ */
+
+@media (max-width: 1100px) {
+    /* --- AJUSTES DO MENU (COMUM A TODAS AS PÁGINAS) --- */
+    .top-menu {
+        left: 50% !important;
+        width: 100%;
+        text-align: center;
+        top: 20px;
+    }
+    .top-menu nav {
+        justify-content: center;
+        gap: 20px;
+    }
+
+    /* --- LAYOUT PRINCIPAL (GRID 14x12) --- */
+    main {
+        display: flex !important; /* Desativa o grid rígido que esmaga o conteúdo */
+        flex-direction: column;
+        height: auto !important;
+        padding: 20px;
+    }
+    .infromaçaoadireita {
+        grid-column: auto !important;
+        margin: 80px 10px 20px 10px !important;
+        height: auto;
+        min-height: 80vh;
+    }
+    .imagemaesquerda {
+        display: none !important; /* Oculta para priorizar o texto no mobile */
+    }
+    .logo-area, .button-container-1 {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        margin: 30px 0;
+    }
+}
+
+@media (max-width: 992px) {
+    /* --- PÁGINA DE DETALHES (VÍDEO E MAPA) --- */
+    .build-flex-container {
+        flex-direction: column !important; /* Empilha Texto -> Vídeo -> Mapa */
+        align-items: center;
+        padding: 20px;
+    }
+    .build-texto {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: unset !important;
+    }
+    .coluna-midia-mapa {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 450px; /* Mantém sua largura original de design */
+        margin-top: 40px;
+    }
+    h1 {
+        font-size: 2.5rem !important; /* Título não vaza na tela */
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    /* --- PÁGINA DE LISTAGEM DE BUILDS (CARDS) --- */
+    body {
+        height: auto !important; /* Permite scroll para ver todos os cards */
+        background-attachment: scroll !important; /* Performance mobile */
+    }
+    .container-builds {
+        margin-top: 120px !important;
+        flex-direction: column !important; /* Cards um embaixo do outro */
+        align-items: center;
+        gap: 30px;
+        padding-bottom: 50px;
+    }
+    .build-card {
+        width: 90% !important;
+        max-width: 280px !important; /* Mantém o tamanho original do card */
+    }
+    
+    /* Ajuste fino para textos muito grandes */
+    .item-subdescricao {
+        margin-left: 5px !important;
+        font-size: 0.95rem;
+    }
+}
+
+/* Fix para telas muito pequenas (iPhone SE / Antigos) */
+@media (max-width: 380px) {
+    .top-menu nav {
+        gap: 10px;
+    }
+    .top-menu nav a {
+        font-size: 0.85rem;
+    }
+}

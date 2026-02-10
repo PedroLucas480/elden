@@ -169,3 +169,77 @@ main {
     from { -webkit-mask-position: 0 0; mask-position: 0 0; }
     to { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
 }
+
+/* ================= RESPONSIVIDADE ================= */
+
+/* Tablets e Notebooks Pequenos */
+@media (max-width: 1024px) {
+    main {
+        grid-template-columns: repeat(8, 1fr); /* Reduz colunas */
+    }
+    .top-menu {
+        left: 50%; /* Centraliza o menu */
+        width: 100%;
+        text-align: center;
+    }
+    .top-menu nav {
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+/* Celulares (Smartphones) */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll; /* Melhora performance no mobile */
+    }
+
+    main {
+        display: flex; /* Muda de Grid para Flexbox no celular */
+        flex-direction: column;
+        height: auto;
+        padding: 20px 10px;
+    }
+
+    .infromaçaoadireita {
+        grid-column: 1 / -1; /* Ocupa tudo */
+        margin: 10px;
+        padding: 20px;
+        height: auto;
+        min-height: 500px;
+    }
+
+    .imagemaesquerda {
+        display: none; /* Esconde a imagem lateral no celular para focar no conteúdo */
+    }
+
+    .logo-area {
+        margin-top: 60px; /* Dá espaço para o menu */
+    }
+
+    .logo-area img {
+        max-width: 80%; /* Logo menor no celular */
+    }
+
+    .top-menu {
+        top: 10px;
+        left: 50%;
+        width: 100%;
+    }
+
+    .top-menu nav {
+        gap: 15px;
+        flex-wrap: wrap; /* Se os links não couberem, eles quebram linha */
+        justify-content: center;
+    }
+
+    .top-menu nav a {
+        font-size: 0.9rem;
+    }
+
+    .button-container-1 {
+        margin-top: 30px;
+        width: 100%; /* Botão largo no celular fica mais fácil de clicar */
+        max-width: 250px;
+    }
+}

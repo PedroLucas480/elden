@@ -118,3 +118,66 @@ h1 {
 }
 
 /* ... (resto do seu código de estatutos e equipamentos) ... */
+
+/* ================= RESPONSIVIDADE (DETALHES) ================= */
+
+/* Para Notebooks e Tablets Grandes */
+@media (max-width: 1200px) {
+    .build-flex-container {
+        gap: 30px;
+        padding: 0 20px;
+    }
+    h1 {
+        font-size: 2.8rem; /* Diminui um pouco o título principal */
+    }
+}
+
+/* Para Tablets e Ipads */
+@media (max-width: 992px) {
+    .build-flex-container {
+        flex-direction: column; /* Empilha o texto em cima e a mídia embaixo */
+        align-items: center;
+    }
+
+    .build-texto {
+        max-width: 100%;
+        min-width: unset;
+    }
+
+    .coluna-midia-mapa {
+        flex: unset;
+        width: 100%; /* Ocupa a largura total disponível */
+        max-width: 600px; /* Mas não fica exageradamente grande */
+        margin-top: 30px;
+    }
+}
+
+/* Para Celulares (Smartphones) */
+@media (max-width: 600px) {
+    .conteudo-detalhes {
+        padding: 30px 20px; /* Reduz o respiro lateral no celular */
+    }
+
+    h1 {
+        font-size: 2rem; /* Título menor para não quebrar linha feio */
+        text-align: center;
+    }
+
+    .item-titulo {
+        font-size: 1.1rem;
+    }
+
+    .item-subdescricao {
+        margin-left: 5px; /* Traz o texto mais para a esquerda para ganhar espaço */
+        font-size: 0.95rem;
+    }
+
+    .build-mapa {
+        height: 300px; /* Reduz a altura do mapa no celular */
+    }
+
+    .coluna-midia-mapa {
+        width: 100%;
+        gap: 20px;
+    }
+}
