@@ -6,6 +6,7 @@ body {
     background: url('../imagens/Fundo.png') no-repeat center center fixed; 
     background-size: cover;
     background-color: #111;
+    overflow: hidden; /* Evita scroll durante a intro */
 }
 
 /* ================= MAIN (O CONTAINER PAI) ================= */
@@ -58,6 +59,7 @@ main {
     justify-content: center;
     text-align: center;
     color: #d6b36a;
+    z-index: 5;
 }
 
 .logo-area img {
@@ -67,12 +69,11 @@ main {
     filter: drop-shadow(0 0 12px rgba(214,179,106,0.35));
 }
 
-/* ================= MENU SUPERIOR (CENTRALIZADO COM A LOGO) ================= */
+/* ================= MENU SUPERIOR (CENTRALIZADO) ================= */
 .top-menu {
     position: absolute;
     top: 30px;
-    /* Alinhamento dinâmico: centraliza o menu no eixo da logo */
-    left: 75%; 
+    left: 75%; /* Alinha com o eixo da logo no grid */
     transform: translateX(-50%);
     z-index: 100;
 }
@@ -120,6 +121,7 @@ main {
     overflow: hidden;
     border: 1px solid #d6b36a;
     border-radius: 8px;
+    z-index: 10;
 }
 
 .button-container-1 .mas {
@@ -168,10 +170,8 @@ main {
 /* ================= TELA DE INTRODUÇÃO ================= */
 #intro-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background-color: #000;
     z-index: 9999;
     cursor: pointer;
@@ -183,10 +183,7 @@ main {
 
 #video-intro {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
     filter: brightness(0.6);
 }
@@ -198,7 +195,6 @@ main {
     font-family: Georgia, serif;
     font-size: 1.3rem;
     letter-spacing: 5px;
-    text-align: center;
     animation: pulsarIntro 2s infinite ease-in-out;
 }
 
@@ -215,32 +211,29 @@ main {
 
 /* ================= RESPONSIVIDADE ================= */
 
+/* Notebooks */
 @media (max-width: 1366px) {
-    .top-menu {
-        left: 74%; /* Ajuste leve para o centro da logo no notebook */
-    }
-    .top-menu nav {
-        gap: 20px;
-    }
-    .logo-area img {
-        max-width: 380px;
-    }
+    .top-menu { left: 74%; }
+    .top-menu nav { gap: 20px; }
+    .logo-area img { max-width: 380px; }
+    .infromaçaoadireita { margin: 0 20px; }
 }
 
+/* Tablets / Telas Médias */
+@media (max-width: 1024px) {
+    .imagemaesquerda { grid-column: 2 / 7; }
+    .logo-area { grid-column: 6 / 14; }
+    .top-menu { left: 70%; }
+}
+
+/* Celulares */
 @media (max-width: 768px) {
-    main {
-        display: flex;
-        flex-direction: column;
-        height: auto;
-        padding: 20px 10px;
-    }
+    body { overflow-y: auto; }
+    main { display: flex; flex-direction: column; height: auto; padding: 20px; }
+    .infromaçaoadireita { margin: 0; height: auto; min-height: 600px; order: 2; }
     .imagemaesquerda { display: none; }
-    .infromaçaoadireita { grid-column: 1 / -1; margin: 10px; height: auto; min-height: 500px; }
-    .top-menu { 
-        position: relative; 
-        top: 0; 
-        left: 50%; 
-        transform: translateX(-50%); 
-        margin-top: 20px; 
-    }
+    .logo-area { order: 1; margin-top: 50px; }
+    .top-menu { position: relative; left: 0; transform: none; margin: 20px 0; text-align: center; }
+    .top-menu nav { justify-content: center; flex-wrap: wrap; }
+    .button-container-1 { order: 3; margin-top: 20px; }
 }
