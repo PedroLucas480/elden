@@ -7,17 +7,28 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <main>
-        <div class="infromaçaoadireita">
-            <header class="top-menu">
-                <nav>
-                    <a href="index.html" class="active">Home</a>
-                    <a href="Builds.html">Builds</a>
-                    <a href="#">About us</a>
-                    <a href="#">Help</a>
-                </nav>
-            </header>
+
+    <div id="intro-screen" onclick="entrarNoSite()">
+        <video autoplay muted loop id="video-intro">
+            <source src="../imagens/video_intro.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos.
+        </video>
+        <div class="overlay-texto">
+            <p>CLIQUE PARA ENTRAR</p>
         </div>
+    </div>
+
+    <main>
+        <header class="top-menu">
+            <nav>
+                <a href="index.html" class="active">Home</a>
+                <a href="Builds.html">Builds</a>
+                <a href="#">About us</a>
+                <a href="#">Help</a>
+            </nav>
+        </header>
+
+        <div class="infromaçaoadireita"></div>
 
         <div class="imagemaesquerda">
             <img src="../imagens/malenia.png" alt="Malenia">
@@ -32,5 +43,21 @@
             <button type="button" onclick="window.location.href='login.html'">Login</button>
         </div>
     </main>
+
+    <script>
+        function entrarNoSite() {
+            const intro = document.getElementById('intro-screen');
+            const video = document.getElementById('video-intro');
+            
+            // Adiciona a classe que faz o fade-out suave no CSS
+            intro.classList.add('hidden-intro');
+            
+            // Pausa o vídeo após o fade para não pesar no notebook
+            setTimeout(() => {
+                video.pause();
+                intro.style.display = 'none'; // Remove do DOM para liberar memória
+            }, 1000);
+        }
+    </script>
 </body>
 </html>

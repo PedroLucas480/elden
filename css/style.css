@@ -243,3 +243,52 @@ main {
         max-width: 250px;
     }
 }
+
+/* ================= TELA DE INTRODUÇÃO (VÍDEO LOOP) ================= */
+#intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999; /* Fica acima de todo o seu grid e menu */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease, visibility 1s;
+}
+
+#video-intro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Não deixa o vídeo esticar no notebook */
+    filter: brightness(0.6);
+}
+
+.overlay-texto {
+    position: relative;
+    z-index: 10000;
+    color: #d6b36a; /* Seu dourado original */
+    font-family: Georgia, serif;
+    font-size: 1.3rem;
+    letter-spacing: 5px;
+    text-align: center;
+    animation: pulsarIntro 2s infinite ease-in-out;
+}
+
+@keyframes pulsarIntro {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Classe para esconder a intro após o clique */
+.hidden-intro {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+}
