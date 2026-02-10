@@ -44,6 +44,17 @@
         </div>
     </main>
 
-    <script src="../js/script.js"></script>
+    <script>
+        function entrarNoSite() {
+            const intro = document.getElementById('intro-screen');
+            const video = document.getElementById('video-intro');
+            intro.classList.add('hidden-intro');
+            
+            setTimeout(() => {
+                video.pause();
+                intro.style.display = 'none';
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
