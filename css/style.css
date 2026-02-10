@@ -6,15 +6,13 @@ body {
     background: url('../imagens/Fundo.png') no-repeat center center fixed; 
     background-size: cover;
     background-color: #111;
-    overflow-x: hidden; /* Evita scrolls laterais indesejados */
 }
 
 /* ================= MAIN (O CONTAINER PAI) ================= */
 main {
     display: grid;
-    /* Ajustado para colunas flexíveis que não esmagam o conteúdo no notebook */
-    grid-template-columns: repeat(14, minmax(0, 1fr));
-    grid-template-rows: repeat(12, minmax(0, 1fr));
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: repeat(12, 1fr);
     gap: 5px;
     height: 100vh;
     margin: 0;
@@ -26,8 +24,8 @@ main {
     grid-column: 2 / 14;
     grid-row: 2 / 12;
     background-color: rgba(0, 0, 0, 0.4); 
-    margin-left: 2%; /* Margens em % adaptam melhor que pixels fixos */
-    margin-right: 2%;
+    margin-left: 50px;
+    margin-right: 50px;
     border-radius: 30px;
     box-shadow: 0 0 30px 15px rgba(0, 0, 0, 0.747);
 }
@@ -37,26 +35,23 @@ main {
     display: flex;
     grid-column: 2 / 8;
     grid-row: 2 / 12;
-    margin-left: 40px;
+    margin-left: 50px;
     pointer-events: none;
-    align-items: center; /* Garante que a Malenia não suba demais no notebook */
 }
 
 .imagemaesquerda img {
     width: 100%;
     height: auto;
-    max-height: 85vh; /* Limita a altura para caber na tela do notebook */
-    object-fit: contain; 
-    object-position: center;
+    object-fit: cover;
+    object-position: 88% center;
     border-radius: 24px;
     filter: brightness(1.3) contrast(1.1); 
 }
 
 /* ================= ÁREA DA LOGO ================= */ 
 .logo-area {
-    /* Ajustado para começar na coluna 8 e não bater na Malenia */
-    grid-column: 8 / 14; 
-    grid-row: 3 / 9;
+    grid-column: 7 / 14; 
+    grid-row: 3 / 10;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,27 +62,28 @@ main {
 
 .logo-area img {
     width: 100%;
-    max-width: 450px; /* Reduzido levemente para caber no notebook */
+    max-width: 500px;
     margin-bottom: 15px;
     filter: drop-shadow(0 0 12px rgba(214,179,106,0.35));
 }
 
-/* ================= MENU SUPERIOR (CORREÇÃO DE POSIÇÃO) ================= */
+/* ================= MENU SUPERIOR ================= */
 .top-menu {
     position: absolute;
-    top: 35px;
-    right: 8%; /* Usar right garante que ele não atropele a logo no notebook */
+    top: 28px;
+    left: 72%;
+    transform: translateX(-50%);
     z-index: 100;
 }
 
 .top-menu nav {
     display: flex;
-    gap: 30px;
+    gap: 36px;
 }
 
 .top-menu nav a {
     font-family: Georgia, serif;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     letter-spacing: 1.25px;
     text-decoration: none;
     color: #d6b36a;
@@ -101,12 +97,22 @@ main {
     transform: translateY(-2px);
 }
 
-/* ================= LOGIN BUTTON (ORIGINAL PRESERVADO) ================= */
+.top-menu nav a.active::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 1px;
+    background-color: #d6b36a;
+}
+
+/* ================= LOGIN BUTTON (MANTIDO ORIGINAL) ================= */
 .button-container-1 {
-    grid-column: 8 / 14; 
-    grid-row: 9 / 11;    
+    grid-column: 7 / 14; 
+    grid-row: 10 / 11;    
     justify-self: center; 
-    align-self: center; /* Centraliza no espaço do grid */
     position: relative;
     width: 200px;
     height: 50px;
@@ -116,30 +122,83 @@ main {
     background: transparent;
 }
 
-/* ... Mantenha seus Keyframes e estilos internos do botão aqui ... */
+.button-container-1 .mas {
+    position: absolute;
+    width: 100%;
+    color: #d6b36a;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
+    z-index: 1;
+}
 
-/* ================= RESPONSIVIDADE ADAPTATIVA ================= */
+.button-container-1 button {
+    position: absolute;
+    width: 101%;
+    height: 100%;
+    z-index: 2;
+    cursor: pointer;
+    background: #d6b36a;
+    color: #000;
+    border: none;
+    font-weight: bold;
+    -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+    mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+    -webkit-mask-size: 2300% 100%;
+    mask-size: 2300% 100%;
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    transition: background 0.3s;
+    animation: ani2 0.7s steps(22) forwards;
+}
 
+.button-container-1 button:hover {
+    animation: ani 0.7s steps(22) forwards;
+}
+
+@keyframes ani {
+    from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+    to { -webkit-mask-position: 0 0; mask-position: 0 0; }
+}
+
+@keyframes ani2 {
+    from { -webkit-mask-position: 0 0; mask-position: 0 0; }
+    to { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+}
+
+/* ================= RESPONSIVIDADE ADAPTATIVA (QUALQUER TAMANHO) ================= */
+
+/* Para Notebooks Pequenos e Telas Médias */
 @media (max-width: 1200px) {
     .top-menu {
-        right: 5%;
+        left: 50%;
+        width: 100%;
+        text-align: center;
     }
-    .logo-area img {
-        max-width: 380px; /* Encolhe para não encavalar */
+    .infromaçaoadireita {
+        margin-left: 20px;
+        margin-right: 20px;
     }
 }
 
+/* Para Celulares e Tablets (Independente da marca) */
 @media (max-width: 900px) {
-    /* Código mobile que já tínhamos definido */
+    body {
+        height: auto;
+        background-attachment: scroll;
+    }
+
     main {
-        display: flex;
+        display: flex; /* Transforma o grid em flex para empilhar verticalmente */
         flex-direction: column;
         height: auto;
         padding: 40px 10px;
+        gap: 30px;
         align-items: center;
     }
+
     .infromaçaoadireita {
-        position: fixed;
+        position: fixed; /* O card escuro vira o container de fundo no mobile */
         top: 80px;
         left: 5%;
         width: 90%;
@@ -147,18 +206,50 @@ main {
         margin: 0;
         z-index: 1;
     }
-    .imagemaesquerda { display: none; }
+
+    .imagemaesquerda {
+        display: none; /* Esconde a Malenia lateral para priorizar o conteúdo no mobile */
+    }
+
     .logo-area {
-        z-index: 2;
+        z-index: 2; /* Garante que a logo fique na frente do card */
         margin-top: 80px;
         width: 100%;
     }
+
+    .logo-area img {
+        max-width: 80%; /* Logo fluida */
+    }
+
     .top-menu {
         position: fixed;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.85); /* Fundo sólido para leitura no mobile */
         width: 100%;
         top: 0;
         padding: 15px 0;
-        right: 0;
+    }
+
+    .top-menu nav {
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .top-menu nav a {
+        font-size: 0.95rem;
+    }
+
+    .button-container-1 {
+        z-index: 2;
+        margin-top: 20px;
+    }
+}
+
+/* Para Celulares Muito Pequenos */
+@media (max-width: 380px) {
+    .top-menu nav {
+        gap: 10px;
+    }
+    .top-menu nav a {
+        font-size: 0.8rem;
     }
 }
