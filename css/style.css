@@ -3,9 +3,10 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    /* Caminho relativo: sai da pasta 'css' e entra na 'imagens' */
     background: url('../imagens/Fundo.png') no-repeat center center fixed; 
     background-size: cover;
-    background-color: #111;
+    background-color: #111; /* Cor de fundo caso a imagem falhe */
 }
 
 /* ================= MAIN (O CONTAINER PAI) ================= */
@@ -19,6 +20,7 @@ main {
 }
 
 /* ================= CARD / FUNDO DIREITO ================= */
+/* DICA: Evite acentos em nomes de classes (informacaoadireita) */
 .infromaçaoadireita {
     position: relative;
     grid-column: 2 / 14;
@@ -36,7 +38,7 @@ main {
     grid-column: 2 / 8;
     grid-row: 2 / 12;
     margin-left: 50px;
-    pointer-events: none;
+    pointer-events: none; /* Garante que a imagem não bloqueie cliques no menu */
 }
 
 .imagemaesquerda img {
@@ -62,7 +64,7 @@ main {
 
 .logo-area img {
     width: 100%;
-    max-width: 500px;
+    max-width: 500px; /* Melhora a responsividade */
     margin-bottom: 15px;
     filter: drop-shadow(0 0 12px rgba(214,179,106,0.35));
 }
@@ -73,7 +75,7 @@ main {
     top: 28px;
     left: 72%;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: 100; /* Aumentado para garantir que fique acima de tudo */
 }
 
 .top-menu nav {
@@ -108,7 +110,7 @@ main {
     background-color: #d6b36a;
 }
 
-/* ================= LOGIN BUTTON (MANTIDO ORIGINAL) ================= */
+/* ================= LOGIN BUTTON (EFEITO) ================= */
 .button-container-1 {
     grid-column: 7 / 14; 
     grid-row: 10 / 11;    
@@ -142,6 +144,7 @@ main {
     color: #000;
     border: none;
     font-weight: bold;
+    /* Máscaras para o efeito de revelação */
     -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
     mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
     -webkit-mask-size: 2300% 100%;
@@ -156,6 +159,7 @@ main {
     animation: ani 0.7s steps(22) forwards;
 }
 
+/* ================= KEYFRAMES ================= */
 @keyframes ani {
     from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
     to { -webkit-mask-position: 0 0; mask-position: 0 0; }
@@ -166,90 +170,76 @@ main {
     to { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
 }
 
-/* ================= RESPONSIVIDADE ADAPTATIVA (QUALQUER TAMANHO) ================= */
+/* ================= RESPONSIVIDADE ================= */
 
-/* Para Notebooks Pequenos e Telas Médias */
-@media (max-width: 1200px) {
+/* Tablets e Notebooks Pequenos */
+@media (max-width: 1024px) {
+    main {
+        grid-template-columns: repeat(8, 1fr); /* Reduz colunas */
+    }
     .top-menu {
-        left: 50%;
+        left: 50%; /* Centraliza o menu */
         width: 100%;
         text-align: center;
     }
-    .infromaçaoadireita {
-        margin-left: 20px;
-        margin-right: 20px;
+    .top-menu nav {
+        justify-content: center;
+        gap: 20px;
     }
 }
 
-/* Para Celulares e Tablets (Independente da marca) */
-@media (max-width: 900px) {
+/* Celulares (Smartphones) */
+@media (max-width: 768px) {
     body {
-        height: auto;
-        background-attachment: scroll;
+        background-attachment: scroll; /* Melhora performance no mobile */
     }
 
     main {
-        display: flex; /* Transforma o grid em flex para empilhar verticalmente */
+        display: flex; /* Muda de Grid para Flexbox no celular */
         flex-direction: column;
         height: auto;
-        padding: 40px 10px;
-        gap: 30px;
-        align-items: center;
+        padding: 20px 10px;
     }
 
     .infromaçaoadireita {
-        position: fixed; /* O card escuro vira o container de fundo no mobile */
-        top: 80px;
-        left: 5%;
-        width: 90%;
-        height: 85%;
-        margin: 0;
-        z-index: 1;
+        grid-column: 1 / -1; /* Ocupa tudo */
+        margin: 10px;
+        padding: 20px;
+        height: auto;
+        min-height: 500px;
     }
 
     .imagemaesquerda {
-        display: none; /* Esconde a Malenia lateral para priorizar o conteúdo no mobile */
+        display: none; /* Esconde a imagem lateral no celular para focar no conteúdo */
     }
 
     .logo-area {
-        z-index: 2; /* Garante que a logo fique na frente do card */
-        margin-top: 80px;
-        width: 100%;
+        margin-top: 60px; /* Dá espaço para o menu */
     }
 
     .logo-area img {
-        max-width: 80%; /* Logo fluida */
+        max-width: 80%; /* Logo menor no celular */
     }
 
     .top-menu {
-        position: fixed;
-        background: rgba(0, 0, 0, 0.85); /* Fundo sólido para leitura no mobile */
+        top: 10px;
+        left: 50%;
         width: 100%;
-        top: 0;
-        padding: 15px 0;
     }
 
     .top-menu nav {
-        justify-content: center;
         gap: 15px;
+        flex-wrap: wrap; /* Se os links não couberem, eles quebram linha */
+        justify-content: center;
     }
 
     .top-menu nav a {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
 
     .button-container-1 {
-        z-index: 2;
-        margin-top: 20px;
-    }
-}
-
-/* Para Celulares Muito Pequenos */
-@media (max-width: 380px) {
-    .top-menu nav {
-        gap: 10px;
-    }
-    .top-menu nav a {
-        font-size: 0.8rem;
+        margin-top: 30px;
+        width: 100%; /* Botão largo no celular fica mais fácil de clicar */
+        max-width: 250px;
     }
 }
