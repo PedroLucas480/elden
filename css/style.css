@@ -244,3 +244,75 @@ main {
         margin-top: 20px; 
     }
 }
+
+/* ================= AJUSTE DE RESPONSIVIDADE (SEM QUEBRAR O ORIGINAL) ================= */
+
+@media (max-width: 768px) {
+    /* 1. Ajusta o Main para não ficar preso às 12 linhas fixas */
+    main {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: 100vh;
+        gap: 20px !important;
+        padding-bottom: 50px;
+    }
+
+    /* 2. O Card de fundo agora ocupa a largura total disponível */
+    .infromaçaoadireita {
+        position: absolute !important; /* Mantém ele como fundo do conteúdo */
+        width: calc(100% - 40px) !important;
+        height: calc(100% - 40px) !important;
+        margin: 20px !important;
+        grid-column: auto !important;
+        grid-row: auto !important;
+        z-index: 1;
+    }
+
+    /* 3. A Logo e o Menu precisam subir de camada para aparecer sobre o card */
+    .logo-area, .top-menu, .button-container-1 {
+        z-index: 2;
+        grid-column: auto !important;
+        grid-row: auto !important;
+    }
+
+    /* 4. Ajuste da Logo para não estourar a tela */
+    .logo-area {
+        margin-top: 80px; /* Espaço para o menu que virá acima */
+    }
+    
+    .logo-area img {
+        max-width: 80% !important;
+    }
+
+    /* 5. Menu Superior: vira uma lista mais compacta no topo */
+    .top-menu {
+        position: relative !important;
+        top: 20px !important;
+        left: 50% !important;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .top-menu nav {
+        gap: 15px !important;
+        flex-wrap: wrap; /* Se os links forem grandes, eles quebram linha */
+        justify-content: center;
+    }
+
+    .top-menu nav a {
+        font-size: 0.9rem !important;
+    }
+
+    /* 6. Botão de Login: centraliza ele embaixo */
+    .button-container-1 {
+        margin: 20px auto !important;
+        justify-self: center !important;
+    }
+
+    /* 7. Esconde a imagem da esquerda no celular (como você já tinha começado a fazer) */
+    .imagemaesquerda {
+        display: none !important;
+    }
+}

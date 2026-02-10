@@ -198,3 +198,35 @@ body {
         font-size: 0.85rem;
     }
 }
+
+/* ================= REFORÇOS DE SEGURANÇA (ADICIONAR AO FINAL) ================= */
+
+/* Garante que o fundo cubra toda a página se houver scroll lateral ou vertical */
+body {
+    height: auto !important; 
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Permite que os cards quebrem linha se não couberem na largura da tela */
+.container-builds {
+    flex-wrap: wrap !important;
+}
+
+/* Garante que o card não "estique" ou "encolha", mantendo sua largura original */
+.build-card {
+    flex-shrink: 0 !important;
+}
+
+/* Garante que o menu superior não seja bloqueado por outros elementos */
+.top-menu {
+    z-index: 100 !important;
+}
+
+/* Melhora a visualização do card de fundo em telas médias */
+@media (max-width: 1100px) {
+    .infromaçaoadireita {
+        min-height: 60vh !important;
+        position: relative !important;
+    }
+}
