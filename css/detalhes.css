@@ -8,42 +8,56 @@ body {
 }
 
 .conteudo-detalhes {
-    padding: 60px 50px; 
+    padding: 20px 2%; /* Reduzi o espaço fixo das laterais */
+    width: 100%;      /* Força a largura total */
+    box-sizing: border-box;
     color: #e29b00;
     font-family: Georgia, serif;
 }
 
-/* ================= ESTRUTURA LADO A LADO ================= */
+/* ================= ESTRUTURA LADO A LADO (3 COLUNAS) ================= */
 .build-flex-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center; 
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between; 
     align-items: flex-start;
-    gap: 50px; 
-    width: 100%;
-    max-width: 1500px; 
+    gap: 20px; 
+    
+    /* MUDE ESTAS DUAS LINHAS: */
+    width: 98vw;      /* Ocupa quase toda a largura da visão do usuário */
+    max-width: 100%;  /* Garante que não ultrapasse o limite da tela */
+    
     margin: 0 auto;
 }
-
-.build-texto {
-    flex: 1; 
-    min-width: 320px; 
-    max-width: 750px; 
+/* Coluna 1: Stats (Esquerda) */
+.coluna-esquerda {
+    flex: 0 0 280px; 
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 2px solid rgba(226, 155, 0, 0.5);
 }
 
-/* COLUNA DA DIREITA (VÍDEO + MAPA) */
-.coluna-midia-mapa {
-    flex: 0 0 450px; 
-    width: 450px;
+/* Coluna 2: Vídeo e Mapa (Centro) */
+.coluna-central {
+    flex: 2; 
+    min-width: 600px;
     display: flex;
     flex-direction: column;
-    gap: 30px; 
-    margin-top: 50px;
+    gap: 30px;
+}
+
+/* Coluna 3: Equipamentos e Vitrine (Direita) */
+.coluna-direita {
+    flex: 0 0 320px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    border-right: 2px solid rgba(226, 155, 0, 0.5);
 }
 
 .build-video {
     width: 100%;
-    /* Removido min-height pequeno para evitar que o vídeo "encolha" */
     background: #000 !important; 
     border: 2px solid rgba(214, 179, 106, 0.4);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
@@ -56,20 +70,18 @@ body {
 /* AJUSTE PARA O VÍDEO FICAR GRANDE */
 .build-video iframe, 
 .build-video video {
-    width: 100%; /* Força a ocupar os 450px de largura */
-    height: auto; /* Ajusta a altura proporcionalmente */
+    width: 100%; 
+    height: auto; 
     display: block;
 }
 
-/* Proporção para YouTube (Evita que fique pequeno ou com faixas pretas) */
 .build-video iframe {
     aspect-ratio: 16 / 9;
 }
 
-/* Ajuste para Vídeos Locais (MP4 tipo o Guts) */
 .build-video video {
     object-fit: contain; 
-    max-height: 700px; /* Limite para não empurrar o mapa muito para baixo */
+    max-height: 700px; 
 }
 
 .build-mapa {
@@ -87,6 +99,42 @@ body {
     border: none;
 }
 
+/* ================= VITRINE AUTOMÁTICA ================= */
+.vitrine-itens-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.item-card-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+    text-align: left;
+}
+
+.item-card-mini:hover {
+    background: rgba(214, 179, 106, 0.1);
+    transform: translateX(5px);
+}
+
+.item-card-mini img {
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
+}
+
+.item-card-mini span {
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: bold;
+}
+
 /* ================= COMPONENTES INTERNOS ================= */
 h1 {
     font-size: 3.5rem;
@@ -95,13 +143,12 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 
-/* ESTILO PARA AS LISTAS (WEAPONS / TALISMANS) */
 .secao-itens {
     margin-top: 30px;
 }
 
 .item-titulo {
-    color: #ff4d4d; /* Vermelho conforme seu print */
+    color: #ff4d4d; 
     font-weight: bold;
     font-size: 1.2rem;
     display: block;
@@ -117,67 +164,94 @@ h1 {
     display: block;
 }
 
-/* ... (resto do seu código de estatutos e equipamentos) ... */
+/* ================= RESPONSIVIDADE ULTRA-ADAPTÁVEL ================= */
 
-/* ================= RESPONSIVIDADE (DETALHES) ================= */
-
-/* Para Notebooks e Tablets Grandes */
-@media (max-width: 1200px) {
+/* Para Telas Médias (Notebooks pequenos e Tablets em pé) */
+@media (max-width: 1100px) {
     .build-flex-container {
-        gap: 30px;
-        padding: 0 20px;
-    }
-    h1 {
-        font-size: 2.8rem; /* Diminui um pouco o título principal */
-    }
-}
-
-/* Para Tablets e Ipads */
-@media (max-width: 992px) {
-    .build-flex-container {
-        flex-direction: column; /* Empilha o texto em cima e a mídia embaixo */
-        align-items: center;
+        flex-wrap: wrap; /* Permite que as colunas pulem para baixo se faltar espaço */
+        justify-content: center;
+        width: 95%;
     }
 
-    .build-texto {
-        max-width: 100%;
-        min-width: unset;
+    .coluna-esquerda, .coluna-direita {
+        flex: 1 1 300px; /* As colunas laterais tentam ficar lado a lado se couber */
     }
 
-    .coluna-midia-mapa {
-        flex: unset;
-        width: 100%; /* Ocupa a largura total disponível */
-        max-width: 600px; /* Mas não fica exageradamente grande */
-        margin-top: 30px;
+    .coluna-central {
+        flex: 1 1 100%; /* O vídeo ganha destaque total */
+        order: -1; /* Joga o vídeo para o topo em tablets */
     }
 }
 
 /* Para Celulares (Smartphones) */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .conteudo-detalhes {
-        padding: 30px 20px; /* Reduz o respiro lateral no celular */
+        padding: 20px 10px !important;
+    }
+
+    .build-flex-container {
+        flex-direction: column !important; /* Empilha tudo em uma coluna só */
+        align-items: center;
+        width: 100vw;
+    }
+
+    .coluna-esquerda, .coluna-central, .coluna-direita {
+        width: 95% !important;
+        max-width: none !important;
+        flex: none !important;
+        min-width: 0 !important;
     }
 
     h1 {
-        font-size: 2rem; /* Título menor para não quebrar linha feio */
+        font-size: 2.2rem !important; /* Diminui o título para não cortar */
         text-align: center;
     }
 
-    .item-titulo {
-        font-size: 1.1rem;
-    }
-
-    .item-subdescricao {
-        margin-left: 5px; /* Traz o texto mais para a esquerda para ganhar espaço */
-        font-size: 0.95rem;
-    }
-
     .build-mapa {
-        height: 300px; /* Reduz a altura do mapa no celular */
+        height: 300px !important; /* Mapa menor no celular */
     }
 
-    .coluna-midia-mapa {
-        width: 100%;
-        gap: 20px;
+    /* Ajuste da vitrine no celular para não ficar apertado */
+    .item-card-mini {
+        padding: 15px;
     }
+}
+
+/* ================= AJUSTES FINAIS DE FLUIDEZ ================= */
+
+/* Garante que imagens e vídeos nunca ultrapassem o limite da tela */
+img, iframe, video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Remove qualquer scroll horizontal fantasma */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* ================= BOTÃO VOLTAR AMARELO ================= */
+
+/* Seletor específico para o link de voltar */
+.conteudo-detalhes a[href*="Builds.html"], 
+.conteudo-detalhes a {
+    color: #d6b36a !important; /* Força o amarelo dourado */
+    text-decoration: none !important; /* Remove o sublinhado azul */
+    font-weight: bold !important;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #d6b36a; /* Cria uma bordinha para parecer botão */
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3); /* Um fundo escuro suave */
+    transition: 0.3s ease;
+}
+
+/* Efeito quando passa o mouse */
+.conteudo-detalhes a:hover {
+    background-color: #d6b36a !important;
+    color: #000 !important; /* O texto fica preto quando brilha */
 }

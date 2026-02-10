@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/detalhes.css">
 </head>
+
 <body>
 
     <main class="conteudo-detalhes">
@@ -16,141 +18,151 @@
     </main>
 
     <script>
-    async function carregarDetalhes() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        const container = document.getElementById('build-info');
+        async function carregarDetalhes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            const container = document.getElementById('build-info');
 
-        if (!container || !id) {
-            if (container) container.innerHTML = "<h2>Build não identificada.</h2>";
-            return;
-        }
+            if (!container || !id) {
+                if (container) container.innerHTML = "<h2>Build não identificada.</h2>";
+                return;
+            }
 
-        try {
-            const URL_RAILWAY = "https://elden-production.up.railway.app"; 
-            const apiBaseUrl = window.location.hostname === 'localhost' 
-                ? 'http://localhost:3000' 
-                : URL_RAILWAY;
+            try {
+                const URL_RAILWAY = "https://elden-production.up.railway.app";
+                const apiBaseUrl = window.location.hostname === 'localhost'
+                    ? 'http://localhost:3000'
+                    : URL_RAILWAY;
 
-            const response = await fetch(`${apiBaseUrl}/api/builds/${id}`);
-            if (!response.ok) throw new Error('Build não encontrada');
-            
-            const build = await response.json();
+                const response = await fetch(`${apiBaseUrl}/api/builds/${id}`);
+                if (!response.ok) throw new Error('Build não encontrada');
 
-            // --- LÓGICA DE VÍDEO (REVISADA PARA NÃO FICAR PEQUENO) ---
-            let videoHtml = "";
-            if (build.video_url) {
-                const url = build.video_url.toLowerCase().trim();
-                let urlFinal = build.video_url.trim();
+                const build = await response.json();
 
-                // 1. Vídeo Local (MP4 tipo o guts.mp4)
-                if (url.endsWith('.mp4')) {
-                    if (!url.startsWith('http') && !url.startsWith('../')) {
-                        urlFinal = '../' + urlFinal;
+                /* ================= VÍDEO ================= */
+                let videoHtml = "";
+                if (build.video_url) {
+                    const url = build.video_url.toLowerCase().trim();
+                    let urlFinal = build.video_url.trim();
+
+                    if (url.endsWith('.mp4')) {
+                        if (!url.startsWith('http') && !url.startsWith('../')) {
+                            urlFinal = '../' + urlFinal;
+                        }
+                        videoHtml = `<video src="${urlFinal}" autoplay muted loop controls playsinline></video>`;
                     }
-                    // Removido estilos fixos daqui para o CSS controlar
-                    videoHtml = `<video src="${urlFinal}" autoplay muted loop controls playsinline></video>`;
-                } 
-                // 2. TikTok
-                else if (url.includes('tiktok.com')) {
-                    const tiktokId = urlFinal.split('/video/')[1]?.split('?')[0];
-                    videoHtml = `<iframe src="https://www.tiktok.com/embed/v2/${tiktokId}" frameborder="0" allowfullscreen></iframe>`;
-                } 
-                // 3. YouTube
-                else {
-                    let videoId = "";
-                    if (url.includes('shorts/')) {
-                        videoId = urlFinal.split('shorts/')[1].split(/[?&]/)[0];
-                    } else if (url.includes('v=')) {
-                        videoId = urlFinal.split('v=')[1].split('&')[0];
-                    } else if (url.includes('youtu.be/')) {
-                        videoId = urlFinal.split('youtu.be/')[1].split(/[?&]/)[0];
+                    else if (url.includes('tiktok.com')) {
+                        const tiktokId = urlFinal.split('/video/')[1]?.split('?')[0];
+                        videoHtml = `<iframe src="https://www.tiktok.com/embed/v2/${tiktokId}" frameborder="0" allowfullscreen></iframe>`;
                     }
-                    
-                    if (videoId) {
-                        videoHtml = `<iframe src="https://www.youtube.com/embed/${videoId.trim()}" frameborder="0" allowfullscreen></iframe>`;
+                    else {
+                        let videoId = "";
+                        if (url.includes('shorts/')) {
+                            videoId = urlFinal.split('shorts/')[1].split(/[?&]/)[0];
+                        } else if (url.includes('v=')) {
+                            videoId = urlFinal.split('v=')[1].split('&')[0];
+                        } else if (url.includes('youtu.be/')) {
+                            videoId = urlFinal.split('youtu.be/')[1].split(/[?&]/)[0];
+                        }
+
+                        if (videoId) {
+                            videoHtml = `<iframe src="https://www.youtube.com/embed/${videoId.trim()}" frameborder="0" allowfullscreen></iframe>`;
+                        }
                     }
                 }
+
+                if (!videoHtml) {
+                    videoHtml = `<div style="padding: 40px; color: #d6b36a; text-align: center;">Vídeo em breve...</div>`;
+                }
+
+               /* ================= INJEÇÃO HTML (3 COLUNAS + ITENS AUTOMÁTICOS) ================= */
+container.innerHTML = `
+<div class="build-flex-container">
+
+    <div class="coluna-esquerda">
+        <h1>${build.nome || 'Nome da Build'}</h1>
+        <p style="color:#fff; font-style:italic; opacity:.9; font-size:1.1rem; margin-bottom:20px;">
+            ${build.descricao || 'Sem descrição'}
+        </p>
+
+        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px; font-size: 1.1rem;">
+            ESTATUTOS (STATS)
+        </h3>
+
+        <div style="line-height: 1.8; margin-top:10px; color: #e29b00; font-weight: bold;">
+            <div>VIGOR: <span style="color:#fff;">${build.vigor || 0}</span></div>
+            <div>MENTE: <span style="color:#fff;">${build.mente || 0}</span></div>
+            <div>RESISTÊNCIA: <span style="color:#fff;">${build.resistencia || 0}</span></div>
+            <div>FORÇA: <span style="color:#fff;">${build.forca || 0}</span></div>
+            <div>DESTREZA: <span style="color:#fff;">${build.destreza || 0}</span></div>
+            <div>INTELIGÊNCIA: <span style="color:#fff;">${build.inteligencia || 0}</span></div>
+            <div>FÉ: <span style="color:#fff;">${build.fe || 0}</span></div>
+            <div>ARCANO: <span style="color:#fff;">${build.arcano || 0}</span></div>
+        </div>
+    </div>
+
+    <div class="coluna-central">
+        <div class="build-video">
+            ${videoHtml}
+        </div>
+        <div class="build-mapa">
+            ${build.localizacao_url ? 
+                `<iframe src="${build.localizacao_url}" frameborder="0" allowfullscreen></iframe>` :
+                `<div style="display:flex; align-items:center; justify-content:center; height:100%; color:#d6b36a; font-weight:bold;">Mapa em breve...</div>`
             }
+        </div>
+    </div>
 
-            if (!videoHtml) {
-                videoHtml = `<div style="padding: 40px; color: #d6b36a; text-align: center;">Vídeo em breve...</div>`;
+    <div class="coluna-direita">
+        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px;">
+            EQUIPAMENTOS
+        </h3>
+        
+        <div style="margin: 15px 0; font-size: 0.95rem; line-height: 1.5;">
+            <p><strong>Arma:</strong> <span style="color:#fff;">${build.arma_principal || 'Não informada'}</span></p>
+            <p><strong>Classe:</strong> <span style="color:#fff;">${build.classe_inicial || 'Herói'}</span></p>
+            <p><strong>Onde achar:</strong> <span style="color:#fff;">${build.localizacao_nome || 'Explorando'}</span></p>
+        </div>
+
+        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px; margin-top:20px;">
+            VITRINE AUTOMÁTICA
+        </h3>
+
+        <div class="vitrine-itens-grid">
+            <div class="item-card-mini">
+                <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/${(build.arma_principal || 'Greatsword').replace(/ /g, "+")}_Icon.png" 
+                     onerror="this.src='../imagens/greatsword.png'">
+                <span>${build.arma_principal || 'Arma'}</span>
+            </div>
+
+            <div class="item-card-mini">
+                <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/Shard+of+Alexander_Icon.png">
+                <span>Alexander Shard</span>
+            </div>
+
+            <div class="item-card-mini">
+                <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/Erdtree's+Favor_Icon.png">
+                <span>Erdtree Favor</span>
+            </div>
+        </div>
+
+        <div style="margin-top:30px; text-align:center;">
+            <a href="Builds.html" style="border: 1px solid #d6b36a; padding: 8px 15px; color: #d6b36a; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                ← VOLTAR
+            </a>
+        </div>
+    </div>
+
+</div>
+`;
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<h2 style="color:#d6b36a;">Erro: ${error.message}</h2>`;
             }
-
-            // --- INJEÇÃO DO HTML (Mantendo sua estrutura original) ---
-            container.innerHTML = `
-                <div class="build-flex-container">
-                    
-                    <div class="build-texto">
-                        <h1>${build.nome || 'Nome da Build'}</h1>
-                        <p style="color: #ffffff; font-style: italic; opacity: 0.9;">${build.descricao || 'Sem descrição'}</p>
-                        
-                        <h3 style="margin-top:30px;">ESTATUTOS (STATS)</h3>
-                        <div class="grid-stats">
-                            <div class="stat-item">VIGOR: ${build.vigor || 0}</div>
-                            <div class="stat-item">MENTE: ${build.mente || 0}</div>
-                            <div class="stat-item">RESISTÊNCIA: ${build.resistencia || 0}</div>
-                            <div class="stat-item">FORÇA: ${build.forca || 0}</div>
-                            <div class="stat-item">DESTREZA: ${build.destreza || 0}</div>
-                            <div class="stat-item)INTELIGÊNCIA: ${build.inteligencia || 0}</div>
-                            <div class="stat-item">FÉ: ${build.fe || 0}</div>
-                            <div class="stat-item">ARCANO: ${build.arcano || 0}</div>
-                        </div>
-
-                        <div class="equipamentos">
-                            <h3>EQUIPAMENTOS E LOCALIZAÇÃO</h3>
-                            <p><strong>Arma Principal:</strong> ${build.arma_principal || 'Não informada'}</p>
-                            <p><strong>Classe Inicial Sugerida:</strong> ${build.classe_inicial || 'Qualquer uma'}</p>
-                            <p><strong>Onde encontrar:</strong> ${build.localizacao_nome || 'Explorando o mapa'}</p>
-                        </div>
-
-                        <div class="secao-itens-detalhada" style="margin-top: 40px;">
-                            <h2 style="border-bottom: 1px solid #d6b36a; padding-bottom: 10px;">Weapons</h2>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 20px;">
-                                    <strong style="color: #ff4d4d; font-size: 1.2rem;">• Greatsword (Colossal)</strong>
-                                    <p style="color: #ccc; margin-left: 20px;">Esta arma servirá a esta build com seu alto escalonamento de força.</p>
-                                </li>
-                            </ul>
-
-                            <h2 style="border-bottom: 1px solid #d6b36a; padding-bottom: 10px; margin-top: 30px;">Talismans</h2>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 20px;">
-                                    <strong style="color: #ff4d4d; font-size: 1.2rem;">• Shard of Alexander</strong>
-                                    <p style="color: #ccc; margin-left: 20px;">Aumenta drasticamente o dano de ataque das habilidades de arma.</p>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div style="margin-top: 40px;">
-                            <a href="Builds.html" class="btn-view">← Voltar para lista</a>
-                        </div>
-                    </div>
-
-                    <div class="coluna-midia-mapa">
-                        <div class="build-video">
-                            ${videoHtml}
-                        </div>
-
-                        <div class="build-mapa">
-                             ${build.localizacao_url ? 
-                                `<iframe src="${build.localizacao_url}" frameborder="0" allowfullscreen></iframe>` :
-                                `<div style="padding: 20px; color: #d6b36a; text-align: center;">Mapa em breve...</div>`
-                             }
-                        </div>
-                    </div>
-
-                </div>
-            `;
-
-        } catch (error) {
-            console.error("Erro:", error);
-            container.innerHTML = `<h2 style="color: #d6b36a;">Erro: ${error.message}</h2>
-            <a href="Builds.html" class="btn-view">Voltar</a>`;
         }
-    }
 
-    window.addEventListener('DOMContentLoaded', carregarDetalhes);
+        window.addEventListener('DOMContentLoaded', carregarDetalhes);
     </script>
+
 </body>
 </html>

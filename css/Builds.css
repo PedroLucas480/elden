@@ -230,3 +230,51 @@ body {
         position: relative !important;
     }
 }
+/* ================= AJUSTE FINAL 2x2 PARA O CELULAR ================= */
+
+@media (max-width: 768px) {
+    /* 1. Ajusta o fundo para caber os cards 2x2 */
+    .infromaçaoadireita {
+        margin: 80px 10px 20px 10px !important;
+        padding: 10px !important;
+        width: calc(100% - 20px) !important;
+    }
+
+    /* 2. Força o Grid 2x2 */
+    .container-builds {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important; /* Duas colunas */
+        gap: 10px !important; 
+        margin-top: 100px !important;
+        padding: 5px !important;
+        justify-items: center;
+    }
+
+    /* 3. Ajusta o tamanho do card para caber na coluna */
+    .build-card {
+        width: 100% !important;
+        max-width: 160px !important; /* Tamanho ideal para 2 colunas */
+        padding: 10px !important;
+        box-sizing: border-box;
+    }
+
+    /* 4. Diminui a imagem para não estourar o card */
+    .build-img img {
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    /* 5. Ajuste de textos */
+    .build-txt h3 {
+        font-size: 0.8rem !important;
+    }
+    
+    .build-txt p {
+        display: none !important; /* Esconde o parágrafo para manter o 2x2 alinhado */
+    }
+
+    .status {
+        font-size: 0.65rem !important;
+        padding: 2px 5px !important;
+    }
+}
