@@ -20,7 +20,7 @@ main {
 
 /* ================= CARD / FUNDO DIREITO ================= */
 .infromaçaoadireita {
-    position: relative; /* Mantido relativo para prender o menu aqui dentro */
+    position: relative; 
     grid-column: 2 / 14;
     grid-row: 2 / 12;
     background-color: rgba(0, 0, 0, 0.4); 
@@ -67,12 +67,13 @@ main {
     filter: drop-shadow(0 0 12px rgba(214,179,106,0.35));
 }
 
-/* ================= MENU SUPERIOR (DENTRO DA CAIXA) ================= */
-/* Corrigido para alinhar à direita dentro da caixa preta como na foto */
+/* ================= MENU SUPERIOR (CENTRALIZADO COM A LOGO) ================= */
 .top-menu {
     position: absolute;
     top: 30px;
-    right: 50px; /* Alinhamento fixo à direita da caixa */
+    /* Alinhamento dinâmico: centraliza o menu no eixo da logo */
+    left: 75%; 
+    transform: translateX(-50%);
     z-index: 100;
 }
 
@@ -214,16 +215,15 @@ main {
 
 /* ================= RESPONSIVIDADE ================= */
 
-/* Ajuste específico para o Notebook não encavalar o menu na logo */
 @media (max-width: 1366px) {
     .top-menu {
-        right: 30px;
+        left: 74%; /* Ajuste leve para o centro da logo no notebook */
     }
     .top-menu nav {
         gap: 20px;
     }
     .logo-area img {
-        max-width: 400px;
+        max-width: 380px;
     }
 }
 
@@ -236,5 +236,11 @@ main {
     }
     .imagemaesquerda { display: none; }
     .infromaçaoadireita { grid-column: 1 / -1; margin: 10px; height: auto; min-height: 500px; }
-    .top-menu { position: relative; top: 0; right: 0; margin-top: 20px; }
+    .top-menu { 
+        position: relative; 
+        top: 0; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        margin-top: 20px; 
+    }
 }
