@@ -3,10 +3,9 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    /* Caminho relativo: sai da pasta 'css' e entra na 'imagens' */
     background: url('../imagens/Fundo.png') no-repeat center center fixed; 
     background-size: cover;
-    background-color: #111; /* Cor de fundo caso a imagem falhe */
+    background-color: #111;
 }
 
 /* ================= MAIN (O CONTAINER PAI) ================= */
@@ -20,9 +19,8 @@ main {
 }
 
 /* ================= CARD / FUNDO DIREITO ================= */
-/* DICA: Evite acentos em nomes de classes (informacaoadireita) */
 .infromaçaoadireita {
-    position: relative;
+    position: relative; /* Mantido relativo para prender o menu aqui dentro */
     grid-column: 2 / 14;
     grid-row: 2 / 12;
     background-color: rgba(0, 0, 0, 0.4); 
@@ -38,7 +36,7 @@ main {
     grid-column: 2 / 8;
     grid-row: 2 / 12;
     margin-left: 50px;
-    pointer-events: none; /* Garante que a imagem não bloqueie cliques no menu */
+    pointer-events: none;
 }
 
 .imagemaesquerda img {
@@ -64,18 +62,18 @@ main {
 
 .logo-area img {
     width: 100%;
-    max-width: 500px; /* Melhora a responsividade */
+    max-width: 500px;
     margin-bottom: 15px;
     filter: drop-shadow(0 0 12px rgba(214,179,106,0.35));
 }
 
-/* ================= MENU SUPERIOR ================= */
+/* ================= MENU SUPERIOR (DENTRO DA CAIXA) ================= */
+/* Corrigido para alinhar à direita dentro da caixa preta como na foto */
 .top-menu {
     position: absolute;
-    top: 28px;
-    left: 72%;
-    transform: translateX(-50%);
-    z-index: 100; /* Aumentado para garantir que fique acima de tudo */
+    top: 30px;
+    right: 50px; /* Alinhamento fixo à direita da caixa */
+    z-index: 100;
 }
 
 .top-menu nav {
@@ -110,7 +108,7 @@ main {
     background-color: #d6b36a;
 }
 
-/* ================= LOGIN BUTTON (EFEITO) ================= */
+/* ================= LOGIN BUTTON ================= */
 .button-container-1 {
     grid-column: 7 / 14; 
     grid-row: 10 / 11;    
@@ -121,7 +119,6 @@ main {
     overflow: hidden;
     border: 1px solid #d6b36a;
     border-radius: 8px;
-    background: transparent;
 }
 
 .button-container-1 .mas {
@@ -144,14 +141,12 @@ main {
     color: #000;
     border: none;
     font-weight: bold;
-    /* Máscaras para o efeito de revelação */
     -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
     mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
     -webkit-mask-size: 2300% 100%;
     mask-size: 2300% 100%;
     -webkit-mask-position: 100% 0;
     mask-position: 100% 0;
-    transition: background 0.3s;
     animation: ani2 0.7s steps(22) forwards;
 }
 
@@ -159,7 +154,6 @@ main {
     animation: ani 0.7s steps(22) forwards;
 }
 
-/* ================= KEYFRAMES ================= */
 @keyframes ani {
     from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
     to { -webkit-mask-position: 0 0; mask-position: 0 0; }
@@ -170,81 +164,7 @@ main {
     to { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
 }
 
-/* ================= RESPONSIVIDADE ================= */
-
-/* Tablets e Notebooks Pequenos */
-@media (max-width: 1024px) {
-    main {
-        grid-template-columns: repeat(8, 1fr); /* Reduz colunas */
-    }
-    .top-menu {
-        left: 50%; /* Centraliza o menu */
-        width: 100%;
-        text-align: center;
-    }
-    .top-menu nav {
-        justify-content: center;
-        gap: 20px;
-    }
-}
-
-/* Celulares (Smartphones) */
-@media (max-width: 768px) {
-    body {
-        background-attachment: scroll; /* Melhora performance no mobile */
-    }
-
-    main {
-        display: flex; /* Muda de Grid para Flexbox no celular */
-        flex-direction: column;
-        height: auto;
-        padding: 20px 10px;
-    }
-
-    .infromaçaoadireita {
-        grid-column: 1 / -1; /* Ocupa tudo */
-        margin: 10px;
-        padding: 20px;
-        height: auto;
-        min-height: 500px;
-    }
-
-    .imagemaesquerda {
-        display: none; /* Esconde a imagem lateral no celular para focar no conteúdo */
-    }
-
-    .logo-area {
-        margin-top: 60px; /* Dá espaço para o menu */
-    }
-
-    .logo-area img {
-        max-width: 80%; /* Logo menor no celular */
-    }
-
-    .top-menu {
-        top: 10px;
-        left: 50%;
-        width: 100%;
-    }
-
-    .top-menu nav {
-        gap: 15px;
-        flex-wrap: wrap; /* Se os links não couberem, eles quebram linha */
-        justify-content: center;
-    }
-
-    .top-menu nav a {
-        font-size: 0.9rem;
-    }
-
-    .button-container-1 {
-        margin-top: 30px;
-        width: 100%; /* Botão largo no celular fica mais fácil de clicar */
-        max-width: 250px;
-    }
-}
-
-/* ================= TELA DE INTRODUÇÃO (VÍDEO LOOP) ================= */
+/* ================= TELA DE INTRODUÇÃO ================= */
 #intro-screen {
     position: fixed;
     top: 0;
@@ -252,7 +172,7 @@ main {
     width: 100%;
     height: 100%;
     background-color: #000;
-    z-index: 9999; /* Fica acima de todo o seu grid e menu */
+    z-index: 9999;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -266,14 +186,14 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Não deixa o vídeo esticar no notebook */
+    object-fit: cover;
     filter: brightness(0.6);
 }
 
 .overlay-texto {
     position: relative;
     z-index: 10000;
-    color: #d6b36a; /* Seu dourado original */
+    color: #d6b36a;
     font-family: Georgia, serif;
     font-size: 1.3rem;
     letter-spacing: 5px;
@@ -286,9 +206,35 @@ main {
     50% { opacity: 1; transform: scale(1.05); }
 }
 
-/* Classe para esconder a intro após o clique */
 .hidden-intro {
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none;
+}
+
+/* ================= RESPONSIVIDADE ================= */
+
+/* Ajuste específico para o Notebook não encavalar o menu na logo */
+@media (max-width: 1366px) {
+    .top-menu {
+        right: 30px;
+    }
+    .top-menu nav {
+        gap: 20px;
+    }
+    .logo-area img {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding: 20px 10px;
+    }
+    .imagemaesquerda { display: none; }
+    .infromaçaoadireita { grid-column: 1 / -1; margin: 10px; height: auto; min-height: 500px; }
+    .top-menu { position: relative; top: 0; right: 0; margin-top: 20px; }
 }

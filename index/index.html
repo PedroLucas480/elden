@@ -19,16 +19,16 @@
     </div>
 
     <main>
-        <header class="top-menu">
-            <nav>
-                <a href="index.html" class="active">Home</a>
-                <a href="Builds.html">Builds</a>
-                <a href="#">About us</a>
-                <a href="#">Help</a>
-            </nav>
-        </header>
-
-        <div class="infromaçaoadireita"></div>
+        <div class="infromaçaoadireita">
+            <header class="top-menu">
+                <nav>
+                    <a href="index.html" class="active">Home</a>
+                    <a href="Builds.html">Builds</a>
+                    <a href="#">About us</a>
+                    <a href="#">Help</a>
+                </nav>
+            </header>
+        </div>
 
         <div class="imagemaesquerda">
             <img src="../imagens/malenia.png" alt="Malenia">
@@ -48,14 +48,11 @@
         function entrarNoSite() {
             const intro = document.getElementById('intro-screen');
             const video = document.getElementById('video-intro');
-            
-            // Adiciona a classe que faz o fade-out suave no CSS
             intro.classList.add('hidden-intro');
             
-            // Pausa o vídeo após o fade para não pesar no notebook
             setTimeout(() => {
                 video.pause();
-                intro.style.display = 'none'; // Remove do DOM para liberar memória
+                intro.style.display = 'none';
             }, 1000);
         }
     </script>
