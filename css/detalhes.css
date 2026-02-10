@@ -43,6 +43,7 @@ body {
 
 .build-video {
     width: 100%;
+    /* Removido min-height pequeno para evitar que o vídeo "encolha" */
     background: #000 !important; 
     border: 2px solid rgba(214, 179, 106, 0.4);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
@@ -52,20 +53,23 @@ body {
     flex-direction: column;
 }
 
+/* AJUSTE PARA O VÍDEO FICAR GRANDE */
 .build-video iframe, 
 .build-video video {
-    width: 100%; 
-    height: auto; 
+    width: 100%; /* Força a ocupar os 450px de largura */
+    height: auto; /* Ajusta a altura proporcionalmente */
     display: block;
 }
 
+/* Proporção para YouTube (Evita que fique pequeno ou com faixas pretas) */
 .build-video iframe {
     aspect-ratio: 16 / 9;
 }
 
+/* Ajuste para Vídeos Locais (MP4 tipo o Guts) */
 .build-video video {
     object-fit: contain; 
-    max-height: 700px; 
+    max-height: 700px; /* Limite para não empurrar o mapa muito para baixo */
 }
 
 .build-mapa {
@@ -91,12 +95,13 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 
+/* ESTILO PARA AS LISTAS (WEAPONS / TALISMANS) */
 .secao-itens {
     margin-top: 30px;
 }
 
 .item-titulo {
-    color: #ff4d4d; 
+    color: #ff4d4d; /* Vermelho conforme seu print */
     font-weight: bold;
     font-size: 1.2rem;
     display: block;
@@ -112,21 +117,25 @@ h1 {
     display: block;
 }
 
-/* ================= RESPONSIVIDADE CORRIGIDA ================= */
+/* ... (resto do seu código de estatutos e equipamentos) ... */
 
+/* ================= RESPONSIVIDADE (DETALHES) ================= */
+
+/* Para Notebooks e Tablets Grandes */
 @media (max-width: 1200px) {
     .build-flex-container {
         gap: 30px;
         padding: 0 20px;
     }
     h1 {
-        font-size: 2.8rem;
+        font-size: 2.8rem; /* Diminui um pouco o título principal */
     }
 }
 
+/* Para Tablets e Ipads */
 @media (max-width: 992px) {
     .build-flex-container {
-        flex-direction: column; 
+        flex-direction: column; /* Empilha o texto em cima e a mídia embaixo */
         align-items: center;
     }
 
@@ -136,24 +145,21 @@ h1 {
     }
 
     .coluna-midia-mapa {
-        flex: none; /* Remove o flex fixo de 450px */
-        width: 100%; 
-        max-width: 600px; 
+        flex: unset;
+        width: 100%; /* Ocupa a largura total disponível */
+        max-width: 600px; /* Mas não fica exageradamente grande */
         margin-top: 30px;
     }
 }
 
+/* Para Celulares (Smartphones) */
 @media (max-width: 600px) {
-    body {
-        background-attachment: scroll; /* Melhora o scroll em celulares */
-    }
-
     .conteudo-detalhes {
-        padding: 40px 15px; /* Padding menor para não apertar o texto */
+        padding: 30px 20px; /* Reduz o respiro lateral no celular */
     }
 
     h1 {
-        font-size: 2.2rem;
+        font-size: 2rem; /* Título menor para não quebrar linha feio */
         text-align: center;
     }
 
@@ -162,17 +168,16 @@ h1 {
     }
 
     .item-subdescricao {
-        margin-left: 10px;
+        margin-left: 5px; /* Traz o texto mais para a esquerda para ganhar espaço */
         font-size: 0.95rem;
     }
 
     .build-mapa {
-        height: 300px; 
+        height: 300px; /* Reduz a altura do mapa no celular */
     }
 
     .coluna-midia-mapa {
-        width: 100% !important; /* Força a largura total do celular */
-        margin-top: 20px;
-        flex: none;
+        width: 100%;
+        gap: 20px;
     }
 }

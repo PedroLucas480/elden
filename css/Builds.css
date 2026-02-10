@@ -1,7 +1,7 @@
 /* ================= GRID / BASE ================= */
 body {
     margin: 0 auto;
-    min-height: 100vh; /* Alterado para min-height para permitir scroll no mobile */
+    height: 100vh;
     padding: 0;
     background: url('../imagens/Fundo.png') no-repeat center center fixed;
     background-size: cover;
@@ -36,28 +36,27 @@ body {
     opacity: 1;
 }
 
-/* ================= CONTAINER DAS BUILDS ================= */
+/* ================= CONTAINER DAS BUILDS (EM COLUNAS SEM SCROLL) ================= */
 .container-builds {
-    margin-top: 120px;
+    margin-top: 120px; /* Espaço para não bater no menu */
     padding: 20px 40px;
     display: flex;
-    flex-direction: row; 
+    flex-direction: row; /* Coloca uma do lado da outra */
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap; /* Adicionado para os cards pularem de linha se não couberem */
 }
 
-/* Estilo de cada cartão (Mantido Original) */
+/* Estilo de cada cartão */
 .build-card {
     background: rgba(214, 179, 106, 0.05);
     border: 1px solid rgba(214, 179, 106, 0.3);
     border-radius: 15px;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column; /* Conteúdo em pé dentro do card */
     padding: 20px;
     align-items: center;
     text-align: center;
-    width: 280px; 
+    width: 280px; /* Largura fixa para caberem 3 sem scroll */
     transition: 0.3s;
 }
 
@@ -67,6 +66,7 @@ body {
     transform: translateY(-5px);
 }
 
+/* IMAGEM MAIS ILUMINADA */
 .build-img img {
     width: 120px;
     height: 120px;
@@ -75,22 +75,23 @@ body {
     filter: brightness(1.4) drop-shadow(0 0 10px rgba(214, 179, 106, 0.4));
 }
 
+/* TEXTOS TODOS DOURADOS */
 .build-txt h3 {
-    color: #d6b36a;
+    color: #d6b36a; /* Dourado */
     margin: 0 0 10px 0;
     font-family: Georgia, serif;
     text-transform: uppercase;
 }
 
 .build-txt p {
-    color: #d6b36a;
+    color: #d6b36a; /* Letras douradas no parágrafo também */
     font-size: 0.9rem;
     margin: 0 0 15px 0;
     opacity: 0.9;
 }
 
 .status {
-    color: #d6b36a;
+    color: #d6b36a; /* Dourado no status */
     font-size: 0.75rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -99,42 +100,101 @@ body {
     border-radius: 4px;
 }
 
-/* ================= RESPONSIVIDADE (CONSOLIDADA E ORIGINAL) ================= */
+/* ============================================================
+   GUIA DE RESPONSIVIDADE CONSOLIDADO (MANTENDO ORIGINALIDADE)
+   ============================================================ */
 
 @media (max-width: 1100px) {
+    /* --- AJUSTES DO MENU (COMUM A TODAS AS PÁGINAS) --- */
     .top-menu {
-        left: 50% !important; /* Centraliza o menu em telas menores */
+        left: 50% !important;
         width: 100%;
         text-align: center;
+        top: 20px;
     }
-    
-    .container-builds {
-        margin-top: 150px; /* Mais espaço para o menu centralizado */
+    .top-menu nav {
+        justify-content: center;
+        gap: 20px;
+    }
+
+    /* --- LAYOUT PRINCIPAL (GRID 14x12) --- */
+    main {
+        display: flex !important; /* Desativa o grid rígido que esmaga o conteúdo */
+        flex-direction: column;
+        height: auto !important;
+        padding: 20px;
+    }
+    .infromaçaoadireita {
+        grid-column: auto !important;
+        margin: 80px 10px 20px 10px !important;
+        height: auto;
+        min-height: 80vh;
+    }
+    .imagemaesquerda {
+        display: none !important; /* Oculta para priorizar o texto no mobile */
+    }
+    .logo-area, .button-container-1 {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        margin: 30px 0;
+    }
+}
+
+@media (max-width: 992px) {
+    /* --- PÁGINA DE DETALHES (VÍDEO E MAPA) --- */
+    .build-flex-container {
+        flex-direction: column !important; /* Empilha Texto -> Vídeo -> Mapa */
+        align-items: center;
+        padding: 20px;
+    }
+    .build-texto {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: unset !important;
+    }
+    .coluna-midia-mapa {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 450px; /* Mantém sua largura original de design */
+        margin-top: 40px;
+    }
+    h1 {
+        font-size: 2.5rem !important; /* Título não vaza na tela */
+        text-align: center;
     }
 }
 
 @media (max-width: 768px) {
+    /* --- PÁGINA DE LISTAGEM DE BUILDS (CARDS) --- */
     body {
-        height: auto !important;
-        background-attachment: scroll !important; /* Melhora fluidez no celular */
+        height: auto !important; /* Permite scroll para ver todos os cards */
+        background-attachment: scroll !important; /* Performance mobile */
     }
-
     .container-builds {
-        flex-direction: column !important; /* Empilha os cards verticalmente */
+        margin-top: 120px !important;
+        flex-direction: column !important; /* Cards um embaixo do outro */
         align-items: center;
-        padding: 20px 10px;
+        gap: 30px;
+        padding-bottom: 50px;
     }
-
     .build-card {
-        width: 85% !important; /* Card ocupa quase toda a largura, mas mantém estilo */
-        max-width: 280px;
+        width: 90% !important;
+        max-width: 280px !important; /* Mantém o tamanho original do card */
     }
+    
+    /* Ajuste fino para textos muito grandes */
+    .item-subdescricao {
+        margin-left: 5px !important;
+        font-size: 0.95rem;
+    }
+}
 
+/* Fix para telas muito pequenas (iPhone SE / Antigos) */
+@media (max-width: 380px) {
     .top-menu nav {
-        gap: 20px; /* Reduz espaço entre links no celular */
+        gap: 10px;
     }
-
     .top-menu nav a {
-        font-size: 1rem;
+        font-size: 0.85rem;
     }
 }
