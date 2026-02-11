@@ -100,39 +100,71 @@ body {
 }
 
 /* ================= VITRINE AUTOMÁTICA ================= */
-.vitrine-itens-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 15px;
+/* Container da Vitrine */
+.vitrine-container {
+    padding: 20px;
 }
 
+/* Cards mais suaves */
 .item-card-mini {
     display: flex;
     align-items: center;
-    gap: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 10px;
-    border-radius: 5px;
-    transition: 0.3s;
-    text-align: left;
+    background: rgba(255, 255, 255, 0.05); /* Fundo sutil */
+    border-left: 3px solid #d6b36a; /* Barra lateral em vez de borda total */
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease; /* Transição suave */
 }
 
 .item-card-mini:hover {
     background: rgba(214, 179, 106, 0.1);
-    transform: translateX(5px);
+    transform: translateX(8px);
 }
 
-.item-card-mini img {
-    width: 50px !important;
-    height: 50px !important;
-    object-fit: contain;
-}
-
-.item-card-mini span {
+.item-link {
+    color: #d6b36a;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     font-size: 0.9rem;
-    color: #fff;
+}
+
+.hint {
+    display: block;
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+.item-marker {
+    margin-right: 15px;
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+/* ESTILO DO BOTÃO DE VOLTAR */
+.btn-container {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #d6b36a;
+    color: #d6b36a;
+    text-decoration: none;
+    font-size: 0.8rem;
     font-weight: bold;
+    transition: all 0.3s;
+    background: transparent;
+}
+
+.btn-voltar:hover {
+    background: #d6b36a;
+    color: #000;
 }
 
 /* ================= COMPONENTES INTERNOS ================= */

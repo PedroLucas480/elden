@@ -4,6 +4,9 @@ const path = require('path');
 const db = require('./db'); 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+// --- ADICIONE ESTAS DUAS LINHAS PARA A VISTORIA ---
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 const app = express();
 
@@ -37,6 +40,8 @@ const inicializarBanco = () => {
             fe INT DEFAULT 0,
             arcano INT DEFAULT 0,
             dificuldade VARCHAR(20),
+            video_url VARCHAR(255), -- Coluna para vídeos
+            itens_vitrine TEXT,     -- Coluna para itens automáticos
             usuario_id INT,
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         );`;
@@ -66,9 +71,33 @@ app.use(cors({
 
 app.use(express.json());
 
-// --- ARQUIVOS ESTÁTICOS (Necessário para o CSS/Imagens carregarem) ---
+// --- ARQUIVOS ESTÁTICOS ---
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/imagens', express.static(path.join(__dirname, 'imagens')));
+
+// --- NOVA ROTA: VISTORIA AUTOMÁTICA (SCRAPER EIP.GG) ---
+app.get('/api/scrape-eip', async (req, res) => {
+    const { url } = req.query;
+    if (!url || !url.includes('eip.gg')) {
+        return res.status(400).json({ erro: "Link inválido. Use um link da eip.gg" });
+    }
+    try {
+        const { data } = await axios.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        const $ = cheerio.load(data);
+        let itensEncontrados = [];
+
+        $('.wp-block-eip-ring-db-item-link, a[href*="/elden-ring/db/"]').each((i, el) => {
+            const nome = $(el).text().trim();
+            if (nome && !itensEncontrados.includes(nome)) {
+                itensEncontrados.push(nome);
+            }
+        });
+
+        res.json({ sucesso: true, itens: itensEncontrados.slice(0, 12) });
+    } catch (error) {
+        res.status(500).json({ erro: "Erro ao vistoriar o site parceiro." });
+    }
+});
 
 // --- BUILDS (LISTA COMPLETA) ---
 app.get('/api/builds', (req, res) => {
