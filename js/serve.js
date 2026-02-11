@@ -12,12 +12,14 @@ const app = express();
 
 // --- INICIALIZAÇÃO DO BANCO DE DADOS ---
 const inicializarBanco = () => {
+    // CORREÇÃO: Adicionada a coluna foto_url LONGTEXT para salvar a imagem
     const sqlUsuarios = `
         CREATE TABLE IF NOT EXISTS usuarios (
             id INT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(100) NOT NULL UNIQUE,
             email VARCHAR(100) NOT NULL UNIQUE,
             senha VARCHAR(255) NOT NULL,
+            foto_url LONGTEXT,
             criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
 
@@ -69,7 +71,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json());
+// CORREÇÃO: Aumentado o limite para aceitar fotos (Resolve o erro 413)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // --- ARQUIVOS ESTÁTICOS ---
 app.use('/css', express.static(path.join(__dirname, 'css')));
@@ -162,9 +166,31 @@ app.post('/api/login', (req, res) => {
         res.json({ 
             logado: true, 
             token, 
-            usuario: { email: usuario.email, username: usuario.username } 
+            usuario: { 
+                email: usuario.email, 
+                username: usuario.username,
+                foto: usuario.foto_url // CORREÇÃO: Envia a foto no login também
+            } 
         });
     });
+});
+
+// Rota para atualizar perfil
+app.put('/api/usuario/update', (req, res) => {
+    const { username, foto, email } = req.body;
+    
+    // CORREÇÃO: Query ajustada para garantir que foto_url receba os dados
+    db.query(
+        'UPDATE usuarios SET username = ?, foto_url = ? WHERE email = ?',
+        [username, foto, email],
+        (err, result) => {
+            if (err) {
+                console.error("Erro no Update:", err);
+                return res.status(500).json({ erro: "Erro ao atualizar" });
+            }
+            res.json({ mensagem: "Perfil atualizado!" });
+        }
+    );
 });
 
 // --- START ---

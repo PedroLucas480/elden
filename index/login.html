@@ -2,19 +2,113 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css"> 
     <title>Elden Builds - Login</title>
+    <style>
+        /* Reset básico e centralização */
+        body {
+            background: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Container principal responsivo */
+        .login-box {
+            text-align: center;
+            background: #1a1a1a;
+            padding: 40px 20px;
+            border: 1px solid #c1a35f;
+            width: 90%; /* Ocupa a largura do celular */
+            max-width: 380px; /* Limite para telas grandes */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            border-radius: 4px;
+        }
+
+        h2 {
+            color: #c1a35f;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1.5rem;
+        }
+
+        /* Inputs ocupando largura total da box */
+        input {
+            display: block;
+            margin: 15px auto;
+            padding: 12px;
+            width: 100%;
+            box-sizing: border-box; /* Essencial para o padding não 'vazar' */
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            font-size: 16px; /* Evita zoom automático no iPhone */
+        }
+
+        input:focus {
+            border-color: #c1a35f;
+            outline: none;
+            background: #2a2a2a;
+        }
+
+        /* Botão adaptável */
+        #btnLogar {
+            margin-top: 10px;
+            padding: 14px;
+            cursor: pointer;
+            background: #c1a35f;
+            border: none;
+            font-weight: bold;
+            width: 100%;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        #btnLogar:hover {
+            background: #e2c074;
+            transform: translateY(-2px);
+        }
+
+        #btnLogar:active {
+            transform: translateY(0);
+        }
+
+        /* Links de rodapé */
+        p {
+            margin-top: 20px;
+        }
+
+        p a {
+            color: #aaa;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        p a:hover {
+            color: #c1a35f;
+        }
+    </style>
 </head>
-<body style="background: #111; color: white; display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div class="login-box" style="text-align: center; background: #1a1a1a; padding: 30px; border: 1px solid #c1a35f;">
+<body>
+    <div class="login-box">
         <h2>Entrar</h2>
-        <input type="email" id="email" placeholder="Email" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
-        <input type="password" id="senha" placeholder="Senha" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="senha" placeholder="Senha">
         
-        <button id="btnLogar" style="padding: 10px 20px; cursor: pointer; background: #c1a35f; border: none; font-weight: bold; width: 245px;">Entrar</button>
+        <button id="btnLogar">Entrar</button>
         
-        <p style="margin-top: 15px;">
-            <a href="cadastro.html" style="color: #aaa; font-size: 14px; text-decoration: none;">Não tem conta? Cadastre-se</a>
+        <p>
+            <a href="cadastro.html">Não tem conta? Cadastre-se</a>
         </p>
     </div>
 
@@ -29,7 +123,7 @@
             }
 
             try {
-                // Mantido seu servidor oficial no Railway
+                // Conexão com seu servidor oficial no Railway
                 const response = await fetch('https://elden-production.up.railway.app/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -43,7 +137,6 @@
                     localStorage.setItem('usuario', JSON.stringify(data.usuario));
                     
                     alert("Acesso autorizado!");
-                    // Como Builds.html está na mesma pasta (index/), o caminho permanece igual
                     window.location.href = 'Builds.html'; 
                 } else {
                     alert("❌ Erro: " + (data.erro || "Falha ao entrar"));

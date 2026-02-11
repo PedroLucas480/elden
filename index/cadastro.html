@@ -2,21 +2,98 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <title>Elden Builds - Criar Conta</title>
+    <style>
+        /* Estilos para garantir a responsividade */
+        body {
+            background: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-box {
+            text-align: center;
+            background: #1a1a1a;
+            padding: 40px 20px;
+            border: 1px solid #c1a35f;
+            width: 90%; /* Ocupa 90% da tela em celulares */
+            max-width: 400px; /* Não passa de 400px em telas grandes */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border-radius: 4px;
+        }
+
+        h2 {
+            color: #c1a35f;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        input {
+            display: block;
+            margin: 15px auto;
+            padding: 12px;
+            width: 100%; /* Ocupa toda a largura interna da box */
+            box-sizing: border-box; /* Garante que o padding não quebre a largura */
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            border-color: #c1a35f;
+            outline: none;
+        }
+
+        #btnCadastrar {
+            padding: 12px;
+            cursor: pointer;
+            background: #c1a35f;
+            border: none;
+            font-weight: bold;
+            width: 100%; /* Botão largo para facilitar o toque no celular */
+            color: #111;
+            text-transform: uppercase;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        #btnCadastrar:hover {
+            background: #e2c074;
+        }
+
+        p a {
+            color: #aaa;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        p a:hover {
+            color: #c1a35f;
+        }
+    </style>
 </head>
-<body style="background: #111; color: white; display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div class="login-box" style="text-align: center; background: #1a1a1a; padding: 30px; border: 1px solid #c1a35f;">
+<body>
+    <div class="login-box">
         <h2>Criar Nova Conta</h2>
         
-        <input type="text" id="regUsername" placeholder="Nome de Usuário" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
-        <input type="email" id="regEmail" placeholder="Seu melhor email" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
-        <input type="password" id="regSenha" placeholder="Crie uma senha" style="display:block; margin: 10px auto; padding: 10px; width: 220px;">
+        <input type="text" id="regUsername" placeholder="Nome de Usuário">
+        <input type="email" id="regEmail" placeholder="Seu melhor email">
+        <input type="password" id="regSenha" placeholder="Crie uma senha">
         
-        <button id="btnCadastrar" style="padding: 10px 20px; cursor: pointer; background: #c1a35f; border: none; font-weight: bold; width: 245px;">Cadastrar Maculado</button>
+        <button id="btnCadastrar">Cadastrar Maculado</button>
         
-        <p style="margin-top: 15px;">
-            <a href="login.html" style="color: #aaa; font-size: 14px; text-decoration: none;">Já tenho conta, quero entrar</a>
+        <p>
+            <a href="login.html">Já tenho conta, quero entrar</a>
         </p>
     </div>
 
@@ -32,7 +109,6 @@
             }
 
             try {
-                // CORREÇÃO APLICADA: Agora apontando para o seu Railway oficial
                 const response = await fetch('https://elden-production.up.railway.app/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
