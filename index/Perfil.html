@@ -6,238 +6,248 @@
     <title>Elden Builds - Perfil</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚔️</text></svg>">
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .profile-wrapper { display: flex; flex-direction: column; align-items: center; padding: 80px 20px; }
-        .profile-card { background: rgba(0, 0, 0, 0.95); border: 2px solid #c1a35f; padding: 50px 40px; text-align: center; width: 100%; max-width: 600px; box-shadow: 0 0 40px #000; position: relative; }
-        #userPhoto { width: 180px; height: 180px; border-radius: 50%; border: 3px solid #c1a35f; object-fit: cover; cursor: pointer; background: #222; margin-bottom: 15px; }
-        .edit-info h2 { color: #c1a35f; text-transform: uppercase; letter-spacing: 3px; font-size: 1.8rem; margin-bottom: 25px; }
-        .edit-info input { width: 100%; padding: 15px; margin-bottom: 20px; background: #111; border: 1px solid #444; color: white; text-align: center; }
-        .btn-save { background: #c1a35f; color: black; border: none; padding: 18px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-bottom: 10px; }
-        .btn-save:hover { background: #fff; }
-        
-        /* Estilização original para o botão Sair */
-        #btnSair { 
-            background: transparent; 
-            color: #ff4d4d; 
-            border: 1px solid #ff4d4d; 
-            padding: 10px 20px; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            font-size: 12px;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-        #btnSair:hover { background: #ff4d4d; color: white; }
-    </style>
+   <style>
+    /* RESET BÁSICO PARA O MENU */
+    body { margin: 0; padding: 0; }
+
+    .top-menu {
+    position: fixed; /* Fixado no topo ao rolar */
+    top: 20px;
+    right: 40px; /* Alinhado à direita como no print */
+    left: auto;
+    transform: none;
+    z-index: 1000;
+}
+
+.top-menu nav a {
+    font-family: 'Crimson Text', serif; /* Fonte serifada mais clássica */
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: #c1a35f; /* Dourado Elden */
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+/* Linha indicadora no item ativo (Perfil) */
+.top-menu nav a.active {
+    border-bottom: 1px solid #c1a35f;
+    padding-bottom: 5px;
+    opacity: 1;
+}
+
+
+    /* AJUSTE DO LAYOUT PRINCIPAL PARA NÃO FICAR EMBAIXO DO MENU */
+    .main-layout { 
+        display: flex; 
+        flex-direction: row; 
+        justify-content: center; 
+        align-items: flex-start; 
+        gap: 30px; 
+        max-width: 1300px; 
+        margin: 0 auto; 
+        padding: 120px 20px 60px; /* Padding superior para dar espaço ao menu */
+    }
+
+    /* ... RESTANTE DO SEU CSS DE CARDS (MANTENHA-O) ... */
+    .profile-card { background: rgba(0, 0, 0, 0.95); border: 2px solid #c1a35f; padding: 30px; box-shadow: 0 0 40px #000; flex: 1; }
+    .card-user { max-width: 350px; text-align: center; }
+    .card-build { max-width: 750px; }
+    #userPhoto { width: 150px; height: 150px; border-radius: 50%; border: 3px solid #c1a35f; object-fit: cover; cursor: pointer; background: #222; margin-bottom: 15px; }
+    .build-banner-upload { width: 100%; height: 200px; background: #111; border: 1px dashed #c1a35f; margin-bottom: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; overflow: hidden; position: relative; }
+    #buildBannerPreview { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .banner-label { color: #c1a35f; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; text-align: center; padding: 10px; }
+    .edit-info h2 { color: #c1a35f; text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 1px solid #c1a35f; padding-bottom: 10px; }
+    .edit-info input, .edit-info textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #111; border: 1px solid #444; color: white; text-align: center; font-family: inherit; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .equip-section { border-top: 1px solid #c1a35f; padding-top: 20px; margin-top: 10px; text-align: left; }
+    .equip-section h3 { color: #c1a35f; font-size: 14px; margin-bottom: 10px; }
+    .dynamic-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px; }
+    .btn-add { background: transparent; border: 1px dashed #c1a35f; color: #c1a35f; padding: 8px; cursor: pointer; margin-bottom: 20px; width: 100%; transition: 0.3s; font-size: 11px; }
+    .btn-add:hover { background: rgba(193, 163, 95, 0.1); }
+    .btn-save { background: #c1a35f; color: black; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+    .btn-save:hover { background: #fff; }
+    #btnSair { background: transparent; color: #ff4d4d; border: 1px solid #ff4d4d; padding: 10px; cursor: pointer; width: 100%; margin-top: 10px; text-transform: uppercase; font-size: 11px; }
+
+    @media (max-width: 1000px) { 
+        .top-menu { position: relative; top: 0; right: 0; margin: 10px auto; width: fit-content; }
+        .main-layout { flex-direction: column; align-items: center; padding-top: 30px; } 
+    }
+</style>
 </head>
 <body>
 
-    <main>
-        <div class="infromacaoadireita">
-            <header class="top-menu">
-                <nav>
-                    <a href="index.html">Home</a>
-                    <a href="Builds.html">Builds</a>
-                    <a href="Comunidade.html">Comunidade</a>
-                    <a href="Perfil.html" class="active">Perfil</a>
-                </nav>
-            </header>
-        </div>
+    <header class="top-menu">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Builds.html">Builds</a>
+            <a href="Comunidade.html">Comunidade</a>
+            <a href="Perfil.html" class="active">Perfil</a>
+        </nav>
+    </header>
 
-        <div class="profile-wrapper">
-            <div class="profile-card">
-                <div onclick="document.getElementById('fileInput').click()">
-                    <img src="https://ui-avatars.com/api/?name=Maculado&background=c1a35f&color=000" id="userPhoto" alt="Avatar">
-                    <p style="color: #c1a35f; font-size: 11px; cursor: pointer;">[ CLIQUE PARA ALTERAR FOTO ]</p>
-                </div>
+    <main class="main-layout">
+        <div class="profile-card card-user">
+            <div onclick="document.getElementById('fileInput').click()">
+                <img src="https://ui-avatars.com/api/?name=Maculado&background=c1a35f&color=000" id="userPhoto">
+                <p style="color: #c1a35f; font-size: 10px; cursor: pointer;">[ ALTERAR AVATAR ]</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="previewImagem(event, 'userPhoto')">
 
-                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="previewImagem(event)">
-
-                <div class="edit-info">
-                    <h2 id="displayUsername">Maculado</h2>
-                    <input type="text" id="newName" placeholder="NOVO NOME DO PERSONAGEM">
-                    <button class="btn-save" id="btnSalvar">SALVAR ALTERAÇÕES</button>
-                    <button id="btnSair">Sair da Conta</button>
-                </div>
+            <div class="edit-info">
+                <h2 id="displayUsername">Maculado</h2>
+                <input type="text" id="newName" placeholder="NOVO NOME">
+                <button class="btn-save" id="btnSalvar">SALVAR PERFIL</button>
+                <button id="btnSair">SAIR DA CONTA</button>
             </div>
         </div>
-        <div class="profile-wrapper" style="padding-top: 0;">
-    <div class="profile-card">
-        <div class="edit-info">
-            <h2>Criar Nova Build</h2>
-            <input type="text" id="buildNome" placeholder="NOME DA BUILD (EX: MAGO SANGRENTO)">
-            <input type="text" id="buildArma" placeholder="ARMA PRINCIPAL">
-            <textarea id="buildDesc" placeholder="DESCRIÇÃO DA ESTRATÉGIA" style="width: 100%; background: #111; border: 1px solid #444; color: white; padding: 15px; margin-bottom: 20px; font-family: inherit;"></textarea>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-                <input type="number" id="statsVigor" placeholder="VIGOR">
-                <input type="number" id="statsForca" placeholder="FORÇA">
-                <input type="number" id="statsMente" placeholder="MENTE">
-                <input type="number" id="statsDex" placeholder="DESTREZA">
+
+        <div class="profile-card card-build">
+            <div class="edit-info">
+                <h2>Forjar Nova Build</h2>
+                
+                <div class="build-banner-upload" onclick="document.getElementById('buildFile').click()">
+                    <img src="" id="buildBannerPreview">
+                    <p class="banner-label" id="labelPhoto">[ + IMAGEM DE IDENTIFICAÇÃO DA BUILD ]</p>
+                </div>
+                <input type="file" id="buildFile" accept="image/*" style="display: none;" onchange="previewImagem(event, 'buildBannerPreview')">
+
+                <input type="text" id="buildNome" placeholder="NOME DA BUILD">
+                <textarea id="buildDesc" placeholder="ESTRATÉGIA E COMBO" style="height: 60px;"></textarea>
+
+                <div class="stats-grid">
+                    <input type="number" id="statsVigor" placeholder="VIG">
+                    <input type="number" id="statsMente" placeholder="MEN">
+                    <input type="number" id="statsRes" placeholder="RES">
+                    <input type="number" id="statsForca" placeholder="FOR">
+                    <input type="number" id="statsDex" placeholder="DES">
+                    <input type="number" id="statsInt" placeholder="INT">
+                    <input type="number" id="statsFe" placeholder="FÉ">
+                    <input type="number" id="statsArc" placeholder="ARC">
+                </div>
+
+                <div class="equip-section">
+                    <h3>EQUIPAMENTOS</h3>
+                    <div id="armasContainer" class="dynamic-container">
+                        <input type="text" class="input-arma" placeholder="ARMA / ESCUDO 1">
+                    </div>
+                    <button class="btn-add" onclick="addInput('armasContainer', 'input-arma', 'ARMA')">+ ADD ARMA</button>
+
+                    <div id="armadurasContainer" class="dynamic-container">
+                        <input type="text" class="input-armadura" placeholder="ARMADURA 1">
+                    </div>
+                    <button class="btn-add" onclick="addInput('armadurasContainer', 'input-armadura', 'ARMADURA')">+ ADD ARMADURA</button>
+
+                    <div id="cinzasContainer" class="dynamic-container">
+                        <input type="text" class="input-cinza" placeholder="CINZA DE GUERRA 1">
+                    </div>
+                    <button class="btn-add" onclick="addInput('cinzasContainer', 'input-cinza', 'CINZA')">+ ADD CINZA</button>
+
+                    <div id="talismasContainer" class="dynamic-container">
+                        <input type="text" class="input-talisma" placeholder="TALISMÃ 1">
+                    </div>
+                    <button class="btn-add" onclick="addInput('talismasContainer', 'input-talisma', 'TALISMÃ')">+ ADD TALISMÃ</button>
+                </div>
+
+                <div class="equip-section">
+                    <h3>MÍDIA EXTRA</h3>
+                    <input type="text" id="buildVideo" placeholder="LINK DO VÍDEO (YOUTUBE)">
+                </div>
+
+                <button class="btn-save" id="btnSalvarBuild" style="margin-top:20px;">PUBLICAR BUILDS</button>
             </div>
-
-            <button class="btn-save" id="btnSalvarBuild">PUBLICAR BUILD</button>
         </div>
-    </div>
-</div>
-
-<div id="minhasBuildsContainer" class="profile-wrapper" style="padding-top: 0;">
-    <h2 style="color: #c1a35f; letter-spacing: 3px;">MINHAS JORNADAS</h2>
-    <div id="listaBuilds" style="width: 100%; max-width: 600px;"></div>
-</div>
     </main>
 
     <script>
-    // 1. VERIFICAÇÃO DE SEGURANÇA (Executa IMEDIATAMENTE)
-    const dadosLocais = localStorage.getItem('usuario');
-    const usuarioLogado = dadosLocais ? JSON.parse(dadosLocais) : null;
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuario'));
+        if (!usuarioLogado) window.location.href = 'login.html';
 
-    if (!usuarioLogado) {
-        alert("Acesso negado! Por favor, faça login primeiro.");
-        // Tenta os dois nomes comuns para garantir o redirecionamento
-        window.location.href = 'login.html'; 
-    }
-
-    // 2. INICIALIZAÇÃO (Só roda se houver usuário)
-    window.onload = () => {
-        if (usuarioLogado) {
+        window.onload = () => {
             document.getElementById('displayUsername').innerText = usuarioLogado.username || "Maculado";
-            if (usuarioLogado.foto) {
-                document.getElementById('userPhoto').src = usuarioLogado.foto;
-            }
-        }
-    };
+            if (usuarioLogado.foto) document.getElementById('userPhoto').src = usuarioLogado.foto;
+        };
 
-    // 3. FUNÇÃO DE LOGOUT
-    document.getElementById('btnSair').addEventListener('click', () => {
-        if(confirm("Deseja realmente sair da conta?")) {
-            localStorage.removeItem('usuario');
-            window.location.href = 'login.html'; // Mude para Login.html se o seu arquivo começar com L maiúsculo
+        function addInput(containerId, className, placeholderText) {
+            const container = document.getElementById(containerId);
+            const num = container.querySelectorAll('input').length + 1;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = className;
+            input.placeholder = `${placeholderText} ${num}`;
+            container.appendChild(input);
         }
-    });
 
-    // 4. PREVIEW E COMPRESSÃO DA IMAGEM
-    function previewImagem(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = 250; 
-                    canvas.height = 250;
-                    ctx.drawImage(img, 0, 0, 250, 250);
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
-                    document.getElementById('userPhoto').src = dataUrl;
+        function previewImagem(event, elementId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.getElementById(elementId);
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    if(elementId === 'buildBannerPreview') document.getElementById('labelPhoto').style.display = 'none';
                 };
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // 5. SALVAMENTO E SINCRONIZAÇÃO
-    document.getElementById('btnSalvar').addEventListener('click', async () => {
-        const novoNome = document.getElementById('newName').value.trim();
-        const fotoAtual = document.getElementById('userPhoto').src;
-
-        const nomeFinal = novoNome !== "" ? novoNome : usuarioLogado.username;
-
-        // Atualiza objeto local
-        usuarioLogado.username = nomeFinal;
-        usuarioLogado.foto = fotoAtual;
-        
-        // Salva no navegador
-        localStorage.setItem('usuario', JSON.stringify(usuarioLogado));
-        document.getElementById('displayUsername').innerText = nomeFinal;
-
-        try {
-            const response = await fetch('https://elden-production.up.railway.app/api/usuario/update', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    email: usuarioLogado.email, 
-                    username: nomeFinal, 
-                    foto: fotoAtual 
-                })
-            });
-
-            if (response.ok) {
-                alert("✅ Sincronizado com o servidor!");
-            } else {
-                alert("⚠️ Salvo apenas localmente.");
+                reader.readAsDataURL(file);
             }
-        } catch (e) {
-            alert("💾 Salvo apenas no navegador!");
         }
-    });
-    // 6. SALVAR NOVA BUILD
-document.getElementById('btnSalvarBuild').addEventListener('click', async () => {
-    const buildData = {
-        nome: document.getElementById('buildNome').value,
-        arma_principal: document.getElementById('buildArma').value,
-        descricao: document.getElementById('buildDesc').value,
-        vigor: parseInt(document.getElementById('statsVigor').value) || 0,
-        forca: parseInt(document.getElementById('statsForca').value) || 0,
-        mente: parseInt(document.getElementById('statsMente').value) || 0,
-        destreza: parseInt(document.getElementById('statsDex').value) || 0,
-        usuario_id: usuarioLogado.id // Precisamos garantir que o ID do usuário esteja no localStorage
-    };
 
-    if (!buildData.nome) return alert("Dê um nome à sua build!");
+        document.getElementById('btnSalvarBuild').addEventListener('click', async () => {
+            const getValues = (cls) => Array.from(document.querySelectorAll(cls)).map(i => i.value).filter(v => v.trim() !== "").join(', ');
 
-    try {
-        const response = await fetch('https://elden-production.up.railway.app/api/builds', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(buildData)
+            const buildData = {
+                nome: document.getElementById('buildNome').value.trim(),
+                descricao: document.getElementById('buildDesc').value.trim(),
+                vigor: parseInt(document.getElementById('statsVigor').value) || 0,
+                mente: parseInt(document.getElementById('statsMente').value) || 0,
+                resistencia: parseInt(document.getElementById('statsRes').value) || 0,
+                forca: parseInt(document.getElementById('statsForca').value) || 0,
+                destreza: parseInt(document.getElementById('statsDex').value) || 0,
+                inteligencia: parseInt(document.getElementById('statsInt').value) || 0,
+                fe: parseInt(document.getElementById('statsFe').value) || 0,
+                arcano: parseInt(document.getElementById('statsArc').value) || 0,
+                arma_principal: getValues('.input-arma'),
+                itens_vitrine: `ARMADURAS: ${getValues('.input-armadura')} | CINZAS: ${getValues('.input-cinza')} | TALISMÃS: ${getValues('.input-talisma')}`,
+                video_url: document.getElementById('buildVideo').value,
+                imagem_build: document.getElementById('buildBannerPreview').src,
+                usuario_email: usuarioLogado.email 
+            };
+
+            if (!buildData.nome) return alert("A build precisa de um nome!");
+
+            const btn = document.getElementById('btnSalvarBuild');
+            btn.innerText = "PUBLICANDO...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('https://elden-production.up.railway.app/api/builds', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(buildData)
+                });
+
+                if (response.ok) {
+                    alert("⚔️ Build publicada!");
+                    window.location.reload();
+                } else {
+                    alert("Erro ao publicar. Verifique os dados.");
+                }
+            } catch (error) {
+                alert("Erro de conexão.");
+            } finally {
+                btn.innerText = "PUBLICAR BUILDS";
+                btn.disabled = false;
+            }
         });
 
-        if (response.ok) {
-            alert("⚔️ Build forjada com sucesso!");
-            location.reload(); // Recarrega para mostrar a nova build
-        } else {
-            alert("Erro ao salvar build no servidor.");
-        }
-    } catch (e) {
-        alert("Erro de conexão com o servidor.");
-    }
-});
+        document.getElementById('btnSalvar').onclick = () => {
+            usuarioLogado.username = document.getElementById('newName').value || usuarioLogado.username;
+            usuarioLogado.foto = document.getElementById('userPhoto').src;
+            localStorage.setItem('usuario', JSON.stringify(usuarioLogado));
+            alert("Perfil salvo!");
+            location.reload();
+        };
 
-// 7. CARREGAR MINHAS BUILDS AO ABRIR A PÁGINA
-async function carregarMinhasBuilds() {
-    try {
-        const res = await fetch('https://elden-production.up.railway.app/api/builds');
-        const builds = await res.json();
-        
-        // Filtra para mostrar apenas as builds do usuário logado (se você salvou o email/id)
-        const minhasBuilds = builds.filter(b => b.usuario_email === usuarioLogado.email);
-        
-        const container = document.getElementById('listaBuilds');
-        if (minhasBuilds.length === 0) {
-            container.innerHTML = "<p style='color: #888;'>Você ainda não criou nenhuma build.</p>";
-            return;
-        }
-
-        container.innerHTML = minhasBuilds.map(b => `
-            <div class="profile-card" style="margin-bottom: 20px; padding: 20px;">
-                <h3 style="color: #c1a35f; margin: 0;">${b.nome}</h3>
-                <p style="color: #eee; font-size: 14px;">${b.arma_principal} | Vigor: ${b.vigor}</p>
-            </div>
-        `).join('');
-    } catch (e) {
-        console.error("Erro ao carregar builds.");
-    }
-}
-
-// Chame a função no window.onload
-const originalOnload = window.onload;
-window.onload = () => {
-    originalOnload();
-    carregarMinhasBuilds();
-};
-</script>
+        document.getElementById('btnSair').onclick = () => { localStorage.clear(); window.location.href='login.html'; };
+    </script>
 </body>
 </html>
