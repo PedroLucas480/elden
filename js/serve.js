@@ -169,17 +169,16 @@ app.post('/api/login', (req, res) => {
             usuario: { 
                 email: usuario.email, 
                 username: usuario.username,
-                foto: usuario.foto_url // CORREÇÃO: Envia a foto no login também
+                foto: usuario.foto_url 
             } 
         });
     });
 });
 
-// Rota para atualizar perfil
+// --- ATUALIZAÇÃO DE PERFIL (ÚNICA E CORRIGIDA) ---
 app.put('/api/usuario/update', (req, res) => {
     const { username, foto, email } = req.body;
     
-    // CORREÇÃO: Query ajustada para garantir que foto_url receba os dados
     db.query(
         'UPDATE usuarios SET username = ?, foto_url = ? WHERE email = ?',
         [username, foto, email],
