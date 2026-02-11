@@ -64,20 +64,23 @@
     </main>
 
     <script>
-    // 1. VERIFICAÇÃO DE SEGURANÇA IMEDIATA
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuario'));
+    // 1. VERIFICAÇÃO DE SEGURANÇA (Executa IMEDIATAMENTE)
+    const dadosLocais = localStorage.getItem('usuario');
+    const usuarioLogado = dadosLocais ? JSON.parse(dadosLocais) : null;
 
     if (!usuarioLogado) {
         alert("Acesso negado! Por favor, faça login primeiro.");
-        window.location.href = 'Login.html'; 
+        // Tenta os dois nomes comuns para garantir o redirecionamento
+        window.location.href = 'login.html'; 
     }
 
-    // 2. INICIALIZAÇÃO ÚNICA (Corrigida duplicidade de window.onload)
+    // 2. INICIALIZAÇÃO (Só roda se houver usuário)
     window.onload = () => {
-        document.getElementById('displayUsername').innerText = usuarioLogado.username || "Maculado";
-        
-        if (usuarioLogado.foto) {
-            document.getElementById('userPhoto').src = usuarioLogado.foto;
+        if (usuarioLogado) {
+            document.getElementById('displayUsername').innerText = usuarioLogado.username || "Maculado";
+            if (usuarioLogado.foto) {
+                document.getElementById('userPhoto').src = usuarioLogado.foto;
+            }
         }
     };
 
@@ -85,7 +88,7 @@
     document.getElementById('btnSair').addEventListener('click', () => {
         if(confirm("Deseja realmente sair da conta?")) {
             localStorage.removeItem('usuario');
-            window.location.href = 'Login.html';
+            window.location.href = 'login.html'; // Mude para Login.html se o seu arquivo começar com L maiúsculo
         }
     });
 
@@ -140,12 +143,12 @@
             if (response.ok) {
                 alert("✅ Sincronizado com o servidor!");
             } else {
-                alert("⚠️ Salvo apenas localmente. (Erro: " + response.status + ")");
+                alert("⚠️ Salvo apenas localmente.");
             }
         } catch (e) {
             alert("💾 Salvo apenas no navegador!");
         }
     });
-    </script>
+</script>
 </body>
 </html>
