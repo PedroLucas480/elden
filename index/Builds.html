@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elden Builds - Builds</title>
-    
+
     <script>
         if (!localStorage.getItem('token')) {
             window.location.href = "login.html";
@@ -20,16 +20,16 @@
     <main>
         <div class="infromaçaoadireita">
             <header class="top-menu">
-               <nav>
-                    <a href="index.html" class="active">Home</a>
+                <nav>
+                    <a href="index.html">Home</a>
                     <a href="Builds.html">Builds</a>
-                    <a href="Comunidade.html">Cominidade</a>
-                    <a href="Perfil.html">Perfil</a>
+                    <a href="javascript:void(0)" onclick="alert('Mural de Recados em manutenção. Volte em breve, Maculado!')">Comunidade</a>
+                    <a href="Perfil.html" class="active">Perfil</a>
                 </nav>
             </header>
 
             <section class="container-builds">
-                </section>
+            </section>
         </div>
 
         <script>
@@ -42,10 +42,10 @@
                     container.innerHTML = '';
 
                     builds.forEach(build => {
-                        let corDificuldade = "#fff"; 
-                        if (build.dificuldade === 'Fácil') corDificuldade = "#2ecc71"; 
-                        if (build.dificuldade === 'Média') corDificuldade = "#f1c40f"; 
-                        if (build.dificuldade === 'Alta') corDificuldade = "#e74c3c";  
+                        let corDificuldade = "#fff";
+                        if (build.dificuldade === 'Fácil') corDificuldade = "#2ecc71";
+                        if (build.dificuldade === 'Média') corDificuldade = "#f1c40f";
+                        if (build.dificuldade === 'Alta') corDificuldade = "#e74c3c";
 
                         container.innerHTML += `
                             <a href="detalhes.html?id=${build.id}" style="text-decoration: none; color: inherit;">
@@ -68,11 +68,12 @@
                     console.error('Erro ao carregar builds:', error);
                 }
             }
-            
+
             if (localStorage.getItem('token')) {
                 carregarBuilds();
             }
         </script>
     </main>
 </body>
+
 </html>
