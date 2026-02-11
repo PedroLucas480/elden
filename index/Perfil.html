@@ -61,6 +61,30 @@
                 </div>
             </div>
         </div>
+        <div class="profile-wrapper" style="padding-top: 0;">
+    <div class="profile-card">
+        <div class="edit-info">
+            <h2>Criar Nova Build</h2>
+            <input type="text" id="buildNome" placeholder="NOME DA BUILD (EX: MAGO SANGRENTO)">
+            <input type="text" id="buildArma" placeholder="ARMA PRINCIPAL">
+            <textarea id="buildDesc" placeholder="DESCRIÇÃO DA ESTRATÉGIA" style="width: 100%; background: #111; border: 1px solid #444; color: white; padding: 15px; margin-bottom: 20px; font-family: inherit;"></textarea>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                <input type="number" id="statsVigor" placeholder="VIGOR">
+                <input type="number" id="statsForca" placeholder="FORÇA">
+                <input type="number" id="statsMente" placeholder="MENTE">
+                <input type="number" id="statsDex" placeholder="DESTREZA">
+            </div>
+
+            <button class="btn-save" id="btnSalvarBuild">PUBLICAR BUILD</button>
+        </div>
+    </div>
+</div>
+
+<div id="minhasBuildsContainer" class="profile-wrapper" style="padding-top: 0;">
+    <h2 style="color: #c1a35f; letter-spacing: 3px;">MINHAS JORNADAS</h2>
+    <div id="listaBuilds" style="width: 100%; max-width: 600px;"></div>
+</div>
     </main>
 
     <script>
@@ -149,6 +173,71 @@
             alert("💾 Salvo apenas no navegador!");
         }
     });
+    // 6. SALVAR NOVA BUILD
+document.getElementById('btnSalvarBuild').addEventListener('click', async () => {
+    const buildData = {
+        nome: document.getElementById('buildNome').value,
+        arma_principal: document.getElementById('buildArma').value,
+        descricao: document.getElementById('buildDesc').value,
+        vigor: parseInt(document.getElementById('statsVigor').value) || 0,
+        forca: parseInt(document.getElementById('statsForca').value) || 0,
+        mente: parseInt(document.getElementById('statsMente').value) || 0,
+        destreza: parseInt(document.getElementById('statsDex').value) || 0,
+        usuario_id: usuarioLogado.id // Precisamos garantir que o ID do usuário esteja no localStorage
+    };
+
+    if (!buildData.nome) return alert("Dê um nome à sua build!");
+
+    try {
+        const response = await fetch('https://elden-production.up.railway.app/api/builds', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(buildData)
+        });
+
+        if (response.ok) {
+            alert("⚔️ Build forjada com sucesso!");
+            location.reload(); // Recarrega para mostrar a nova build
+        } else {
+            alert("Erro ao salvar build no servidor.");
+        }
+    } catch (e) {
+        alert("Erro de conexão com o servidor.");
+    }
+});
+
+// 7. CARREGAR MINHAS BUILDS AO ABRIR A PÁGINA
+async function carregarMinhasBuilds() {
+    try {
+        const res = await fetch('https://elden-production.up.railway.app/api/builds');
+        const builds = await res.json();
+        
+        // Filtra para mostrar apenas as builds do usuário logado (se você salvou o email/id)
+        const minhasBuilds = builds.filter(b => b.usuario_email === usuarioLogado.email);
+        
+        const container = document.getElementById('listaBuilds');
+        if (minhasBuilds.length === 0) {
+            container.innerHTML = "<p style='color: #888;'>Você ainda não criou nenhuma build.</p>";
+            return;
+        }
+
+        container.innerHTML = minhasBuilds.map(b => `
+            <div class="profile-card" style="margin-bottom: 20px; padding: 20px;">
+                <h3 style="color: #c1a35f; margin: 0;">${b.nome}</h3>
+                <p style="color: #eee; font-size: 14px;">${b.arma_principal} | Vigor: ${b.vigor}</p>
+            </div>
+        `).join('');
+    } catch (e) {
+        console.error("Erro ao carregar builds.");
+    }
+}
+
+// Chame a função no window.onload
+const originalOnload = window.onload;
+window.onload = () => {
+    originalOnload();
+    carregarMinhasBuilds();
+};
 </script>
 </body>
 </html>
