@@ -39,7 +39,7 @@
 
                 const build = await response.json();
 
-                /* ================= VÍDEO ================= */
+                /* ================= LÓGICA DO VÍDEO ================= */
                 let videoHtml = "";
                 if (build.video_url) {
                     const url = build.video_url.toLowerCase().trim();
@@ -75,21 +75,22 @@
                     videoHtml = `<div style="padding: 40px; color: #d6b36a; text-align: center;">Vídeo em breve...</div>`;
                 }
 
-               /* ================= INJEÇÃO HTML (3 COLUNAS + ITENS AUTOMÁTICOS) ================= */
-container.innerHTML = `
+                /* ================= INJEÇÃO DO HTML FINAL ================= */
+                container.innerHTML = `
 <div class="build-flex-container">
 
     <div class="coluna-esquerda">
         <h1>${build.nome || 'Nome da Build'}</h1>
-        <p style="color:#fff; font-style:italic; opacity:.9; font-size:1.1rem; margin-bottom:20px;">
-            ${build.descricao || 'Sem descrição'}
-        </p>
+        
+        <div class="build-descricao-texto" style="color:#fff; opacity:.9; font-size:1rem; margin-bottom:25px; line-height:1.6;">
+            ${build.descricao || 'Sem descrição disponível.'}
+        </div>
 
-        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px; font-size: 1.1rem;">
-            ESTATUTOS (STATS)
+        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px; font-size: 1.1rem; text-transform: uppercase;">
+            Estatutos (Stats)
         </h3>
 
-        <div style="line-height: 1.8; margin-top:10px; color: #e29b00; font-weight: bold;">
+        <div style="line-height: 1.8; margin-top:10px; color: #e29b00; font-weight: bold; font-family: monospace; font-size: 1.1rem;">
             <div>VIGOR: <span style="color:#fff;">${build.vigor || 0}</span></div>
             <div>MENTE: <span style="color:#fff;">${build.mente || 0}</span></div>
             <div>RESISTÊNCIA: <span style="color:#fff;">${build.resistencia || 0}</span></div>
@@ -114,41 +115,46 @@ container.innerHTML = `
     </div>
 
     <div class="coluna-direita">
-        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px;">
-            EQUIPAMENTOS
+        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px; text-transform: uppercase;">
+            Equipamentos
         </h3>
         
-        <div style="margin: 15px 0; font-size: 0.95rem; line-height: 1.5;">
-            <p><strong>Arma:</strong> <span style="color:#fff;">${build.arma_principal || 'Não informada'}</span></p>
-            <p><strong>Classe:</strong> <span style="color:#fff;">${build.classe_inicial || 'Herói'}</span></p>
-            <p><strong>Onde achar:</strong> <span style="color:#fff;">${build.localizacao_nome || 'Explorando'}</span></p>
+        <div style="margin: 15px 0; font-size: 0.95rem; line-height: 1.5; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px;">
+            <p><strong>Arma Principal:</strong> <br><span style="color:#fff;">${build.arma_principal || 'Não informada'}</span></p>
+            <p><strong>Classe Inicial:</strong> <br><span style="color:#fff;">${build.classe_inicial || 'Desconhecida'}</span></p>
+            <p><strong>Localização:</strong> <br><span style="color:#fff;">${build.localizacao_nome || 'Exploração'}</span></p>
         </div>
 
-        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px; margin-top:20px;">
-            VITRINE AUTOMÁTICA
+        <h3 style="color:#e29b00; border-bottom:1px solid rgba(226,155,0,.3); padding-bottom:5px; margin-top:20px; text-transform: uppercase;">
+            Vitrine de Itens
         </h3>
 
-        <div class="vitrine-itens-grid">
-            <div class="item-card-mini">
-                <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/${(build.arma_principal || 'Greatsword').replace(/ /g, "+")}_Icon.png" 
-                     onerror="this.src='../imagens/greatsword.png'">
-                <span>${build.arma_principal || 'Arma'}</span>
-            </div>
+<div class="vitrine-itens-grid">
+    <div class="item-card-mini">
+        <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/${(build.arma_principal || 'Greatsword').trim().replace(/ /g, "+")}_Icon.png" 
+             alt="${build.arma_principal}" 
+             style="width: 80px; height: auto; display: block; margin: 0 auto;">
+        <span>${build.arma_principal || 'Arma'}</span>
+    </div>
 
-            <div class="item-card-mini">
-                <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/Shard+of+Alexander_Icon.png">
-                <span>Alexander Shard</span>
-            </div>
+    <div class="item-card-mini">
+        <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/Shard+of+Alexander_Icon.png" 
+             alt="Shard of Alexander" 
+             style="width: 80px; height: auto; display: block; margin: 0 auto;">
+        <span>Shard of Alexander</span>
+    </div>
 
-            <div class="item-card-mini">
-                <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/Erdtree's+Favor_Icon.png">
-                <span>Erdtree Favor</span>
-            </div>
-        </div>
+    <div class="item-card-mini">
+        <img src="https://eldenring.wiki.fextralife.com/file/Elden-Ring/Erdtree's+Favor_Icon.png" 
+             alt="Erdtree's Favor" 
+             style="width: 80px; height: auto; display: block; margin: 0 auto;">
+        <span>Erdtree's Favor</span>
+    </div>
+</div>
 
-        <div style="margin-top:30px; text-align:center;">
-            <a href="Builds.html" style="border: 1px solid #d6b36a; padding: 8px 15px; color: #d6b36a; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                ← VOLTAR
+        <div style="margin-top:40px; text-align:center;">
+            <a href="Builds.html" class="botao-voltar">
+                ← VOLTAR PARA BUILDS
             </a>
         </div>
     </div>
@@ -157,7 +163,7 @@ container.innerHTML = `
 `;
             } catch (error) {
                 console.error(error);
-                container.innerHTML = `<h2 style="color:#d6b36a;">Erro: ${error.message}</h2>`;
+                container.innerHTML = `<h2 style="color:#d6b36a; text-align:center; margin-top:50px;">Erro ao carregar: ${error.message}</h2>`;
             }
         }
 
